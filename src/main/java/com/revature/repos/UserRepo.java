@@ -13,5 +13,7 @@ public interface UserRepo extends JpaRepository<User,Integer>{
 	public User findOneByUserId( int id);
 
 	public List<User> findAllByCohort(Cohort c);
+
+	public User findByUsername(String username);
 	
 }

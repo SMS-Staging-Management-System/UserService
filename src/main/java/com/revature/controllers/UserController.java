@@ -3,6 +3,8 @@ package com.revature.controllers;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -14,6 +16,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.revature.annotations.JwtUserIsAdmin;
+import com.revature.annotations.JwtUserIsSelf;
+import com.revature.annotations.JwtUserIsSelfOrAdmin;
+import com.revature.annotations.JwtVerify;
 import com.revature.models.User;
 import com.revature.services.UserService;
 import com.revature.utils.ResponseMap;
@@ -27,6 +33,7 @@ public class UserController {
 
 	
 	@GetMapping()
+	@JwtUserIsAdmin
 	public ResponseEntity<Map<String,Object>> findAll(){
 		
 		List<User> userList=  userService.findAll();
@@ -38,6 +45,8 @@ public class UserController {
 	}
 	
 	@GetMapping("{id}")
+	//Might need to change?
+	@JwtUserIsSelf
 	public ResponseEntity<Map<String,Object>> findOneById(@PathVariable int id){
 		User user =  userService.findOneById(id);
 		if (user == null) {
@@ -46,7 +55,17 @@ public class UserController {
 		return  ResponseEntity.ok().body(ResponseMap.getGoodResponse(user,"Here is your users."));
 	}
 	
+	@GetMapping("{info}")
+	@JwtVerify
+	public ResponseEntity<Map<String,Object>> userInfo(HttpServletRequest req){
+		User user =  userService.userInfo(req);
+		if (user == null) {
+			return  ResponseEntity.badRequest().body(ResponseMap.getBadResponse("User not found."));
+		}
+		return  ResponseEntity.ok().body(ResponseMap.getGoodResponse(user,"Here is your users."));
+	}
 	
+	@JwtUserIsAdmin
 	@GetMapping("cohorts/{id}")
 	public ResponseEntity<Map<String,Object>> findAllByCohortId(@PathVariable int id){
 		List<User> userList=  userService.findAllByCohortId(id);
@@ -56,29 +75,31 @@ public class UserController {
 		return  ResponseEntity.ok().body(ResponseMap.getGoodResponse(userList,"Here is your users."));
 	}
 	
+	
 	@PostMapping()
 	public ResponseEntity<Map<String,Object>> saveUser(@RequestBody User u, @RequestParam(value = "token", required = true) int cohortToken){
-	    User user =  userService.saveUser(u, cohortToken);
+
 	    //UserDto or JSON ignore
 		
-	    if (user == null) {
+	    if (u == null) {
 			return  ResponseEntity.badRequest().body(ResponseMap.getBadResponse("Users not saved."));
 		}
-		return  ResponseEntity.ok().body(ResponseMap.getGoodResponse(user,"Saved user"));
+		return  ResponseEntity.ok().body(ResponseMap.getGoodResponse(u,"Saved user"));
 	}
 	
 	@PostMapping("/login")
 	public ResponseEntity<Map<String,Object>> login(@RequestBody User u){
-	    User user =  userService.login(u);
+		Map<String,Object>  userJwtMap =  userService.login(u);
 	    //UserDto or JSON ignore
 		
-	    if (user == null) {
+	    if (userJwtMap == null) {
 			return  ResponseEntity.badRequest().body(ResponseMap.getBadResponse("Users not saved."));
 		}
-		return  ResponseEntity.ok().body(ResponseMap.getGoodResponse(user,"Saved user"));
+		return  ResponseEntity.ok().body(ResponseMap.getGoodResponse(userJwtMap,"Saved user"));
 	}
 	
 	@PatchMapping()
+	@JwtUserIsSelfOrAdmin
 	public ResponseEntity<Map<String,Object>> updateUser(@RequestBody User u){
 	    User user =  userService.updateUser(u);
 	    //UserDto or JSON ignore

@@ -12,9 +12,9 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @Entity
 @JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
-@Table(name="roles")
+@Table(name = "roles")
 public class Role {
-	
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int roleId;
@@ -34,7 +34,6 @@ public class Role {
 		this.role = role;
 	}
 
-	
 	public int getRoleId() {
 		return roleId;
 	}
@@ -82,8 +81,5 @@ public class Role {
 	@Override
 	public String toString() {
 		return "Role [roleId=" + roleId + ", role=" + role + "]";
-	}	
-	
-	
-	
+	}
 }
