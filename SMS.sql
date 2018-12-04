@@ -25,6 +25,7 @@ CREATE TABLE cohorts
     cohort_id SERIAL,
     cohort_name TEXT NOT NULL UNIQUE,
     cohort_description TEXT NOT NULL,
+    cohort_token TEXT NOT NULL,
     CONSTRAINT sms_cohorts_PK PRIMARY KEY (cohort_id)
 );
 
