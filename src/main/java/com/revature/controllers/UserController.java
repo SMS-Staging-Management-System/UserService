@@ -14,6 +14,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.revature.annotations.JwtUserIsAdmin;
+import com.revature.annotations.JwtUserIsSelf;
+import com.revature.annotations.JwtUserIsSelfOrAdmin;
 import com.revature.models.User;
 import com.revature.services.UserService;
 import com.revature.utils.ResponseMap;
@@ -27,6 +30,7 @@ public class UserController {
 
 	
 	@GetMapping()
+	@JwtUserIsAdmin
 	public ResponseEntity<Map<String,Object>> findAll(){
 		
 		List<User> userList=  userService.findAll();
@@ -37,6 +41,8 @@ public class UserController {
 	}
 	
 	@GetMapping("{id}")
+	//Might need to change?
+	@JwtUserIsSelf
 	public ResponseEntity<Map<String,Object>> findOneById(@PathVariable int id){
 		User user =  userService.findOneById(id);
 		if (user == null) {
@@ -45,7 +51,7 @@ public class UserController {
 		return  ResponseEntity.ok().body(ResponseMap.getGoodResponse(user,"Here is your users."));
 	}
 	
-	
+	@JwtUserIsAdmin
 	@GetMapping("cohorts/{id}")
 	public ResponseEntity<Map<String,Object>> findAllByCohortId(@PathVariable int id){
 		List<User> userList=  userService.findAllByCohortId(id);
@@ -55,8 +61,9 @@ public class UserController {
 		return  ResponseEntity.ok().body(ResponseMap.getGoodResponse(userList,"Here is your users."));
 	}
 	
+	
 	@PostMapping()
-	public ResponseEntity<Map<String,Object>> findAllByCohortId(@RequestBody User u, @RequestParam(value = "token", required = true) int cohortToken){
+	public ResponseEntity<Map<String,Object>> saveUser(@RequestBody User u, @RequestParam(value = "token", required = true) int cohortToken){
 	    User user =  userService.saveUser(u);
 	    //UserDto or JSON ignore
 		
@@ -78,6 +85,7 @@ public class UserController {
 	}
 	
 	@PatchMapping()
+	@JwtUserIsSelfOrAdmin
 	public ResponseEntity<Map<String,Object>> updateUser(@RequestBody User u){
 	    User user =  userService.updateUser(u);
 	    //UserDto or JSON ignore
