@@ -12,7 +12,7 @@ import com.revature.models.User;
 public interface UserRepo extends JpaRepository<User,Integer>{
 	public User findOneByUserId( int id);
 
-	public List<User> findAllByCohort(Cohort c);
+	public List<User> findAllByCohortsCohortId(int id);
 
 	public User findByUsername(String username);
 	

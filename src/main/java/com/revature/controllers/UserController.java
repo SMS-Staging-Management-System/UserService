@@ -65,7 +65,7 @@ public class UserController {
 		return  ResponseEntity.ok().body(ResponseMap.getGoodResponse(user,"Here is your users."));
 	}
 	
-	@JwtUserIsAdmin
+	
 	@GetMapping("cohorts/{id}")
 	public ResponseEntity<Map<String,Object>> findAllByCohortId(@PathVariable int id){
 		List<User> userList=  userService.findAllByCohortId(id);
@@ -99,7 +99,6 @@ public class UserController {
 	}
 	
 	@PatchMapping()
-	@JwtUserIsSelfOrAdmin
 	public ResponseEntity<Map<String,Object>> updateUser(@RequestBody User u){
 	    User user =  userService.updateUser(u);
 	    //UserDto or JSON ignore
