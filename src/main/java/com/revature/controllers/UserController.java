@@ -30,6 +30,7 @@ public class UserController {
 	public ResponseEntity<Map<String,Object>> findAll(){
 		
 		List<User> userList=  userService.findAll();
+		System.out.println(userList);
 		if (userList == null) {
 			return  ResponseEntity.badRequest().body(ResponseMap.getBadResponse("No users found."));
 		}
@@ -56,8 +57,8 @@ public class UserController {
 	}
 	
 	@PostMapping()
-	public ResponseEntity<Map<String,Object>> findAllByCohortId(@RequestBody User u, @RequestParam(value = "token", required = true) int cohortToken){
-	    User user =  userService.saveUser(u);
+	public ResponseEntity<Map<String,Object>> saveUser(@RequestBody User u, @RequestParam(value = "token", required = true) int cohortToken){
+	    User user =  userService.saveUser(u, cohortToken);
 	    //UserDto or JSON ignore
 		
 	    if (user == null) {
@@ -66,7 +67,7 @@ public class UserController {
 		return  ResponseEntity.ok().body(ResponseMap.getGoodResponse(user,"Saved user"));
 	}
 	
-	@PostMapping()
+	@PostMapping("/login")
 	public ResponseEntity<Map<String,Object>> login(@RequestBody User u){
 	    User user =  userService.login(u);
 	    //UserDto or JSON ignore
