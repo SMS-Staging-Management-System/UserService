@@ -16,6 +16,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
+import org.springframework.security.crypto.bcrypt.BCrypt;
+
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @Entity
@@ -40,6 +42,9 @@ public class User {
 	private String username;
 
 	@NotNull
+	private String password;
+	
+	@NotNull
 	@ManyToOne
 	@JoinColumn(name = "roleId")
 	private Role role;
@@ -53,6 +58,19 @@ public class User {
 	public User() {
 		super();
 		// TODO Auto-generated constructor stub
+	}
+
+	public User(int userId, @NotNull String firstName, @NotNull String lastName, @NotNull String email,
+			@NotNull String username, @NotNull String password, @NotNull Role role, @NotNull Set<Cohort> cohorts) {
+		super();
+		this.userId = userId;
+		this.firstName = firstName;
+		this.lastName = lastName;
+		this.email = email;
+		this.username = username;
+		this.password = password;
+		this.role = role;
+		this.cohorts = cohorts;
 	}
 
 	public int getUserId() {
@@ -95,6 +113,14 @@ public class User {
 		this.username = username;
 	}
 
+	public String getPassword() {
+		return password;
+	}
+
+	public void setPassword(String password) {
+		this.password = password;
+	}
+
 	public Role getRole() {
 		return role;
 	}
@@ -119,6 +145,7 @@ public class User {
 		result = prime * result + ((email == null) ? 0 : email.hashCode());
 		result = prime * result + ((firstName == null) ? 0 : firstName.hashCode());
 		result = prime * result + ((lastName == null) ? 0 : lastName.hashCode());
+		result = prime * result + ((password == null) ? 0 : password.hashCode());
 		result = prime * result + ((role == null) ? 0 : role.hashCode());
 		result = prime * result + userId;
 		result = prime * result + ((username == null) ? 0 : username.hashCode());
@@ -154,6 +181,11 @@ public class User {
 				return false;
 		} else if (!lastName.equals(other.lastName))
 			return false;
+		if (password == null) {
+			if (other.password != null)
+				return false;
+		} else if (!password.equals(other.password))
+			return false;
 		if (role == null) {
 			if (other.role != null)
 				return false;
@@ -172,9 +204,12 @@ public class User {
 	@Override
 	public String toString() {
 		return "User [userId=" + userId + ", firstName=" + firstName + ", lastName=" + lastName + ", email=" + email
-				+ ", username=" + username + ", role=" + role + ", cohorts=" + cohorts + "]";
+				+ ", username=" + username + ", password=" + password + ", role=" + role + ", cohorts=" + cohorts + "]";
 	}
-	
+
+	public void hashPassword() {
+		this.password = BCrypt.hashpw(this.password, BCrypt.gensalt());
+	}
 	
 	
 
