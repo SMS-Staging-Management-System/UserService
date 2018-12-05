@@ -23,7 +23,6 @@ import com.revature.annotations.JwtVerify;
 import com.revature.models.User;
 import com.revature.services.UserService;
 import com.revature.utils.ResponseMap;
-
 @RestController
 @RequestMapping("users")
 public class UserController {
@@ -35,7 +34,6 @@ public class UserController {
 	@GetMapping()
 	@JwtUserIsAdmin
 	public ResponseEntity<Map<String,Object>> findAll(){
-		
 		List<User> userList=  userService.findAll();
 		if (userList == null) {
 			return  ResponseEntity.badRequest().body(ResponseMap.getBadResponse("No users found."));
