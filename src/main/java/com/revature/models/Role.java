@@ -1,5 +1,6 @@
 package com.revature.models;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -17,7 +18,8 @@ public class Role {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int roleId;
-
+	
+	@Column (name ="sms_role")
 	@NotNull
 	private String role;
 
@@ -80,5 +82,4 @@ public class Role {
 	public String toString() {
 		return "Role [roleId=" + roleId + ", role=" + role + "]";
 	}
-
 }

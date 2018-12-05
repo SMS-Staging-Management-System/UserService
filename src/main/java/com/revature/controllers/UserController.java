@@ -35,6 +35,7 @@ public class UserController {
 	@JwtUserIsAdmin
 	public ResponseEntity<Map<String,Object>> findAll(){
 		List<User> userList=  userService.findAll();
+		System.out.println(userList);
 		if (userList == null) {
 			return  ResponseEntity.badRequest().body(ResponseMap.getBadResponse("No users found."));
 		}
@@ -62,7 +63,7 @@ public class UserController {
 		return  ResponseEntity.ok().body(ResponseMap.getGoodResponse(user,"Here is your users."));
 	}
 	
-	@JwtUserIsAdmin
+	
 	@GetMapping("cohorts/{id}")
 	public ResponseEntity<Map<String,Object>> findAllByCohortId(@PathVariable int id){
 		List<User> userList=  userService.findAllByCohortId(id);
@@ -75,18 +76,18 @@ public class UserController {
 	
 	@PostMapping()
 	public ResponseEntity<Map<String,Object>> saveUser(@RequestBody User u, @RequestParam(value = "token", required = true) int cohortToken){
-	    User user =  userService.saveUser(u);
+
 	    //UserDto or JSON ignore
 		
-	    if (user == null) {
+	    if (u == null) {
 			return  ResponseEntity.badRequest().body(ResponseMap.getBadResponse("Users not saved."));
 		}
-		return  ResponseEntity.ok().body(ResponseMap.getGoodResponse(user,"Saved user"));
+		return  ResponseEntity.ok().body(ResponseMap.getGoodResponse(u,"Saved user"));
 	}
 	
-	@PostMapping()
+	@PostMapping("/login")
 	public ResponseEntity<Map<String,Object>> login(@RequestBody User u){
-	    Map<String, Object> userJwtMap =  userService.login(u);
+		Map<String,Object>  userJwtMap =  userService.login(u);
 	    //UserDto or JSON ignore
 		
 	    if (userJwtMap == null) {
@@ -96,7 +97,6 @@ public class UserController {
 	}
 	
 	@PatchMapping()
-	@JwtUserIsSelfOrAdmin
 	public ResponseEntity<Map<String,Object>> updateUser(@RequestBody User u){
 	    User user =  userService.updateUser(u);
 	    //UserDto or JSON ignore
