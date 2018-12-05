@@ -32,7 +32,7 @@ public class UserController {
 
 	
 	@GetMapping()
-	@JwtUserIsAdmin
+	//@JwtUserIsAdmin
 	public ResponseEntity<Map<String,Object>> findAll(){
 		List<User> userList=  userService.findAll();
 		System.out.println(userList);
@@ -44,7 +44,7 @@ public class UserController {
 	
 	@GetMapping("{id}")
 	//Might need to change?
-	@JwtUserIsSelf
+	//@JwtUserIsSelf
 	public ResponseEntity<Map<String,Object>> findOneById(@PathVariable int id){
 		User user =  userService.findOneById(id);
 		if (user == null) {
@@ -54,7 +54,7 @@ public class UserController {
 	}
 	
 	@GetMapping("{info}")
-	@JwtVerify
+	//@JwtVerify
 	public ResponseEntity<Map<String,Object>> userInfo(HttpServletRequest req){
 		User user =  userService.userInfo(req);
 		if (user == null) {
