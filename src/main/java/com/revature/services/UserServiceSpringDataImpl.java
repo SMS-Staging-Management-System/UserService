@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.stereotype.Service;
 
+
 import com.revature.models.User;
 import com.revature.repos.UserRepo;
 import com.revature.utils.JwtUtil;
@@ -39,15 +40,27 @@ public class UserServiceSpringDataImpl implements UserService {
 	}
 
 	@Override
-	public User saveUser(User u, int cohortToken) {
-		// TODO Auto-generated method stub
-		return null;
+	public User saveUser(User u, String cohortToken) {
+		return userRepo.save(u);
 	}
 
 	@Override
-	public User updateUser(User u) {
-		// TODO Auto-generated method stub
-		return null;
+	public User updateProfile(User u) {
+		User tempAppUser = userRepo.findById(u.getUserId()).get();
+		if (u.getFirstName() != null) {
+			tempAppUser.setFirstName(u.getFirstName());
+		} 
+		if (u.getLastName() != null) {
+			tempAppUser.setLastName(u.getLastName());
+		} 
+		if (u.getPassword() != null) {
+			tempAppUser.setPassword(u.getPassword());
+		} 
+		if (u.getEmail() != null) {
+			tempAppUser.setEmail(u.getEmail());
+		}
+		userRepo.save(tempAppUser);
+		return tempAppUser;
 	}
 
 	

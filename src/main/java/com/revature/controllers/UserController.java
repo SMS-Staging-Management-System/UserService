@@ -44,7 +44,8 @@ public class UserController {
 		return  ResponseEntity.ok().body(ResponseMap.getGoodResponse(userList,"Here's all your users."));
 	}
 	
-	@GetMapping("{id}")
+	//need to change this to unique end point
+	@GetMapping("id/{id}")
 	//Might need to change?
 	@JwtUserIsSelf
 	public ResponseEntity<Map<String,Object>> findOneById(@PathVariable int id){
@@ -55,7 +56,7 @@ public class UserController {
 		return  ResponseEntity.ok().body(ResponseMap.getGoodResponse(user,"Here is your users."));
 	}
 	
-	@GetMapping("{info}")
+	@GetMapping("info/{info}")
 	@JwtVerify
 	public ResponseEntity<Map<String,Object>> userInfo(HttpServletRequest req){
 		User user =  userService.userInfo(req);
@@ -77,14 +78,14 @@ public class UserController {
 	
 	
 	@PostMapping()
-	public ResponseEntity<Map<String,Object>> saveUser(@RequestBody User u, @RequestParam(value = "token", required = true) int cohortToken){
-
+	public ResponseEntity<Map<String,Object>> saveUser(@RequestBody User u, @RequestParam(value = "token", required = true) String cohortToken){
+		User user = userService.saveUser(u, cohortToken);
 	    //UserDto or JSON ignore
 		
 	    if (u == null) {
 			return  ResponseEntity.badRequest().body(ResponseMap.getBadResponse("Users not saved."));
 		}
-		return  ResponseEntity.ok().body(ResponseMap.getGoodResponse(u,"Saved user"));
+		return  ResponseEntity.ok().body(ResponseMap.getGoodResponse(user,"Saved user"));
 	}
 	
 	@PostMapping("/login")
@@ -98,9 +99,9 @@ public class UserController {
 		return  ResponseEntity.ok().body(ResponseMap.getGoodResponse(userJwtMap,"Saved user"));
 	}
 	
-	@PatchMapping()
-	public ResponseEntity<Map<String,Object>> updateUser(@RequestBody User u){
-	    User user =  userService.updateUser(u);
+	@PatchMapping("update/profile")
+	public ResponseEntity<Map<String,Object>> updateProfile(@RequestBody User u){
+	    User user =  userService.updateProfile(u);
 	    //UserDto or JSON ignore
 		
 	    if (user == null) {
