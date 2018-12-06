@@ -51,6 +51,18 @@ public class UserController {
 		}
 		return  ResponseEntity.ok().body(ResponseMap.getGoodResponse(user,"Here is your users."));
 	}
+	
+	@GetMapping("email/{email}/")
+	public ResponseEntity<Map<String,Object>> findOneByEmail(@PathVariable String email){
+		email.toLowerCase();
+		User user =  userService.findOneByEmail(email);
+		if (user == null) {
+			return  ResponseEntity.badRequest().body(ResponseMap.getBadResponse("User not found."));
+		}
+		return  ResponseEntity.ok().body(ResponseMap.getGoodResponse(user,"Here is your users."));
+	}
+	
+	
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
 	//FINDING USER BY USERNAME. DELETE IF NOT NEEDEED - AN THANH TA

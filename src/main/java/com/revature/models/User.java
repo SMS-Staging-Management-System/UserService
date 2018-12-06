@@ -13,7 +13,6 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
-import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
@@ -21,6 +20,8 @@ import org.springframework.security.crypto.bcrypt.BCrypt;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonProperty.Access;
 
 @Entity
 @JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
@@ -41,10 +42,11 @@ public class User {
 	@NotNull
 	private String email;
 
-	@NotNull
+	@JsonProperty(access = Access.WRITE_ONLY)
 	private String username;
 
 	@NotNull
+	@JsonProperty(access = Access.WRITE_ONLY)
 	private String password;
 	
 //	@NotNull
@@ -128,7 +130,7 @@ public class User {
 
 
 	public void setEmail(String email) {
-		this.email = email;
+		this.email = email.toLowerCase();
 	}
 
 
