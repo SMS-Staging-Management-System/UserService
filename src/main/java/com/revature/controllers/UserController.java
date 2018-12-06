@@ -42,7 +42,8 @@ public class UserController {
 		return  ResponseEntity.ok().body(ResponseMap.getGoodResponse(userList,"Here's all your users."));
 	}
 	
-	@GetMapping("{id}")
+	//need to change this to unique end point
+	@GetMapping("id/{id}")
 	//Might need to change?
 	//@JwtUserIsSelf
 	public ResponseEntity<Map<String,Object>> findOneById(@PathVariable int id){
@@ -52,9 +53,28 @@ public class UserController {
 		}
 		return  ResponseEntity.ok().body(ResponseMap.getGoodResponse(user,"Here is your users."));
 	}
+//////////////////////////////////////////////////////////////////////////////////////////////////
+
+	//FINDING USER BY USERNAME. DELETE IF NOT NEEDEED - AN THANH TA
+//	@GetMapping("username/{username}")
+//	public ResponseEntity<Map<String,Object>> findOneByUsername(@PathVariable String username){
+//		User user =  userService.findOneByUsername(username);
+//		if (user == null) {
+//			return  ResponseEntity.badRequest().body(ResponseMap.getBadResponse("User not found."));
+//		}
+//		return  ResponseEntity.ok().body(ResponseMap.getGoodResponse(user,"Here is your users."));
+//	}
 	
+//////////////////////////////////////////////////////////////////////////////////////////////////	
+	
+	
+<<<<<<< HEAD
 	@GetMapping("{info}")
 	@JwtVerify
+=======
+
+	@GetMapping("info/{info}")
+>>>>>>> 6278c35758deba00f6500dbd1318eaebf507c6a5
 	public ResponseEntity<Map<String,Object>> userInfo(HttpServletRequest req){
 		User user =  userService.userInfo(req);
 		if (user == null) {
@@ -77,9 +97,10 @@ public class UserController {
 	@PostMapping()
 	public ResponseEntity<Map<String,Object>> saveUser(@RequestBody User u){
 		User cUser = userService.findOneByUsername(u.getUsername());
+		User rUser;
 		if (cUser == null) {
 			if (iUtil.registerUser(u.getEmail())){
-				User rUser = userService.saveUser(u);
+				rUser = userService.saveUser(u);
 			}
 		}else {
 			 ResponseEntity.badRequest().body(ResponseMap.getBadResponse("User already in database.")); 
@@ -90,13 +111,13 @@ public class UserController {
 	    if (u == null) {
 			return  ResponseEntity.badRequest().body(ResponseMap.getBadResponse("Users not saved."));
 		}
-		return  ResponseEntity.ok().body(ResponseMap.getGoodResponse(u,"Saved user"));
+		return  ResponseEntity.ok().body(ResponseMap.getGoodResponse(rUser,"Saved user"));
 	}
 	
 	
-	@PatchMapping()
-	public ResponseEntity<Map<String,Object>> updateUser(@RequestBody User u){
-	    User user =  userService.updateUser(u);
+	@PatchMapping("update/profile")
+	public ResponseEntity<Map<String,Object>> updateProfile(@RequestBody User u){
+	    User user =  userService.updateProfile(u);
 	    //UserDto or JSON ignore
 		
 	    if (user == null) {

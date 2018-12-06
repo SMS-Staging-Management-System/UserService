@@ -32,6 +32,8 @@ public class Cohort {
 	@NotNull
 	private String cohortDescription;
 
+	private String cohortToken;
+	
 	@JsonIgnore
 	@ManyToMany(
 			fetch = FetchType.LAZY,
@@ -45,11 +47,13 @@ public class Cohort {
 		// TODO Auto-generated constructor stub
 	}
 
-	public Cohort(int cohortId, @NotNull String cohortName, @NotNull String cohortDescription, Set<User> users) {
+	public Cohort(int cohortId, @NotNull String cohortName, @NotNull String cohortDescription, String cohortToken,
+			Set<User> users) {
 		super();
 		this.cohortId = cohortId;
 		this.cohortName = cohortName;
 		this.cohortDescription = cohortDescription;
+		this.cohortToken = cohortToken;
 		this.users = users;
 	}
 
@@ -77,6 +81,14 @@ public class Cohort {
 		this.cohortDescription = cohortDescription;
 	}
 
+	public String getCohortToken() {
+		return cohortToken;
+	}
+
+	public void setCohortToken(String cohortToken) {
+		this.cohortToken = cohortToken;
+	}
+
 	public Set<User> getUsers() {
 		return users;
 	}
@@ -92,6 +104,8 @@ public class Cohort {
 		result = prime * result + ((cohortDescription == null) ? 0 : cohortDescription.hashCode());
 		result = prime * result + cohortId;
 		result = prime * result + ((cohortName == null) ? 0 : cohortName.hashCode());
+		result = prime * result + ((cohortToken == null) ? 0 : cohortToken.hashCode());
+		result = prime * result + ((users == null) ? 0 : users.hashCode());
 		return result;
 	}
 
@@ -116,16 +130,25 @@ public class Cohort {
 				return false;
 		} else if (!cohortName.equals(other.cohortName))
 			return false;
+		if (cohortToken == null) {
+			if (other.cohortToken != null)
+				return false;
+		} else if (!cohortToken.equals(other.cohortToken))
+			return false;
+		if (users == null) {
+			if (other.users != null)
+				return false;
+		} else if (!users.equals(other.users))
+			return false;
 		return true;
 	}
 
 	@Override
 	public String toString() {
 		return "Cohort [cohortId=" + cohortId + ", cohortName=" + cohortName + ", cohortDescription="
-				+ cohortDescription + "]";
+				+ cohortDescription + ", cohortToken=" + cohortToken + ", users=" + users + "]";
 	}
 
-	
-	
+
 	
 }
