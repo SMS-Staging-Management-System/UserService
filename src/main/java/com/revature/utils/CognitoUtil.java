@@ -6,23 +6,15 @@ import java.sql.SQLException;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 
-import com.auth0.jwt.JWT;
-import com.auth0.jwt.exceptions.JWTVerificationException;
-import com.auth0.jwt.interfaces.Claim;
-import com.auth0.jwt.interfaces.DecodedJWT;
-import com.revature.intercomm.IncognitoClient;
-import com.revature.models.User;
-
-import feign.Response;
-
 @Component
-public class IncognitoUtil {
+public class CognitoUtil {
 
 	
 	@Autowired
-	private IncognitoClient ic;
+	private CognitoRestTemplate cognitoRestTemplate;
 	
 	
 	/**
@@ -33,9 +25,8 @@ public class IncognitoUtil {
 	 * @throws IOException 
 	 * @throws SQLException
 	 */
-	public Boolean registerUser(String email) throws IOException {;
-		Response res = ic.registerUser(email);
-		return (res.status() == 200) ? true : false;
+	public  ResponseEntity<String> registerUser(String email) throws IOException {;
+	    return cognitoRestTemplate.registerUser(email);
 	}
 	
 	/**
@@ -46,15 +37,10 @@ public class IncognitoUtil {
 	 * @throws IOException 
 	 * @throws SQLException
 	 */
-	public boolean incognitoVerify(HttpServletRequest req) throws IOException {
+	public boolean cognitoLogin(HttpServletRequest req) throws IOException {
 		//"Authorization" : "Bearer tokenValue"1
 		String token = req.getHeader("Authorization");
-		if(token != null) {
-			Response res = ic.verifyIncognito(token);
-			return (res.status() == 200) ? true : false;
-		}
-		return false;
-
+		return cognitoRestTemplate.checkAuth(token);
 	}
 	
 	/**

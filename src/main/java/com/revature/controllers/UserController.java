@@ -1,10 +1,14 @@
 package com.revature.controllers;
 
+import java.io.IOException;
+import java.net.URISyntaxException;
 import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.http.HttpStatus;
+import org.apache.http.protocol.HTTP;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -15,10 +19,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.revature.annotations.JwtVerify;
 import com.revature.models.User;
 import com.revature.services.UserService;
-import com.revature.utils.IncognitoUtil;
+import com.revature.utils.CognitoRestTemplate;
+import com.revature.utils.CognitoUtil;
 import com.revature.utils.ResponseMap;
 @RestController
 @RequestMapping("users")
@@ -28,7 +32,7 @@ public class UserController {
 	private UserService userService;
 
 	@Autowired
-	private IncognitoUtil iUtil;
+	private CognitoUtil iUtil;
 	
 	
 	@GetMapping()
@@ -67,14 +71,7 @@ public class UserController {
 	
 //////////////////////////////////////////////////////////////////////////////////////////////////	
 	
-	
-<<<<<<< HEAD
-	@GetMapping("{info}")
-	@JwtVerify
-=======
-
 	@GetMapping("info/{info}")
->>>>>>> 6278c35758deba00f6500dbd1318eaebf507c6a5
 	public ResponseEntity<Map<String,Object>> userInfo(HttpServletRequest req){
 		User user =  userService.userInfo(req);
 		if (user == null) {
@@ -95,23 +92,27 @@ public class UserController {
 	
 	
 	@PostMapping()
-	public ResponseEntity<Map<String,Object>> saveUser(@RequestBody User u){
+	public ResponseEntity<Map<String,Object>> saveUser(@RequestBody User u) throws IOException, URISyntaxException{
 		User cUser = userService.findOneByUsername(u.getUsername());
-		User rUser;
+		User rUser = null;
+		String error = "";
 		if (cUser == null) {
-			if (iUtil.registerUser(u.getEmail())){
+			ResponseEntity<String> response = iUtil.registerUser(u.getEmail());
+			if (response.getStatusCodeValue() == HttpStatus.SC_OK) {
 				rUser = userService.saveUser(u);
+				if (rUser != null) {
+					return  ResponseEntity.ok().body(ResponseMap.getGoodResponse(response.getBody(),"Saved user"));
+				}else {
+					error = "User could not be saved";
+				}
+			}else {
+				error = "User could  not register for incognito";
 			}
 		}else {
-			 ResponseEntity.badRequest().body(ResponseMap.getBadResponse("User already in database.")); 
+			error = "User already in database.";
 		}
-		
-	    //UserDto or JSON ignore
-		
-	    if (u == null) {
-			return  ResponseEntity.badRequest().body(ResponseMap.getBadResponse("Users not saved."));
-		}
-		return  ResponseEntity.ok().body(ResponseMap.getGoodResponse(rUser,"Saved user"));
+		return ResponseEntity.badRequest().body(ResponseMap.getBadResponse(error)); 
+	
 	}
 	
 	

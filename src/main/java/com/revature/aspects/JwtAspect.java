@@ -14,7 +14,7 @@ import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 import org.springframework.web.servlet.HandlerMapping;
 
-import com.revature.utils.IncognitoUtil;
+import com.revature.utils.CognitoUtil;
 import com.revature.utils.ResponseMap;
 
 @Aspect
@@ -22,7 +22,10 @@ import com.revature.utils.ResponseMap;
 public class JwtAspect {
 
 	@Autowired
-	private IncognitoUtil sJwtUtil;
+	private CognitoUtil sJwtUtil;
+	
+	@Autowired
+	private CognitoUtil iUtil;
 	
 //	@Around(" @annotation(com.revature.annotations.JwtVerify)")
 //	public Object verifyJwt(ProceedingJoinPoint pjp) throws Throwable {
@@ -71,19 +74,19 @@ public class JwtAspect {
 //	
 
 
-	@Around(" @annotation(com.revature.annotations.CognitoAuth)")
-	public Object CognitoAuth(ProceedingJoinPoint pjp) throws Throwable {
-		
-		HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes()).getRequest();
-		
-		if(sJwtUtil.incognitoVerify(request)) {
-			System.out.println("User is not self");
-		}
-		
-		return pjp.proceed();
-    }
-	
-	
+//	@Around(" @annotation(com.revature.annotations.CognitoAuth)")
+//	public Object CognitoAuth(ProceedingJoinPoint pjp) throws Throwable {
+//		
+//		HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes()).getRequest();
+//		
+//		if(iUtil.cognitoAuth(request)) {
+//			System.out.println("User did not get verified rip");
+//		}
+//		
+//		return pjp.proceed();
+//    }
+//	
+//	
 	
 	
 	
@@ -92,8 +95,8 @@ public class JwtAspect {
 		
 		HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes()).getRequest();
 		
-		if(sJwtUtil.incognitoVerify(request)) {
-			System.out.println("User is not self");
+		if(iUtil.cognitoLogin(request)) {
+			System.out.println("User could not login");
 		}
 		
 		return pjp.proceed();

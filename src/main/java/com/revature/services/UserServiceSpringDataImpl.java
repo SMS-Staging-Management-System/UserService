@@ -10,7 +10,7 @@ import org.springframework.stereotype.Service;
 
 import com.revature.models.User;
 import com.revature.repos.UserRepo;
-import com.revature.utils.IncognitoUtil;
+import com.revature.utils.CognitoUtil;
 
 @Service
 public class UserServiceSpringDataImpl implements UserService {
