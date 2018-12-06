@@ -19,6 +19,7 @@ import javax.validation.constraints.NotNull;
 
 import org.springframework.security.crypto.bcrypt.BCrypt;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @Entity
@@ -52,6 +53,7 @@ public class User {
 //	@JoinColumn(name="user_role")
 //	private Role role;	
 	
+	@JsonIgnore
 	@NotNull
 	@ManyToMany(
 			fetch = FetchType.EAGER,
@@ -164,7 +166,6 @@ public class User {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((cohorts == null) ? 0 : cohorts.hashCode());
 		result = prime * result + ((email == null) ? 0 : email.hashCode());
 		result = prime * result + ((firstName == null) ? 0 : firstName.hashCode());
 		result = prime * result + ((lastName == null) ? 0 : lastName.hashCode());
@@ -184,11 +185,6 @@ public class User {
 		if (getClass() != obj.getClass())
 			return false;
 		User other = (User) obj;
-		if (cohorts == null) {
-			if (other.cohorts != null)
-				return false;
-		} else if (!cohorts.equals(other.cohorts))
-			return false;
 		if (email == null) {
 			if (other.email != null)
 				return false;
@@ -223,7 +219,7 @@ public class User {
 	@Override
 	public String toString() {
 		return "User [userId=" + userId + ", firstName=" + firstName + ", lastName=" + lastName + ", email=" + email
-				+ ", username=" + username + ", password=" + password + ", cohorts=" + cohorts + "]";
+				+ ", username=" + username + ", password=" + password + "]";
 	}
 	
 	

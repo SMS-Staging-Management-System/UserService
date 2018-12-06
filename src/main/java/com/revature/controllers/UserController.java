@@ -33,7 +33,6 @@ public class UserController {
 
 	
 	@GetMapping()
-	@JwtUserIsAdmin
 	public ResponseEntity<Map<String,Object>> findAll(){
 		
 		List<User> userList=  userService.findAll();
@@ -47,7 +46,6 @@ public class UserController {
 	//need to change this to unique end point
 	@GetMapping("id/{id}")
 	//Might need to change?
-	@JwtUserIsSelf
 	public ResponseEntity<Map<String,Object>> findOneById(@PathVariable int id){
 		User user =  userService.findOneById(id);
 		if (user == null) {
@@ -71,7 +69,6 @@ public class UserController {
 	
 	
 	@GetMapping("info/{info}")
-	@JwtVerify
 	public ResponseEntity<Map<String,Object>> userInfo(HttpServletRequest req){
 		User user =  userService.userInfo(req);
 		if (user == null) {

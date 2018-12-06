@@ -18,7 +18,7 @@ public class CohortController {
 	
 	@PostMapping()
 	public String saveCohort(@RequestBody Cohort cohort) {
-//		return cohortService.saveCohort(cohort);
-		return null;
+		return cohortService.saveCohort(cohort);
+
 	}
 }
