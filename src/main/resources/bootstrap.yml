@@ -1,0 +1,41 @@
+logging:
+  level:
+    org:
+      hibernate: INFO
+      springframework:
+        web: DEBUG
+    root: ALL
+    
+server:
+  port: 8089
+  
+spring:
+
+  application:
+  
+    name: user-service
+  
+  datasource:
+    driverClassName: org.postgresql.Driver
+    initialization-mode: NEVER
+    password: ${db_password}
+    url: ${db_url}
+    username: ${db_username}
+    
+  jpa:
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+    generate-ddl: false
+    hibernate:
+      ddl-auto: none
+    properties:
+      hibernate:
+        default_schema: ${db_schema}
+    show-sql: false
+    
+eureka:
+  client:
+    service-url:
+      defaultZone: ${DISCOVERY_URL:http://localhost:8888}/eureka/
+  instance:
+    lease-renewal-interval-in-seconds: 1
+    lease-expiration-duration-in-seconds: 2

@@ -36,7 +36,6 @@ public class UserController {
 	
 	
 	@GetMapping()
-	//@JwtUserIsAdmin
 	public ResponseEntity<Map<String,Object>> findAll(){
 		List<User> userList=  userService.findAll();
 		System.out.println(userList);
@@ -49,7 +48,6 @@ public class UserController {
 	//need to change this to unique end point
 	@GetMapping("id/{id}")
 	//Might need to change?
-	//@JwtUserIsSelf
 	public ResponseEntity<Map<String,Object>> findOneById(@PathVariable int id){
 		User user =  userService.findOneById(id);
 		if (user == null) {
@@ -57,6 +55,18 @@ public class UserController {
 		}
 		return  ResponseEntity.ok().body(ResponseMap.getGoodResponse(user,"Here is your users."));
 	}
+	
+	@GetMapping("email/{email}/")
+	public ResponseEntity<Map<String,Object>> findOneByEmail(@PathVariable String email){
+		email.toLowerCase();
+		User user =  userService.findOneByEmail(email);
+		if (user == null) {
+			return  ResponseEntity.badRequest().body(ResponseMap.getBadResponse("User not found."));
+		}
+		return  ResponseEntity.ok().body(ResponseMap.getGoodResponse(user,"Here is your users."));
+	}
+	
+	
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
 	//FINDING USER BY USERNAME. DELETE IF NOT NEEDEED - AN THANH TA

@@ -22,4 +22,5 @@ public interface UserService {
 	public User updateProfile(User u);
 	public User userInfo(HttpServletRequest req);
 	public User findOneByUsername(String username);
+	public User findOneByEmail(String email);
 }
