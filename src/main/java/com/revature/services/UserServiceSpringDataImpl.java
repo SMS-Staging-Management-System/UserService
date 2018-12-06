@@ -36,12 +36,17 @@ public class UserServiceSpringDataImpl implements UserService {
 	@Override
 	public List<User> findAllByCohortId(int id) {
 		return userRepo.findAllByCohortsCohortId(id);
-//		return null;
+
 	}
 
 	@Override
-	public User saveUser(User u, String cohortToken) {
+	public User saveUser(User u) {
 		return userRepo.save(u);
+	}
+	
+	@Override
+	public User findOneByUsername(String username) {
+		return userRepo.findByUsername(username);
 	}
 
 	@Override

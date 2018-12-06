@@ -55,6 +55,20 @@ public class UserController {
 		}
 		return  ResponseEntity.ok().body(ResponseMap.getGoodResponse(user,"Here is your users."));
 	}
+//////////////////////////////////////////////////////////////////////////////////////////////////
+
+	//FINDING USER BY USERNAME. DELETE IF NOT NEEDEED - AN THANH TA
+//	@GetMapping("username/{username}")
+//	public ResponseEntity<Map<String,Object>> findOneByUsername(@PathVariable String username){
+//		User user =  userService.findOneByUsername(username);
+//		if (user == null) {
+//			return  ResponseEntity.badRequest().body(ResponseMap.getBadResponse("User not found."));
+//		}
+//		return  ResponseEntity.ok().body(ResponseMap.getGoodResponse(user,"Here is your users."));
+//	}
+	
+//////////////////////////////////////////////////////////////////////////////////////////////////	
+	
 	
 	@GetMapping("info/{info}")
 	@JwtVerify
@@ -78,8 +92,8 @@ public class UserController {
 	
 	
 	@PostMapping()
-	public ResponseEntity<Map<String,Object>> saveUser(@RequestBody User u, @RequestParam(value = "token", required = true) String cohortToken){
-		User user = userService.saveUser(u, cohortToken);
+	public ResponseEntity<Map<String,Object>> saveUser(@RequestBody User u){
+		User user = userService.saveUser(u);
 	    //UserDto or JSON ignore
 		
 	    if (u == null) {

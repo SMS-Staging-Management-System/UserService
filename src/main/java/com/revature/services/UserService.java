@@ -18,8 +18,9 @@ public interface UserService {
 	public List<User> findAll();
 	public User findOneById(int id);
 	public List<User> findAllByCohortId(int id);
-	public User saveUser(User u,String cohortToken);
+	public User saveUser(User u);
 	public Map<String,Object> login(User u);
 	public User updateProfile(User u);
 	public User userInfo(HttpServletRequest req);
+	public User findOneByUsername(String username);
 }
