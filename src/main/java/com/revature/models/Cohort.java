@@ -105,7 +105,6 @@ public class Cohort {
 		result = prime * result + cohortId;
 		result = prime * result + ((cohortName == null) ? 0 : cohortName.hashCode());
 		result = prime * result + ((cohortToken == null) ? 0 : cohortToken.hashCode());
-		result = prime * result + ((users == null) ? 0 : users.hashCode());
 		return result;
 	}
 
@@ -135,18 +134,13 @@ public class Cohort {
 				return false;
 		} else if (!cohortToken.equals(other.cohortToken))
 			return false;
-		if (users == null) {
-			if (other.users != null)
-				return false;
-		} else if (!users.equals(other.users))
-			return false;
 		return true;
 	}
 
 	@Override
 	public String toString() {
 		return "Cohort [cohortId=" + cohortId + ", cohortName=" + cohortName + ", cohortDescription="
-				+ cohortDescription + ", cohortToken=" + cohortToken + ", users=" + users + "]";
+				+ cohortDescription + ", cohortToken=" + cohortToken + "]";
 	}
 
 

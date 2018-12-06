@@ -48,6 +48,11 @@ public class UserServiceSpringDataImpl implements UserService {
 	public User findOneByUsername(String username) {
 		return userRepo.findByUsername(username);
 	}
+	
+	@Override
+	public User findOneByEmail(String email) {
+		return userRepo.findByEmail(email);
+	}
 
 	@Override
 	public User updateProfile(User u) {
@@ -97,4 +102,6 @@ public class UserServiceSpringDataImpl implements UserService {
 		User u = userRepo.findOneByUserId(id);
 		return u;
 	}
+
+	
 }
