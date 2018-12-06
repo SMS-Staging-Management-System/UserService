@@ -23,7 +23,6 @@ import com.revature.annotations.JwtVerify;
 import com.revature.models.User;
 import com.revature.services.UserService;
 import com.revature.utils.ResponseMap;
-
 @RestController
 @RequestMapping("users")
 public class UserController {
@@ -33,9 +32,8 @@ public class UserController {
 
 	
 	@GetMapping()
-	@JwtUserIsAdmin
+	//@JwtUserIsAdmin
 	public ResponseEntity<Map<String,Object>> findAll(){
-		
 		List<User> userList=  userService.findAll();
 		System.out.println(userList);
 		if (userList == null) {
@@ -47,7 +45,7 @@ public class UserController {
 	//need to change this to unique end point
 	@GetMapping("id/{id}")
 	//Might need to change?
-	@JwtUserIsSelf
+	//@JwtUserIsSelf
 	public ResponseEntity<Map<String,Object>> findOneById(@PathVariable int id){
 		User user =  userService.findOneById(id);
 		if (user == null) {
@@ -70,8 +68,8 @@ public class UserController {
 //////////////////////////////////////////////////////////////////////////////////////////////////	
 	
 	
+
 	@GetMapping("info/{info}")
-	@JwtVerify
 	public ResponseEntity<Map<String,Object>> userInfo(HttpServletRequest req){
 		User user =  userService.userInfo(req);
 		if (user == null) {
