@@ -4,6 +4,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -22,10 +23,11 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @Entity
 @JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
-@Table(name = "users")
+@Table(name="sms_users")
 public class User {
 
-	@Id
+	@Id 
+	@Column (name ="sms_user_id")
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int userId;
 
@@ -46,20 +48,31 @@ public class User {
 	
 	@NotNull
 	@ManyToOne
-	@JoinColumn(name = "roleId")
-	private Role role;
 
+	@JoinColumn(name="user_role")
+	private Role role;	
+	
 	@NotNull
-	@ManyToMany(fetch = FetchType.EAGER, cascade = { CascadeType.MERGE })
-	@JoinTable(name = "usersCohorts", joinColumns = { @JoinColumn(name = "userId") }, inverseJoinColumns = {
-			@JoinColumn(name = "cohortId") })
+	@ManyToMany(
+			fetch = FetchType.EAGER,
+			cascade = {
+					CascadeType.MERGE
+        })
+	@JoinTable(
+			name ="usersCohorts",
+			joinColumns = { @JoinColumn(name = "smsUserId") },
+            inverseJoinColumns = { @JoinColumn(name = "cohortId") }
+			)
 	private Set<Cohort> cohorts = new HashSet<>();
 
+
+	public void hashPassword() {
+		this.password = BCrypt.hashpw(this.password, BCrypt.gensalt());
+	}
 	public User() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
-
 	public User(int userId, @NotNull String firstName, @NotNull String lastName, @NotNull String email,
 			@NotNull String username, @NotNull String password, @NotNull Role role, @NotNull Set<Cohort> cohorts) {
 		super();
@@ -72,71 +85,54 @@ public class User {
 		this.role = role;
 		this.cohorts = cohorts;
 	}
-
 	public int getUserId() {
 		return userId;
 	}
-
 	public void setUserId(int userId) {
 		this.userId = userId;
 	}
-
 	public String getFirstName() {
 		return firstName;
 	}
-
 	public void setFirstName(String firstName) {
 		this.firstName = firstName;
 	}
-
 	public String getLastName() {
 		return lastName;
 	}
-
 	public void setLastName(String lastName) {
 		this.lastName = lastName;
 	}
-
 	public String getEmail() {
 		return email;
 	}
-
 	public void setEmail(String email) {
 		this.email = email;
 	}
-
 	public String getUsername() {
 		return username;
 	}
-
 	public void setUsername(String username) {
 		this.username = username;
 	}
-
 	public String getPassword() {
 		return password;
 	}
-
 	public void setPassword(String password) {
 		this.password = password;
 	}
-
 	public Role getRole() {
 		return role;
 	}
-
 	public void setRole(Role role) {
 		this.role = role;
 	}
-
 	public Set<Cohort> getCohorts() {
 		return cohorts;
 	}
-
 	public void setCohorts(Set<Cohort> cohorts) {
 		this.cohorts = cohorts;
 	}
-
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -151,7 +147,6 @@ public class User {
 		result = prime * result + ((username == null) ? 0 : username.hashCode());
 		return result;
 	}
-
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
@@ -200,16 +195,12 @@ public class User {
 			return false;
 		return true;
 	}
-
 	@Override
 	public String toString() {
 		return "User [userId=" + userId + ", firstName=" + firstName + ", lastName=" + lastName + ", email=" + email
 				+ ", username=" + username + ", password=" + password + ", role=" + role + ", cohorts=" + cohorts + "]";
 	}
-
-	public void hashPassword() {
-		this.password = BCrypt.hashpw(this.password, BCrypt.gensalt());
-	}
+	
 	
 	
 

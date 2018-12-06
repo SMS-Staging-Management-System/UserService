@@ -4,6 +4,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -13,6 +14,7 @@ import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 
@@ -30,6 +32,7 @@ public class Cohort {
 	@NotNull
 	private String cohortDescription;
 
+	@JsonIgnore
 	@ManyToMany(
 			fetch = FetchType.LAZY,
         	cascade = {
@@ -89,7 +92,6 @@ public class Cohort {
 		result = prime * result + ((cohortDescription == null) ? 0 : cohortDescription.hashCode());
 		result = prime * result + cohortId;
 		result = prime * result + ((cohortName == null) ? 0 : cohortName.hashCode());
-		result = prime * result + ((users == null) ? 0 : users.hashCode());
 		return result;
 	}
 
@@ -114,19 +116,16 @@ public class Cohort {
 				return false;
 		} else if (!cohortName.equals(other.cohortName))
 			return false;
-		if (users == null) {
-			if (other.users != null)
-				return false;
-		} else if (!users.equals(other.users))
-			return false;
 		return true;
 	}
 
 	@Override
 	public String toString() {
 		return "Cohort [cohortId=" + cohortId + ", cohortName=" + cohortName + ", cohortDescription="
-				+ cohortDescription + ", users=" + users + "]";
+				+ cohortDescription + "]";
 	}
+
+	
 	
 	
 }

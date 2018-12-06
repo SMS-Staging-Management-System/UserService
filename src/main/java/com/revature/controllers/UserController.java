@@ -23,7 +23,6 @@ import com.revature.annotations.JwtVerify;
 import com.revature.models.User;
 import com.revature.services.UserService;
 import com.revature.utils.ResponseMap;
-
 @RestController
 @RequestMapping("users")
 public class UserController {
@@ -33,10 +32,10 @@ public class UserController {
 
 	
 	@GetMapping()
-	@JwtUserIsAdmin
+	//@JwtUserIsAdmin
 	public ResponseEntity<Map<String,Object>> findAll(){
-		
 		List<User> userList=  userService.findAll();
+		System.out.println(userList);
 		if (userList == null) {
 			return  ResponseEntity.badRequest().body(ResponseMap.getBadResponse("No users found."));
 		}
@@ -45,7 +44,7 @@ public class UserController {
 	
 	@GetMapping("{id}")
 	//Might need to change?
-	@JwtUserIsSelf
+	//@JwtUserIsSelf
 	public ResponseEntity<Map<String,Object>> findOneById(@PathVariable int id){
 		User user =  userService.findOneById(id);
 		if (user == null) {
@@ -55,7 +54,7 @@ public class UserController {
 	}
 	
 	@GetMapping("{info}")
-	@JwtVerify
+	//@JwtVerify
 	public ResponseEntity<Map<String,Object>> userInfo(HttpServletRequest req){
 		User user =  userService.userInfo(req);
 		if (user == null) {
@@ -64,7 +63,7 @@ public class UserController {
 		return  ResponseEntity.ok().body(ResponseMap.getGoodResponse(user,"Here is your users."));
 	}
 	
-	@JwtUserIsAdmin
+	
 	@GetMapping("cohorts/{id}")
 	public ResponseEntity<Map<String,Object>> findAllByCohortId(@PathVariable int id){
 		List<User> userList=  userService.findAllByCohortId(id);
@@ -77,18 +76,18 @@ public class UserController {
 	
 	@PostMapping()
 	public ResponseEntity<Map<String,Object>> saveUser(@RequestBody User u, @RequestParam(value = "token", required = true) int cohortToken){
-	    User user =  userService.saveUser(u);
+
 	    //UserDto or JSON ignore
 		
-	    if (user == null) {
+	    if (u == null) {
 			return  ResponseEntity.badRequest().body(ResponseMap.getBadResponse("Users not saved."));
 		}
-		return  ResponseEntity.ok().body(ResponseMap.getGoodResponse(user,"Saved user"));
+		return  ResponseEntity.ok().body(ResponseMap.getGoodResponse(u,"Saved user"));
 	}
 	
-	@PostMapping()
+	@PostMapping("/login")
 	public ResponseEntity<Map<String,Object>> login(@RequestBody User u){
-	    Map<String, Object> userJwtMap =  userService.login(u);
+		Map<String,Object>  userJwtMap =  userService.login(u);
 	    //UserDto or JSON ignore
 		
 	    if (userJwtMap == null) {
@@ -98,7 +97,6 @@ public class UserController {
 	}
 	
 	@PatchMapping()
-	@JwtUserIsSelfOrAdmin
 	public ResponseEntity<Map<String,Object>> updateUser(@RequestBody User u){
 	    User user =  userService.updateUser(u);
 	    //UserDto or JSON ignore
