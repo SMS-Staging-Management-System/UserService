@@ -13,15 +13,12 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.revature.annotations.JwtUserIsAdmin;
-import com.revature.annotations.JwtUserIsSelf;
-import com.revature.annotations.JwtUserIsSelfOrAdmin;
 import com.revature.annotations.JwtVerify;
 import com.revature.models.User;
 import com.revature.services.UserService;
+import com.revature.utils.IncognitoUtil;
 import com.revature.utils.ResponseMap;
 @RestController
 @RequestMapping("users")
@@ -30,6 +27,9 @@ public class UserController {
 	@Autowired
 	private UserService userService;
 
+	@Autowired
+	private IncognitoUtil iUtil;
+	
 	
 	@GetMapping()
 	//@JwtUserIsAdmin
@@ -54,7 +54,7 @@ public class UserController {
 	}
 	
 	@GetMapping("{info}")
-	//@JwtVerify
+	@JwtVerify
 	public ResponseEntity<Map<String,Object>> userInfo(HttpServletRequest req){
 		User user =  userService.userInfo(req);
 		if (user == null) {
@@ -75,8 +75,16 @@ public class UserController {
 	
 	
 	@PostMapping()
-	public ResponseEntity<Map<String,Object>> saveUser(@RequestBody User u, @RequestParam(value = "token", required = true) int cohortToken){
-
+	public ResponseEntity<Map<String,Object>> saveUser(@RequestBody User u){
+		User cUser = userService.findOneByUsername(u.getUsername());
+		if (cUser == null) {
+			if (iUtil.registerUser(u.getEmail())){
+				User rUser = userService.saveUser(u);
+			}
+		}else {
+			 ResponseEntity.badRequest().body(ResponseMap.getBadResponse("User already in database.")); 
+		}
+		
 	    //UserDto or JSON ignore
 		
 	    if (u == null) {
@@ -85,16 +93,6 @@ public class UserController {
 		return  ResponseEntity.ok().body(ResponseMap.getGoodResponse(u,"Saved user"));
 	}
 	
-	@PostMapping("/login")
-	public ResponseEntity<Map<String,Object>> login(@RequestBody User u){
-		Map<String,Object>  userJwtMap =  userService.login(u);
-	    //UserDto or JSON ignore
-		
-	    if (userJwtMap == null) {
-			return  ResponseEntity.badRequest().body(ResponseMap.getBadResponse("Users not saved."));
-		}
-		return  ResponseEntity.ok().body(ResponseMap.getGoodResponse(userJwtMap,"Saved user"));
-	}
 	
 	@PatchMapping()
 	public ResponseEntity<Map<String,Object>> updateUser(@RequestBody User u){
