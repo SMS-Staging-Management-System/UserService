@@ -34,7 +34,7 @@ public class UserController {
 	@Autowired
 	private CognitoUtil iUtil;
 	
-	@CognitoAuth
+	@CognitoAuth(highestRole="admin")
 	@GetMapping()
 	public ResponseEntity<Map<String,Object>> findAll(){
 		List<User> userList=  userService.findAll();
