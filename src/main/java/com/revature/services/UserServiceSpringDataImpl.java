@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -11,7 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.stereotype.Service;
 
-
+import com.revature.models.Cohort;
 import com.revature.models.User;
 import com.revature.repos.UserRepo;
 import com.revature.utils.JwtUtil;
@@ -101,6 +102,19 @@ public class UserServiceSpringDataImpl implements UserService {
 		int id = jwtUtil.extractUserId(req);
 		User u = userRepo.findOneByUserId(id);
 		return u;
+	}
+
+	@Override
+	public Cohort saveCohort(Cohort cohort, int userId) {
+		
+		User tempUser = userRepo.findById(userId).get();
+		System.out.println(tempUser);
+		Set<Cohort> cohorts = tempUser.getCohorts();
+		cohorts.add(cohort);
+		tempUser.setCohorts(cohorts);
+		System.out.println(tempUser.getCohorts());
+		userRepo.save(tempUser);
+		return cohort;
 	}
 
 	

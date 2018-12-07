@@ -43,7 +43,7 @@ public class JwtUtil {
 		tJwt = JWT.create()
 		.withClaim("username", 	pUser.getUsername())
 		.withClaim("user_id", 	pUser.getUserId())
-		.withClaim("user_role_id", 	pUser.getRole().getRoleId())
+//		.withClaim("user_role_id", 	pUser.getRole().getRoleId())
 		.withIssuer("auth0")
 		.sign(algorithm);
 		

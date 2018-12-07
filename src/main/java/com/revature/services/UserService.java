@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.stereotype.Service;
 
+import com.revature.models.Cohort;
 import com.revature.models.User;
 
 @Service 
@@ -24,4 +25,6 @@ public interface UserService {
 	public User userInfo(HttpServletRequest req);
 	public User findOneByUsername(String username);
 	public User findOneByEmail(String email);
+	public Cohort saveCohort(Cohort cohort, int id);
+	
 }

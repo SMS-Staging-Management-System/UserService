@@ -13,13 +13,9 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.revature.annotations.JwtUserIsAdmin;
-import com.revature.annotations.JwtUserIsSelf;
-import com.revature.annotations.JwtUserIsSelfOrAdmin;
-import com.revature.annotations.JwtVerify;
+import com.revature.models.Cohort;
 import com.revature.models.User;
 import com.revature.services.UserService;
 import com.revature.utils.ResponseMap;
@@ -110,6 +106,11 @@ public class UserController {
 		return  ResponseEntity.ok().body(ResponseMap.getGoodResponse(user,"Saved user"));
 	}
 	
+	@PostMapping("cohort/id/{userId}")
+	public Cohort saveCohort(@RequestBody Cohort cohort, @PathVariable int userId) {
+		return userService.saveCohort(cohort, userId);
+	}
+	
 	@PostMapping("/login")
 	public ResponseEntity<Map<String,Object>> login(@RequestBody User u){
 		Map<String,Object>  userJwtMap =  userService.login(u);
@@ -131,4 +132,6 @@ public class UserController {
 		}
 		return  ResponseEntity.ok().body(ResponseMap.getGoodResponse(user,"Saved user"));
 	}
+	
+
 }
