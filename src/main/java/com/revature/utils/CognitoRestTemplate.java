@@ -3,13 +3,14 @@ package com.revature.utils;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 
-import com.revature.models.CognitoResponse;
+import com.revature.models.CognitoAuthResponse;
 
 @Component
 public class CognitoRestTemplate {
@@ -20,55 +21,37 @@ public class CognitoRestTemplate {
 	
 	
 	public  ResponseEntity<String> registerUser(String email) {
-//		RestTemplate rt = new RestTemplate();
-//		HttpHeaders headers = new HttpHeaders();
-//		headers.setContentType(MediaType.APPLICATION_JSON);
-//		String url= baseUrl + registerUrl;
-//		String requestJson = "{\"email\":\"" + email + "\"}";
-//		HttpEntity<String> entity = new HttpEntity<String>(requestJson,headers);
-//		
-//		String response = "";
-//		try{
-//			response = rt.postForObject(url,entity , String.class );
-//			System.out.println(response);
-//			return true;
-//			
-//		}catch(HttpClientErrorException e) {
-//			System.out.print(e);
-//			return false;			
-//		}
+		System.out.println("here");
 		RestTemplate rt = new RestTemplate();
 		HttpHeaders headers = new HttpHeaders();
 		headers.setContentType(MediaType.APPLICATION_JSON);
 		String url= baseUrl + registerUrl;
 		String requestJson = "{\"email\":\"" + email + "\"}";
 		HttpEntity<String> entity = new HttpEntity<String>(requestJson,headers);
+		System.out.println("Entity = " + entity);
 		
 		try{
 			return rt.exchange(url ,HttpMethod.POST, entity , String.class );
-			
-			
 		}catch(HttpClientErrorException e) {
 			System.out.print(e);
-			return null;			
+			return new ResponseEntity<String>(HttpStatus.CONFLICT);	
 		}
 	}
 	
-	public boolean checkAuth(String token) {
+	public ResponseEntity<String> checkAuth(String token) {
 		RestTemplate rt = new RestTemplate();
 		HttpHeaders headers = new HttpHeaders();
-		headers.add("Authorization", token);
+		headers.set("Authentication", token);
 		String requestJson = "";
 		String url= baseUrl + authUrl;
+		System.out.println(headers.toString());
 		HttpEntity<String> entity = new HttpEntity<String>(requestJson,headers);
+		System.out.println("Entity = " + entity.toString());
 		try{
-			ResponseEntity<String> response = rt.exchange(url,HttpMethod.GET ,entity , String.class );
-			System.out.println(response);
-			return true;
-			
+			return rt.exchange(url,HttpMethod.GET ,entity , String.class );
 		}catch(HttpClientErrorException e) {
-			System.out.print(e);
-			return false;			
+			System.out.print("Error is " + e);
+			return new ResponseEntity<String>(HttpStatus.CONFLICT);	
 		}
 	}
 	

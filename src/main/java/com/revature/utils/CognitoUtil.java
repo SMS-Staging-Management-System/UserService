@@ -5,12 +5,16 @@ import java.sql.SQLException;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.http.HttpStatus;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 
+import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.revature.models.CognitoAuthResponse;
+import com.revature.models.CognitoRegisterResponse;
 
 @Component
 public class CognitoUtil {
@@ -28,12 +32,19 @@ public class CognitoUtil {
 	 * @throws IOException 
 	 * @throws SQLException
 	 */
-	public 	ResponseEntity<String> registerUser(String email) throws IOException {
-	     ResponseEntity<String> cr= cognitoRestTemplate.registerUser(email);
-	     ObjectMapper mapper = new ObjectMapper();
-	     JsonNode obj = mapper.readTree(cr.getBody());
-	     System.out.println(obj);
-	     return cr;
+	public 	CognitoRegisterResponse registerUser(String email) throws IOException {
+	    
+		ResponseEntity<String> response = cognitoRestTemplate.registerUser(email);	    
+		
+		
+		if (response.getStatusCodeValue() == HttpStatus.SC_OK) {
+			ObjectMapper mapper = new ObjectMapper().configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false); 
+			JsonNode obj = mapper.readTree(response.getBody());
+	     	CognitoRegisterResponse registerModel = mapper.treeToValue(obj.get("User"), CognitoRegisterResponse.class );
+	     	
+	     	return registerModel;
+		}
+	     return null;
 	}
 	
 	/**
@@ -44,10 +55,20 @@ public class CognitoUtil {
 	 * @throws IOException 
 	 * @throws SQLException
 	 */
-	public boolean cognitoLogin(HttpServletRequest req) throws IOException {
+	public ResponseEntity<String> cognitoAuth(HttpServletRequest req) throws IOException {
 		//"Authorization" : "Bearer tokenValue"1
-		String token = req.getHeader("Authorization");
-		return cognitoRestTemplate.checkAuth(token);
+		String token = req.getHeader("Authentication");
+		System.out.println("Token is: " + token);
+		
+		ResponseEntity<String> response = cognitoRestTemplate.checkAuth(token);
+
+		ObjectMapper mapper = new ObjectMapper(); 
+	    JsonNode obj = mapper.readTree(response.getBody());
+	    System.out.println(obj);
+	    CognitoAuthResponse authModel = mapper.treeToValue(obj, CognitoAuthResponse.class );
+	    System.out.println(authModel.getCognitoGroups());
+		
+		return response;
 	}
 	
 	/**
