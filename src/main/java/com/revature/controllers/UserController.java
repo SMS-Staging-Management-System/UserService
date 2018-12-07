@@ -18,9 +18,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.revature.models.CognitoRegister;
+import com.revature.annotations.CognitoAuth;
+import com.revature.models.CognitoRegisterResponse;
 import com.revature.models.User;
 import com.revature.services.UserService;
 import com.revature.utils.CognitoUtil;
@@ -35,7 +34,7 @@ public class UserController {
 	@Autowired
 	private CognitoUtil iUtil;
 	
-	
+	@CognitoAuth
 	@GetMapping()
 	public ResponseEntity<Map<String,Object>> findAll(){
 		List<User> userList=  userService.findAll();
@@ -108,15 +107,17 @@ public class UserController {
 		User rUser = null;
 		String error = "";
 		if (cUser == null) {
-			ResponseEntity<String> response = iUtil.registerUser(u.getEmail());
-		     ObjectMapper mapper = new ObjectMapper();
-		     JsonNode obj = mapper.readTree(response.getBody());
-			System.out.println(obj.get("User"));
-			CognitoRegister cr = mapper.treeToValue(obj, CognitoRegister.class );
-			if (response.getStatusCodeValue() == HttpStatus.SC_OK) {
+			System.out.println("Here");
+			CognitoRegisterResponse crModel = iUtil.registerUser(u.getEmail());
+
+//		     ObjectMapper mapper = new ObjectMapper();
+//		     JsonNode obj = mapper.readTree(response.getBody());
+//			 System.out.println(obj.get("User"));
+			
+			if (crModel != null) {
 				rUser = userService.saveUser(u);
 				if (rUser != null) {
-					return  ResponseEntity.ok().body(ResponseMap.getGoodResponse(obj,"Saved user"));
+					return  ResponseEntity.ok().body(ResponseMap.getGoodResponse(crModel,"Saved user"));
 				}else {
 					error = "User could not be saved";
 				}
