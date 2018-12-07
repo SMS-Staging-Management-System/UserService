@@ -1,6 +1,9 @@
 package com.revature.models;
 
-public class CognitoLogin {
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
+@JsonIgnoreProperties
+public class CognitoAuthResponse {
 
 	private String sub;
 	private String aud;
@@ -14,12 +17,11 @@ public class CognitoLogin {
 	private String exp;
 	private String iat;
 	private String email;
-	
-	public CognitoLogin() {
+	public CognitoAuthResponse() {
 		super();
 	}
 	
-	public CognitoLogin(String sub, String aud, String cognitoGroups, boolean emailVerified, String eventId,
+	public CognitoAuthResponse(String sub, String aud, String cognitoGroups, boolean emailVerified, String eventId,
 			String tokenUse, int authTime, String iss, String cognitoUsername, String exp, String iat, String email) {
 		super();
 		this.sub = sub;
