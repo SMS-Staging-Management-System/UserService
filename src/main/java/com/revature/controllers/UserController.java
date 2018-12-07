@@ -8,7 +8,6 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.http.HttpStatus;
-import org.apache.http.protocol.HTTP;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -19,9 +18,11 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.revature.models.CognitoRegister;
 import com.revature.models.User;
 import com.revature.services.UserService;
-import com.revature.utils.CognitoRestTemplate;
 import com.revature.utils.CognitoUtil;
 import com.revature.utils.ResponseMap;
 @RestController
@@ -108,10 +109,14 @@ public class UserController {
 		String error = "";
 		if (cUser == null) {
 			ResponseEntity<String> response = iUtil.registerUser(u.getEmail());
+		     ObjectMapper mapper = new ObjectMapper();
+		     JsonNode obj = mapper.readTree(response.getBody());
+			System.out.println(obj.get("User"));
+			CognitoRegister cr = mapper.treeToValue(obj, CognitoRegister.class );
 			if (response.getStatusCodeValue() == HttpStatus.SC_OK) {
 				rUser = userService.saveUser(u);
 				if (rUser != null) {
-					return  ResponseEntity.ok().body(ResponseMap.getGoodResponse(response.getBody(),"Saved user"));
+					return  ResponseEntity.ok().body(ResponseMap.getGoodResponse(obj,"Saved user"));
 				}else {
 					error = "User could not be saved";
 				}

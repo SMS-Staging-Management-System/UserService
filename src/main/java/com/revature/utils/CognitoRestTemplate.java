@@ -9,6 +9,8 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 
+import com.revature.models.CognitoResponse;
+
 @Component
 public class CognitoRestTemplate {
 	

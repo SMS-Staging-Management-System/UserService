@@ -9,6 +9,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 @Component
 public class CognitoUtil {
 
@@ -25,8 +28,12 @@ public class CognitoUtil {
 	 * @throws IOException 
 	 * @throws SQLException
 	 */
-	public  ResponseEntity<String> registerUser(String email) throws IOException {;
-	    return cognitoRestTemplate.registerUser(email);
+	public 	ResponseEntity<String> registerUser(String email) throws IOException {
+	     ResponseEntity<String> cr= cognitoRestTemplate.registerUser(email);
+	     ObjectMapper mapper = new ObjectMapper();
+	     JsonNode obj = mapper.readTree(cr.getBody());
+	     System.out.println(obj);
+	     return cr;
 	}
 	
 	/**
