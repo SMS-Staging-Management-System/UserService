@@ -1,10 +1,13 @@
 package com.revature.controllers;
 
+import java.io.IOException;
+import java.net.URISyntaxException;
 import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.http.HttpStatus;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -13,15 +16,14 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.revature.annotations.JwtUserIsAdmin;
-import com.revature.annotations.JwtUserIsSelf;
-import com.revature.annotations.JwtUserIsSelfOrAdmin;
-import com.revature.annotations.JwtVerify;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.revature.models.CognitoRegister;
 import com.revature.models.User;
 import com.revature.services.UserService;
+import com.revature.utils.CognitoUtil;
 import com.revature.utils.ResponseMap;
 @RestController
 @RequestMapping("users")
@@ -30,6 +32,9 @@ public class UserController {
 	@Autowired
 	private UserService userService;
 
+	@Autowired
+	private CognitoUtil iUtil;
+	
 	
 	@GetMapping()
 	public ResponseEntity<Map<String,Object>> findAll(){
@@ -77,8 +82,6 @@ public class UserController {
 	
 //////////////////////////////////////////////////////////////////////////////////////////////////	
 	
-	
-
 	@GetMapping("info/{info}")
 	public ResponseEntity<Map<String,Object>> userInfo(HttpServletRequest req){
 		User user =  userService.userInfo(req);
@@ -100,26 +103,33 @@ public class UserController {
 	
 	
 	@PostMapping()
-	public ResponseEntity<Map<String,Object>> saveUser(@RequestBody User u){
-		User user = userService.saveUser(u);
-	    //UserDto or JSON ignore
-		
-	    if (u == null) {
-			return  ResponseEntity.badRequest().body(ResponseMap.getBadResponse("Users not saved."));
+	public ResponseEntity<Map<String,Object>> saveUser(@RequestBody User u) throws IOException, URISyntaxException{
+		User cUser = userService.findOneByUsername(u.getUsername());
+		User rUser = null;
+		String error = "";
+		if (cUser == null) {
+			ResponseEntity<String> response = iUtil.registerUser(u.getEmail());
+		     ObjectMapper mapper = new ObjectMapper();
+		     JsonNode obj = mapper.readTree(response.getBody());
+			System.out.println(obj.get("User"));
+			CognitoRegister cr = mapper.treeToValue(obj, CognitoRegister.class );
+			if (response.getStatusCodeValue() == HttpStatus.SC_OK) {
+				rUser = userService.saveUser(u);
+				if (rUser != null) {
+					return  ResponseEntity.ok().body(ResponseMap.getGoodResponse(obj,"Saved user"));
+				}else {
+					error = "User could not be saved";
+				}
+			}else {
+				error = "User could  not register for incognito";
+			}
+		}else {
+			error = "User already in database.";
 		}
-		return  ResponseEntity.ok().body(ResponseMap.getGoodResponse(user,"Saved user"));
+		return ResponseEntity.badRequest().body(ResponseMap.getBadResponse(error)); 
+	
 	}
 	
-	@PostMapping("/login")
-	public ResponseEntity<Map<String,Object>> login(@RequestBody User u){
-		Map<String,Object>  userJwtMap =  userService.login(u);
-	    //UserDto or JSON ignore
-		
-	    if (userJwtMap == null) {
-			return  ResponseEntity.badRequest().body(ResponseMap.getBadResponse("Users not saved."));
-		}
-		return  ResponseEntity.ok().body(ResponseMap.getGoodResponse(userJwtMap,"Saved user"));
-	}
 	
 	@PatchMapping("update/profile")
 	public ResponseEntity<Map<String,Object>> updateProfile(@RequestBody User u){
