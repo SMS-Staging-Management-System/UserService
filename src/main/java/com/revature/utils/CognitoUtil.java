@@ -2,6 +2,9 @@ package com.revature.utils;
 
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -19,64 +22,68 @@ import com.revature.models.CognitoRegisterResponse;
 @Component
 public class CognitoUtil {
 
-	
 	@Autowired
 	private CognitoRestTemplate cognitoRestTemplate;
-	
-	
+
 	/**
 	 * Create a Jwt and attach user is as private claim
 	 * 
 	 * @param User
 	 * @return String
-	 * @throws IOException 
+	 * @throws IOException
 	 * @throws SQLException
 	 */
-	public 	CognitoRegisterResponse registerUser(String email) throws IOException {
-	    
-		ResponseEntity<String> response = cognitoRestTemplate.registerUser(email);	    
-		
-		
+	public CognitoRegisterResponse registerUser(String email) throws IOException {
+
+		ResponseEntity<String> response = cognitoRestTemplate.registerUser(email);
+
 		if (response.getStatusCodeValue() == HttpStatus.SC_OK) {
-			ObjectMapper mapper = new ObjectMapper().configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false); 
+			ObjectMapper mapper = new ObjectMapper().configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES,false);
 			JsonNode obj = mapper.readTree(response.getBody());
-	     	CognitoRegisterResponse registerModel = mapper.treeToValue(obj.get("User"), CognitoRegisterResponse.class );
-	     	
-	     	return registerModel;
+			CognitoRegisterResponse registerModel = mapper.treeToValue(obj.get("User"), CognitoRegisterResponse.class);
+
+			return registerModel;
 		}
-	     return null;
+		return null;
 	}
-	
+
 	/**
 	 * Verify Jwt is active
 	 * 
 	 * @param req
 	 * @return Boolean
-	 * @throws IOException 
+	 * @throws IOException
 	 * @throws SQLException
 	 */
-	public ResponseEntity<String> cognitoAuth(HttpServletRequest req) throws IOException {
-		//"Authorization" : "Bearer tokenValue"1
+	public List<String> cognitoAuth(HttpServletRequest req) throws IOException {
+		// "Authorization" : "Bearer tokenValue"1
 		String token = req.getHeader("Authentication");
 		System.out.println("Token is: " + token);
-		
-		ResponseEntity<String> response = cognitoRestTemplate.checkAuth(token);
 
-		ObjectMapper mapper = new ObjectMapper(); 
-	    JsonNode obj = mapper.readTree(response.getBody());
-	    System.out.println(obj);
-	    CognitoAuthResponse authModel = mapper.treeToValue(obj, CognitoAuthResponse.class );
-	    System.out.println(authModel.getCognitoGroups());
+		ResponseEntity<String> response = cognitoRestTemplate.checkAuth(token);
+		if (response.getStatusCodeValue() == HttpStatus.SC_OK) {
+			ObjectMapper mapper = new ObjectMapper().configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES,false);
+			JsonNode obj = mapper.readTree(response.getBody());
+			CognitoAuthResponse authModel = mapper.treeToValue(obj, CognitoAuthResponse.class);
+			System.out.println(response);
+			System.out.println(authModel.toString());
+			System.out.println(authModel.getCognito_groups());
+			if (authModel.getCognito_groups() != null) {
+				List<String> authRoles = Arrays.asList(authModel.getCognito_groups().split(","));
+				return authRoles;
+			}
+		}
+		List<String> tempAuthRoles = new ArrayList<String>();
 		
-		return response;
+		return tempAuthRoles;
 	}
-	
+
 	/**
 	 * Verify request of user id is from self
 	 * 
 	 * @param req
 	 * @return Boolean
-	 * @throws IOException 
+	 * @throws IOException
 	 * @throws SQLException
 	 */
 //	public Boolean isRequestFromSelf(HttpServletRequest req, int pId) throws IOException {

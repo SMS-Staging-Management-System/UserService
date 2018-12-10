@@ -8,4 +8,8 @@ import java.lang.annotation.ElementType;
 @Target(ElementType.METHOD)
 @Retention(RetentionPolicy.RUNTIME)
 public @interface CognitoAuth {
+	  public String highestRole() default "user";
+	  
+	  //Figure out way to read in development environment.
+	  public boolean isDevelopment() default true;
 }
