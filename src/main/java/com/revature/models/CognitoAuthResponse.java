@@ -1,7 +1,12 @@
 package com.revature.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
+/**
+ * @author Kyle Ford
+ *
+ */
 /**
  * @author Kyle Ford
  *
@@ -11,115 +16,152 @@ public class CognitoAuthResponse {
 
 	private String sub;
 	private String aud;
-	private String cognito_groups;
+	
+	@JsonProperty("cognito:groups")
+	private String cognitoGroups;
+	
 	private boolean email_verified;
+	
 	public String event_id;
+	
 	public String token_use;
+	
 	private int auth_time;
+	
 	private String iss;
-	private String cognito_username;
+	
+	@JsonProperty("cognito:username")
+	private String cognitoUsername;
+	
 	private String exp;
+	
 	private String iat;
+	
 	private String email;
+	
 	public CognitoAuthResponse() {
 		super();
 	}
-	public CognitoAuthResponse(String sub, String aud, String cognito_groups, boolean email_verified, String event_id,
-			String token_use, int auth_time, String iss, String cognito_username, String exp, String iat,
-			String email) {
+
+	public CognitoAuthResponse(String sub, String aud, String cognitoGroups, boolean email_verified, String event_id,
+			String token_use, int auth_time, String iss, String cognitoUsername, String exp, String iat, String email) {
 		super();
 		this.sub = sub;
 		this.aud = aud;
-		this.cognito_groups = cognito_groups;
+		this.cognitoGroups = cognitoGroups;
 		this.email_verified = email_verified;
 		this.event_id = event_id;
 		this.token_use = token_use;
 		this.auth_time = auth_time;
 		this.iss = iss;
-		this.cognito_username = cognito_username;
+		this.cognitoUsername = cognitoUsername;
 		this.exp = exp;
 		this.iat = iat;
 		this.email = email;
 	}
+
 	public String getSub() {
 		return sub;
 	}
+
 	public void setSub(String sub) {
 		this.sub = sub;
 	}
+
 	public String getAud() {
 		return aud;
 	}
+
 	public void setAud(String aud) {
 		this.aud = aud;
 	}
-	public String getCognito_groups() {
-		return cognito_groups;
+
+	public String getCognitoGroups() {
+		return cognitoGroups;
 	}
-	public void setCognito_groups(String cognito_groups) {
-		this.cognito_groups = cognito_groups;
+
+	public void setCognitoGroups(String cognitoGroups) {
+		this.cognitoGroups = cognitoGroups;
 	}
+
 	public boolean isEmail_verified() {
 		return email_verified;
 	}
+
 	public void setEmail_verified(boolean email_verified) {
 		this.email_verified = email_verified;
 	}
+
 	public String getEvent_id() {
 		return event_id;
 	}
+
 	public void setEvent_id(String event_id) {
 		this.event_id = event_id;
 	}
+
 	public String getToken_use() {
 		return token_use;
 	}
+
 	public void setToken_use(String token_use) {
 		this.token_use = token_use;
 	}
+
 	public int getAuth_time() {
 		return auth_time;
 	}
+
 	public void setAuth_time(int auth_time) {
 		this.auth_time = auth_time;
 	}
+
 	public String getIss() {
 		return iss;
 	}
+
 	public void setIss(String iss) {
 		this.iss = iss;
 	}
-	public String getCognito_username() {
-		return cognito_username;
+
+	public String getCognitoUsername() {
+		return cognitoUsername;
 	}
-	public void setCognito_username(String cognito_username) {
-		this.cognito_username = cognito_username;
+
+	public void setCognitoUsername(String cognitoUsername) {
+		this.cognitoUsername = cognitoUsername;
 	}
+
 	public String getExp() {
 		return exp;
 	}
+
 	public void setExp(String exp) {
 		this.exp = exp;
 	}
+
 	public String getIat() {
 		return iat;
 	}
+
 	public void setIat(String iat) {
 		this.iat = iat;
 	}
+
 	public String getEmail() {
 		return email;
 	}
+
 	public void setEmail(String email) {
 		this.email = email;
 	}
+
 	@Override
 	public String toString() {
-		return "CognitoAuthResponse [sub=" + sub + ", aud=" + aud + ", cognito_groups=" + cognito_groups
+		return "CognitoAuthResponse [sub=" + sub + ", aud=" + aud + ", cognitoGroups=" + cognitoGroups
 				+ ", email_verified=" + email_verified + ", event_id=" + event_id + ", token_use=" + token_use
-				+ ", auth_time=" + auth_time + ", iss=" + iss + ", cognito_username=" + cognito_username + ", exp="
-				+ exp + ", iat=" + iat + ", email=" + email + "]";
+				+ ", auth_time=" + auth_time + ", iss=" + iss + ", cognitoUsername=" + cognitoUsername + ", exp=" + exp
+				+ ", iat=" + iat + ", email=" + email + "]";
 	}
-	
 	
 }

@@ -34,11 +34,12 @@ public class UserController {
 	@Autowired
 	private CognitoUtil iUtil;
 	
-	@CognitoAuth(highestRole="admin")
+	@CognitoAuth(highestRole="user")
 	@GetMapping()
 	public ResponseEntity<Map<String,Object>> findAll(){
 		List<User> userList=  userService.findAll();
-		System.out.println(userList);
+		String emailTest = iUtil.extractTokenEmail();
+		System.out.println(emailTest);
 		if (userList == null) {
 			return  ResponseEntity.badRequest().body(ResponseMap.getBadResponse("No users found."));
 		}
@@ -47,6 +48,7 @@ public class UserController {
 	
 	//need to change this to unique end point
 	@GetMapping("id/{id}")
+	@CognitoAuth(highestRole="user")
 	//Might need to change?
 	public ResponseEntity<Map<String,Object>> findOneById(@PathVariable int id){
 		User user =  userService.findOneById(id);
@@ -57,6 +59,7 @@ public class UserController {
 	}
 	
 	@GetMapping("email/{email}/")
+	@CognitoAuth(highestRole="user")
 	public ResponseEntity<Map<String,Object>> findOneByEmail(@PathVariable String email){
 		email.toLowerCase();
 		User user =  userService.findOneByEmail(email);
@@ -82,6 +85,7 @@ public class UserController {
 //////////////////////////////////////////////////////////////////////////////////////////////////	
 	
 	@GetMapping("info/{info}")
+	@CognitoAuth(highestRole="user")
 	public ResponseEntity<Map<String,Object>> userInfo(HttpServletRequest req){
 		User user =  userService.userInfo(req);
 		if (user == null) {
@@ -92,6 +96,7 @@ public class UserController {
 	
 	
 	@GetMapping("cohorts/{id}")
+	@CognitoAuth(highestRole="user")
 	public ResponseEntity<Map<String,Object>> findAllByCohortId(@PathVariable int id){
 		List<User> userList=  userService.findAllByCohortId(id);
 		if (userList == null) {
@@ -102,37 +107,27 @@ public class UserController {
 	
 	
 	@PostMapping()
+	@CognitoAuth(highestRole="user")
 	public ResponseEntity<Map<String,Object>> saveUser(@RequestBody User u) throws IOException, URISyntaxException{
-		User cUser = userService.findOneByUsername(u.getUsername());
-		User rUser = null;
+		User checkUser = userService.findOneByUsername(u.getUsername());
+		User tempUser = null;
 		String error = "";
-		if (cUser == null) {
-			System.out.println("Here");
-			CognitoRegisterResponse crModel = iUtil.registerUser(u.getEmail());
-
-//		     ObjectMapper mapper = new ObjectMapper();
-//		     JsonNode obj = mapper.readTree(response.getBody());
-//			 System.out.println(obj.get("User"));
-			
-			if (crModel != null) {
-				rUser = userService.saveUser(u);
-				if (rUser != null) {
-					return  ResponseEntity.ok().body(ResponseMap.getGoodResponse(crModel,"Saved user"));
-				}else {
-					error = "User could not be saved";
-				}
-			}else {
-				error = "User could  not register for incognito";
+		if (checkUser == null) {
+			if( iUtil.registerUser(u.getEmail())) {
+				tempUser = userService.saveUser(u);
+				return tempUser != null ?  
+						ResponseEntity.ok().body(ResponseMap.getGoodResponse(tempUser,"Saved user")) : 
+							ResponseEntity.badRequest().body(ResponseMap.getBadResponse("user cannot be saved"));
 			}
-		}else {
-			error = "User already in database.";
 		}
+		error = (checkUser != null) ? "User already in database" : "User could not register for cognito";
 		return ResponseEntity.badRequest().body(ResponseMap.getBadResponse(error)); 
 	
 	}
 	
 	
 	@PatchMapping("update/profile")
+	@CognitoAuth(highestRole="user")
 	public ResponseEntity<Map<String,Object>> updateProfile(@RequestBody User u){
 	    User user =  userService.updateProfile(u);
 	    //UserDto or JSON ignore

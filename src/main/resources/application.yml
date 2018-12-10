@@ -5,12 +5,10 @@ logging:
       springframework:
         web: DEBUG
     root: ALL
-    
-server:
-  port: 8089
   
 spring:
-
+  profiles:
+    active: ${DEPLOYMENT_STAGE}
   application:
   
     name: user-service
@@ -31,7 +29,13 @@ spring:
       hibernate:
         default_schema: ${db_schema}
     show-sql: false
-    
+---
+spring:
+  profiles: dev    
+
+server:
+  port: 8089
+
 eureka:
   client:
     service-url:
@@ -39,3 +43,15 @@ eureka:
   instance:
     lease-renewal-interval-in-seconds: 1
     lease-expiration-duration-in-seconds: 2
+    
+---
+spring:
+  profiles: prod
+
+server:
+  port: 5000
+  
+eureka:
+  client:
+    enabled: false
+    

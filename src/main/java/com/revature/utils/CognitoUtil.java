@@ -22,144 +22,72 @@ import com.revature.models.CognitoRegisterResponse;
 @Component
 public class CognitoUtil {
 
+	private String tokenEmail;
+		
 	@Autowired
 	private CognitoRestTemplate cognitoRestTemplate;
 
 	/**
-	 * Create a Jwt and attach user is as private claim
+	 * Registers a User with Cognito
 	 * 
-	 * @param User
-	 * @return String
+	 * @param String email
+	 * @return Response
 	 * @throws IOException
-	 * @throws SQLException
 	 */
-	public CognitoRegisterResponse registerUser(String email) throws IOException {
+	public Boolean registerUser(String email) throws IOException {
 
 		ResponseEntity<String> response = cognitoRestTemplate.registerUser(email);
 
 		if (response.getStatusCodeValue() == HttpStatus.SC_OK) {
 			ObjectMapper mapper = new ObjectMapper().configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES,false);
 			JsonNode obj = mapper.readTree(response.getBody());
+			
+			//Response Object of Cognito Response.
 			CognitoRegisterResponse registerModel = mapper.treeToValue(obj.get("User"), CognitoRegisterResponse.class);
 
-			return registerModel;
+			return true;
 		}
-		return null;
+		return false;
 	}
 
 	/**
-	 * Verify Jwt is active
-	 * 
+	 * Verify Cognito is Authenticated
 	 * @param req
-	 * @return Boolean
+//	 * @return List<String>
 	 * @throws IOException
-	 * @throws SQLException
 	 */
 	public List<String> cognitoAuth(HttpServletRequest req) throws IOException {
 		// "Authorization" : "Bearer tokenValue"1
 		String token = req.getHeader("Authentication");
-		System.out.println("Token is: " + token);
 
 		ResponseEntity<String> response = cognitoRestTemplate.checkAuth(token);
+		List<String> authRoleList = new ArrayList<String>();
+		
 		if (response.getStatusCodeValue() == HttpStatus.SC_OK) {
 			ObjectMapper mapper = new ObjectMapper().configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES,false);
-			JsonNode obj = mapper.readTree(response.getBody());
-			CognitoAuthResponse authModel = mapper.treeToValue(obj, CognitoAuthResponse.class);
-			System.out.println(response);
-			System.out.println(authModel.toString());
-			System.out.println(authModel.getCognito_groups());
-			if (authModel.getCognito_groups() != null) {
-				List<String> authRoles = Arrays.asList(authModel.getCognito_groups().split(","));
-				return authRoles;
+			
+			CognitoAuthResponse authModel = mapper.treeToValue(mapper.readTree(response.getBody()), CognitoAuthResponse.class);
+			tokenEmail = authModel.getEmail();
+			if (authModel.getCognitoGroups() != null) {
+				if (authModel.getCognitoGroups().length() == 1) {
+					authRoleList.add(authModel.getCognitoGroups());
+				
+				}else {
+					authRoleList = Arrays.asList(authModel.getCognitoGroups().split(","));
+				}
+				
+				System.out.println(authRoleList.toString());
+				return authRoleList;
 			}
-		}
-		List<String> tempAuthRoles = new ArrayList<String>();
-		
-		return tempAuthRoles;
-	}
-
+		}	
+		return null;
+	}	
+	
 	/**
-	 * Verify request of user id is from self
-	 * 
-	 * @param req
-	 * @return Boolean
-	 * @throws IOException
-	 * @throws SQLException
+	 * Returns email associated with token.
+//	 * @return String
 	 */
-//	public Boolean isRequestFromSelf(HttpServletRequest req, int pId) throws IOException {
-//		if(!jwtVerify(req))
-//			return false;
-//		if(extractUserId(req) == pId)
-//			return true;
-//		else
-//			return false;
-//	}
-//	
-//	/**
-//	 * Return user id from jwt
-//	 * 
-//	 * @param req
-//	 * @return Boolean
-//	 * @throws IOException 
-//	 * @throws SQLException
-//	 */
-//	public int extractUserId(HttpServletRequest req) {
-//		if(req.getHeader("Authorization") != null) {
-//			String[] tToken = req.getHeader("Authorization").split(" ");
-//			if(tToken.length == 2) {
-//				String tJwt = tToken[1];
-//				try {
-//					DecodedJWT jwt = JWT.decode(tJwt);
-//				    Claim claim = jwt.getClaim("user_id");
-//				    return claim.asInt();
-//				} catch (JWTVerificationException exception){
-//					return 0;
-//				}
-//			}
-//		}
-//		return 0;
-//	}
-//	
-//	/**
-//	 * Return user role from jwt
-//	 * 
-//	 * @param req
-//	 * @return Boolean
-//	 * @throws IOException 
-//	 * @throws SQLException
-//	 */
-//	public int extractUserRoleId(HttpServletRequest req) {
-//		if(req.getHeader("Authorization") != null) {
-//			String[] tToken = req.getHeader("Authorization").split(" ");
-//			if(tToken.length == 2) {
-//				String tJwt = tToken[1];
-//				try {
-//					DecodedJWT jwt = JWT.decode(tJwt);
-//				    Claim claim = jwt.getClaim("user_role_id");
-//				    return claim.asInt();
-//				} catch (JWTVerificationException exception){
-//					return 0;
-//				}
-//			}
-//		}
-//		return 0;
-//	}
-//	
-//	/**
-//	 * Verify request is from Admin {2}
-//	 * 
-//	 * @param req
-//	 * @return Boolean
-//	 * @throws IOException 
-//	 * @throws SQLException
-//	 */
-//	public Boolean isRequestFromAdmin(HttpServletRequest req) throws IOException {
-//		if(!jwtVerify(req))
-//			return false;
-//		if(extractUserRoleId(req) == 2)
-//			return true;
-//		else
-//			return false;
-//	}
-
+	public String extractTokenEmail()  {
+		return tokenEmail;
+	}	
 }

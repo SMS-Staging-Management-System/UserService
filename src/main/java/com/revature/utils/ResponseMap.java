@@ -6,6 +6,7 @@ import java.util.Map;
 import org.springframework.stereotype.Component;
 @Component
 public class ResponseMap {
+	
 	public ResponseMap() {
 		super();
 	}
@@ -17,7 +18,7 @@ public class ResponseMap {
 		return tMap;
 	}
 	
-	public static Map<String, Object> getGoodResponse(Object pResult, String pMessage) {
+	public static  Map<String, Object> getGoodResponse(Object pResult, String pMessage) {
 		Map<String, Object> tMap = new HashMap<>();
 		tMap.put("result", pResult);
 		tMap.put("message", pMessage);
@@ -30,6 +31,7 @@ public class ResponseMap {
 		tMap.put("message", "Bad request");
 		return tMap;
 	}
+	
 	
 	public static Map<String, Object> getBadResponse(String pMessage) {
 		Map<String, Object> tMap = new HashMap<>();
