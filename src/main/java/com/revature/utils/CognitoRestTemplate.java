@@ -21,17 +21,15 @@ public class CognitoRestTemplate {
 	
 	
 	public  ResponseEntity<String> registerUser(String email) {
-		System.out.println("here");
 		RestTemplate rt = new RestTemplate();
 		HttpHeaders headers = new HttpHeaders();
 		headers.setContentType(MediaType.APPLICATION_JSON);
 		String url= baseUrl + registerUrl;
 		String requestJson = "{\"email\":\"" + email + "\"}";
 		HttpEntity<String> entity = new HttpEntity<String>(requestJson,headers);
-		System.out.println("Entity = " + entity);
-		
 		try{
 			return rt.exchange(url ,HttpMethod.POST, entity , String.class );
+			
 		}catch(HttpClientErrorException e) {
 			System.out.print(e);
 			return new ResponseEntity<String>(HttpStatus.CONFLICT);	
