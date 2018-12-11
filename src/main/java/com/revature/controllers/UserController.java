@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.revature.annotations.CognitoAuth;
+//import com.revature.annotations.Logging;
 import com.revature.models.CognitoRegisterResponse;
 import com.revature.models.User;
 import com.revature.services.UserService;
@@ -49,6 +50,7 @@ public class UserController {
 	//need to change this to unique end point
 	@GetMapping("id/{id}")
 	@CognitoAuth(highestRole="user")
+//	@Logging()
 	//Might need to change?
 	public ResponseEntity<Map<String,Object>> findOneById(@PathVariable int id){
 		User user =  userService.findOneById(id);
@@ -97,6 +99,7 @@ public class UserController {
 	
 	@GetMapping("cohorts/{id}")
 	@CognitoAuth(highestRole="user")
+//	@Logging()
 	public ResponseEntity<Map<String,Object>> findAllByCohortId(@PathVariable int id){
 		List<User> userList=  userService.findAllByCohortId(id);
 		if (userList == null) {
