@@ -81,6 +81,8 @@ public class CognitoUtil {
 				System.out.println(authRoleList.toString());
 				return authRoleList;
 			}
+			authRoleList.add("users");
+			return authRoleList;
 		}	
 		return null;
 	}	
