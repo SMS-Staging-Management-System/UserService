@@ -1,0 +1,100 @@
+2018-12-10 11:10:19 DEBUG UserServiceApplicationTests:34 - User service starting
+2018-12-10 11:10:20 DEBUG UserServiceApplicationTests:51 - User service is complete
+2018-12-10 11:11:22 DEBUG UserServiceApplicationTests:34 - User service starting
+2018-12-10 11:11:22 DEBUG UserServiceApplicationTests:51 - User service is complete
+2018-12-10 11:17:24 DEBUG UserServiceApplicationTests:34 - User service starting
+2018-12-10 11:17:24 DEBUG UserServiceApplicationTests:50 - User service is complete
+2018-12-10 11:17:49 DEBUG UserServiceApplicationTests:34 - User service starting
+2018-12-10 11:17:49 DEBUG UserServiceApplicationTests:51 - User service is complete
+2018-12-10 11:18:36 DEBUG UserServiceApplicationTests:34 - User service starting
+2018-12-10 11:18:36 DEBUG UserServiceApplicationTests:51 - User service is complete
+2018-12-10 11:19:15 DEBUG UserServiceApplicationTests:34 - User service starting
+2018-12-10 11:19:15 DEBUG UserServiceApplicationTests:51 - User service is complete
+2018-12-10 11:20:11 DEBUG UserServiceApplicationTests:34 - User service starting
+2018-12-10 11:20:12 DEBUG UserServiceApplicationTests:51 - User service is complete
+2018-12-10 11:20:48 DEBUG UserServiceApplicationTests:34 - User service starting
+2018-12-10 11:20:48 DEBUG UserServiceApplicationTests:51 - User service is complete
+2018-12-10 11:21:11 DEBUG UserServiceApplicationTests:34 - User service starting
+2018-12-10 11:21:12 DEBUG UserServiceApplicationTests:51 - User service is complete
+2018-12-10 11:21:24 DEBUG UserServiceApplicationTests:34 - User service starting
+2018-12-10 11:21:25 DEBUG UserServiceApplicationTests:51 - User service is complete
+2018-12-10 11:21:59 DEBUG UserServiceApplicationTests:34 - User service starting
+2018-12-10 11:22:00 DEBUG UserServiceApplicationTests:51 - User service is complete
+2018-12-10 11:28:00 DEBUG UserServiceApplicationTests:34 - User service starting
+2018-12-10 11:28:01 DEBUG UserServiceApplicationTests:51 - User service is complete
+2018-12-10 11:29:46 DEBUG UserServiceApplicationTests:40 - User service starting
+2018-12-10 11:29:46 DEBUG UserServiceApplicationTests:57 - User service is complete
+2018-12-10 11:30:17 DEBUG UserServiceApplicationTests:40 - User service starting
+2018-12-10 11:30:18 DEBUG UserServiceApplicationTests:57 - User service is complete
+2018-12-10 11:49:28 DEBUG UserServiceApplicationTests:32 - User service starting
+2018-12-10 11:49:28 DEBUG UserServiceApplicationTests:49 - User service is complete
+2018-12-10 12:00:41 DEBUG UserServiceApplicationTests:40 - User service starting
+2018-12-10 12:00:41 DEBUG UserServiceApplicationTests:57 - User service is complete
+2018-12-10 12:01:52 DEBUG UserServiceApplicationTests:41 - User service starting
+2018-12-10 12:01:52 DEBUG UserServiceApplicationTests:58 - User service is complete
+2018-12-10 12:03:11 DEBUG UserServiceApplicationTests:43 - User service starting
+2018-12-10 12:03:11 DEBUG UserServiceApplicationTests:60 - User service is complete
+2018-12-10 12:03:36 DEBUG UserServiceApplicationTests:43 - User service starting
+2018-12-10 12:03:36 DEBUG UserServiceApplicationTests:60 - User service is complete
+2018-12-11 09:16:06 DEBUG UserServiceApplicationTests:36 - User service starting
+2018-12-11 09:16:07 DEBUG UserServiceApplicationTests:53 - User service is complete
+2018-12-11 09:21:40 DEBUG UserServiceApplicationTests:37 - User service starting
+2018-12-11 09:21:41 DEBUG UserServiceApplicationTests:54 - User service is complete
+2018-12-11 09:21:59 DEBUG UserServiceApplicationTests:37 - User service starting
+2018-12-11 09:22:00 DEBUG UserServiceApplicationTests:54 - User service is complete
+2018-12-11 09:26:13 DEBUG UserServiceApplicationTests:37 - User service starting
+2018-12-11 09:26:14 DEBUG UserServiceApplicationTests:54 - User service is complete
+2018-12-11 09:26:35 DEBUG UserServiceApplicationTests:35 - User service starting
+2018-12-11 09:26:35 DEBUG UserServiceApplicationTests:52 - User service is complete
+2018-12-11 09:27:39 DEBUG UserServiceApplicationTests:35 - User service starting
+2018-12-11 09:27:39 DEBUG UserServiceApplicationTests:52 - User service is complete
+2018-12-11 09:28:39 DEBUG UserServiceApplicationTests:35 - User service starting
+2018-12-11 09:28:40 DEBUG UserServiceApplicationTests:52 - User service is complete
+2018-12-11 09:28:48 DEBUG UserServiceApplicationTests:35 - User service starting
+2018-12-11 09:28:49 DEBUG UserServiceApplicationTests:52 - User service is complete
+2018-12-11 09:30:54 DEBUG UserServiceApplicationTests:35 - User service starting
+2018-12-11 09:30:54 DEBUG UserServiceApplicationTests:52 - User service is complete
+2018-12-11 09:41:51 DEBUG UserServiceApplicationTests:35 - User service starting
+2018-12-11 09:41:51 DEBUG UserServiceApplicationTests:52 - User service is complete
+2018-12-11 09:42:50 DEBUG UserServiceApplicationTests:35 - User service starting
+2018-12-11 09:42:51 DEBUG UserServiceApplicationTests:52 - User service is complete
+2018-12-11 09:43:04 DEBUG UserServiceApplicationTests:35 - User service starting
+2018-12-11 09:43:04 DEBUG UserServiceApplicationTests:52 - User service is complete
+2018-12-11 09:44:01 DEBUG UserServiceApplicationTests:35 - User service starting
+2018-12-11 09:44:02 DEBUG UserServiceApplicationTests:53 - User service is complete
+2018-12-11 09:44:24 DEBUG UserServiceApplicationTests:35 - User service starting
+2018-12-11 09:44:24 DEBUG UserServiceApplicationTests:53 - User service is complete
+2018-12-11 09:57:57 DEBUG UserServiceApplicationTests:35 - User service starting
+2018-12-11 09:57:58 DEBUG UserServiceApplicationTests:54 - User service is complete
+2018-12-11 09:58:12 DEBUG UserServiceApplicationTests:35 - User service starting
+2018-12-11 09:58:12 DEBUG UserServiceApplicationTests:54 - User service is complete
+2018-12-11 09:58:21 DEBUG UserServiceApplicationTests:35 - User service starting
+2018-12-11 09:58:22 DEBUG UserServiceApplicationTests:54 - User service is complete
+2018-12-11 10:01:04 DEBUG UserServiceApplicationTests:35 - User service starting
+2018-12-11 10:01:05 DEBUG UserServiceApplicationTests:53 - User service is complete
+2018-12-11 10:01:54 DEBUG UserServiceApplicationTests:35 - User service starting
+2018-12-11 10:01:54 DEBUG UserServiceApplicationTests:53 - User service is complete
+2018-12-11 10:02:01 DEBUG UserServiceApplicationTests:35 - User service starting
+2018-12-11 10:02:02 DEBUG UserServiceApplicationTests:53 - User service is complete
+2018-12-11 10:03:46 DEBUG UserServiceApplicationTests:35 - User service starting
+2018-12-11 10:03:46 DEBUG UserServiceApplicationTests:54 - User service is complete
+2018-12-11 10:03:53 DEBUG UserServiceApplicationTests:35 - User service starting
+2018-12-11 10:03:53 DEBUG UserServiceApplicationTests:54 - User service is complete
+2018-12-11 10:08:05 DEBUG UserServiceApplicationTests:37 - User service starting
+2018-12-11 10:08:05 DEBUG UserServiceApplicationTests:73 - User service is complete
+2018-12-11 10:08:28 DEBUG UserServiceApplicationTests:37 - User service starting
+2018-12-11 10:08:28 DEBUG UserServiceApplicationTests:73 - User service is complete
+2018-12-11 10:09:04 DEBUG UserServiceApplicationTests:37 - User service starting
+2018-12-11 10:09:04 DEBUG UserServiceApplicationTests:73 - User service is complete
+2018-12-11 10:09:34 DEBUG UserServiceApplicationTests:37 - User service starting
+2018-12-11 10:09:34 DEBUG UserServiceApplicationTests:73 - User service is complete
+2018-12-11 10:12:41 DEBUG UserServiceApplicationTests:37 - User service starting
+2018-12-11 10:12:42 DEBUG UserServiceApplicationTests:91 - User service is complete
+2018-12-11 10:21:03 DEBUG UserServiceApplicationTests:39 - User service starting
+2018-12-11 10:21:04 DEBUG UserServiceApplicationTests:87 - User service is complete
+2018-12-11 11:43:47 DEBUG UserServiceApplicationTests:37 - User service starting
+2018-12-11 11:43:48 DEBUG UserServiceApplicationTests:74 - User service is complete
+2018-12-11 11:43:57 DEBUG UserServiceApplicationTests:37 - User service starting
+2018-12-11 11:43:57 DEBUG UserServiceApplicationTests:74 - User service is complete
+2018-12-11 14:18:04 DEBUG UserServiceApplicationTests:37 - User service starting
+2018-12-11 14:18:05 DEBUG UserServiceApplicationTests:74 - User service is complete

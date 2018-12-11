@@ -9,5 +9,7 @@ import com.revature.models.User;
 
 @Repository
 public interface CohortRepo extends JpaRepository<Cohort,Integer> {
+
+	User findOneByUsersEmail(String token);
 	
 }

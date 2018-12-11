@@ -19,6 +19,12 @@ public class CohortServiceSpringDataImpl implements CohortService{
 		return cohortRepo.save(cohort).getCohortToken();
 	}
 
+	//have to parse from token to get the email.... kyle didn't tell me what to do so
+	@Override
+	public User verifyToken(String token) {
+		return cohortRepo.findOneByUsersEmail(token);
+	}
+
 //	@Override
 //	public Cohort saveUser(User user, int cohortId) {
 //		Cohort tempCohort = cohortRepo.findById(cohortId).get();

@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -26,6 +27,11 @@ public class CohortController {
 	public String saveCohort(@RequestBody Cohort cohort) {
 		return cohortService.saveCohort(cohort);
 
+	}
+	@GetMapping("verify")
+	public User verifyToken(@RequestHeader String token) {
+		
+		return cohortService.verifyToken(token);
 	}
 	
 //	@GetMapping("id/{id}")

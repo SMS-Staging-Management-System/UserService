@@ -11,6 +11,8 @@ public interface CohortService {
 
 	String saveCohort(Cohort cohort);
 
+	User verifyToken(String token);
+
 //	Cohort saveUser(User user, int cohortId);
 
 }
