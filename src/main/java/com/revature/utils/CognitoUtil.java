@@ -23,7 +23,7 @@ import com.revature.models.CognitoRegisterResponse;
 public class CognitoUtil {
 
 	private String tokenEmail;
-		
+	private String token;
 	@Autowired
 	private CognitoRestTemplate cognitoRestTemplate;
 
@@ -58,9 +58,9 @@ public class CognitoUtil {
 	 */
 	public List<String> cognitoAuth(HttpServletRequest req) throws IOException {
 		// "Authorization" : "Bearer tokenValue"1
-		String token = req.getHeader("Authentication");
+		String cognitoToken = req.getHeader("Authentication");
 
-		ResponseEntity<String> response = cognitoRestTemplate.checkAuth(token);
+		ResponseEntity<String> response = cognitoRestTemplate.checkAuth(cognitoToken);
 		List<String> authRoleList = new ArrayList<String>();
 		
 		if (response.getStatusCodeValue() == HttpStatus.SC_OK) {
@@ -68,6 +68,8 @@ public class CognitoUtil {
 			
 			CognitoAuthResponse authModel = mapper.treeToValue(mapper.readTree(response.getBody()), CognitoAuthResponse.class);
 			tokenEmail = authModel.getEmail();
+			token = cognitoToken;
+			
 			if (authModel.getCognitoGroups() != null) {
 				if (authModel.getCognitoGroups().length() == 1) {
 					authRoleList.add(authModel.getCognitoGroups());
@@ -89,5 +91,13 @@ public class CognitoUtil {
 	 */
 	public String extractTokenEmail()  {
 		return tokenEmail;
+	}
+	/**
+	 * Returns email associated with token.
+//	 * @return String
+	 */
+	public String extractToken()  {
+		return token;
 	}	
+	
 }
