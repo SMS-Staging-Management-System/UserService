@@ -20,10 +20,11 @@ public class CognitoRestTemplate {
 	final String authUrl = "dev/auth";
 	
 	
-	public  ResponseEntity<String> registerUser(String email) {
+	public  ResponseEntity<String> registerUser(String email, String token) {
 		RestTemplate rt = new RestTemplate();
 		HttpHeaders headers = new HttpHeaders();
 		headers.setContentType(MediaType.APPLICATION_JSON);
+		headers.set("Authentication", token);
 		String url= baseUrl + registerUrl;
 		String requestJson = "{\"email\":\"" + email + "\"}";
 		HttpEntity<String> entity = new HttpEntity<String>(requestJson,headers);

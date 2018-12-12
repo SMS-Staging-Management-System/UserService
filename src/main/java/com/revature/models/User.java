@@ -56,7 +56,6 @@ public class User {
 //	private Role role;	
 	
 	@JsonIgnore
-	@NotNull
 	@ManyToMany(
 			fetch = FetchType.EAGER,
 			cascade = {
