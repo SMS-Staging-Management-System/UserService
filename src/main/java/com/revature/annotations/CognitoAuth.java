@@ -13,5 +13,5 @@ import java.lang.annotation.ElementType;
 @Retention(RetentionPolicy.RUNTIME)
 public @interface CognitoAuth {
 	
-	public String highestRole() default "user";	  
+	public String role() default "user";	  
 }
