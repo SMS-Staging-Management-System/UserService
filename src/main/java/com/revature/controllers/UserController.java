@@ -19,8 +19,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.revature.annotations.CognitoAuth;
-//import com.revature.annotations.Logging;
-import com.revature.models.CognitoRegisterResponse;
+import com.revature.dto.CognitoRegisterResponse;
 import com.revature.models.User;
 import com.revature.services.UserService;
 import com.revature.utils.CognitoUtil;

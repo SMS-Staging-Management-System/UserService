@@ -69,7 +69,6 @@ public class User {
 			)
 	private Set<Cohort> cohorts = new HashSet<>();
 
-
 	public void hashPassword() {
 		this.password = BCrypt.hashpw(this.password, BCrypt.gensalt());
 	}
@@ -81,8 +80,11 @@ public class User {
 	}
 
 
-	public User(int userId, @NotNull String firstName, @NotNull String lastName, @NotNull String email,
-			@NotNull String username, @NotNull String password, @NotNull Set<Cohort> cohorts) {
+
+
+
+	public User(int userId, @NotNull String firstName, @NotNull String lastName, @NotNull String email, String username,
+			@NotNull String password, @NotNull Set<Cohort> cohorts) {
 		super();
 		this.userId = userId;
 		this.firstName = firstName;
