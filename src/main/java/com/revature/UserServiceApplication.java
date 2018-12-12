@@ -17,6 +17,7 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 @Configuration
 @SpringBootApplication
 @EnableDiscoveryClient
+@EnableEurekaClient
 @EnableFeignClients
 @EnableEurekaClient
 public class UserServiceApplication {
