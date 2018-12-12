@@ -1,5 +1,7 @@
 package com.revature.services;
 
+import java.util.List;
+
 import org.springframework.stereotype.Service;
 
 import com.revature.models.Cohort;
@@ -8,7 +10,9 @@ import com.revature.models.Cohort;
 public interface CohortService {
 	CohortService currentImplementation = new CohortServiceSpringDataImpl();
 
-	String saveCohort(Cohort cohort);
+	Cohort saveCohort(Cohort cohort);
+
+	List<Cohort> findAllByUserId(int id);
 
 	
 }

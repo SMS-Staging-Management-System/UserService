@@ -69,7 +69,6 @@ public class User {
 			)
 	private Set<Cohort> cohorts = new HashSet<>();
 
-
 	public void hashPassword() {
 		this.password = BCrypt.hashpw(this.password, BCrypt.gensalt());
 	}
