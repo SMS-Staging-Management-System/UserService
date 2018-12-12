@@ -20,7 +20,11 @@ public class LoggingAspect {
 	@Around("execution(* com.revature.services.*.*(..))")
 	public Object Logging(ProceedingJoinPoint pjp) throws Throwable {
 		String logInfo = "";
-		logInfo = logInfo + "Method: " + pjp.getSignature().getName() + "\n";
+		if (pjp.getSignature().getName() != null) {
+			logInfo = logInfo + "Method: " + pjp.getSignature().getName() + "\n";
+		} else {
+			logInfo = logInfo + "Method not found\n";
+		}
 		String args = "";
 		if (pjp.getArgs().length > 0) {
 			args = "Arguments:";
@@ -30,7 +34,11 @@ public class LoggingAspect {
 			logInfo = logInfo + args + "\n";
 		}
 		Object value = pjp.proceed();
-		logInfo = logInfo + "Result: " + value.toString() + "\n";
+		if (value != null) {
+			logInfo = logInfo + "Result: " + value.toString() + "\n";
+		} else {
+			logInfo = logInfo + "Result: method returned null\n";
+		}
 		logger.info(logInfo);
 		return value;
 	}
@@ -39,7 +47,11 @@ public class LoggingAspect {
 	public Object Logging2(ProceedingJoinPoint pjp) throws Throwable {
 		HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes()).getRequest();
 		String logInfo = "";
-		logInfo = logInfo + "IP Address: " + request.getRemoteAddr() + "\n";
+		if (request.getRemoteAddr().equals("") || request.getRemoteAddr() == null) {
+			logInfo = logInfo + "IP Address not found!\n";
+		} else {
+			logInfo = logInfo + "IP Address: " + request.getRemoteAddr() + "\n";
+		}
 		logger.info(logInfo);
 		Object value = pjp.proceed();
 		return value;
