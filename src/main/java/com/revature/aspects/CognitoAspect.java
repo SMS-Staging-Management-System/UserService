@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.log4j.Logger;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.After;
@@ -43,12 +44,13 @@ public class CognitoAspect {
 
 	@Around("annotationPointCutDefinition(ca) && atExecution()")
 	public Object CognitoAuth(ProceedingJoinPoint pjp, CognitoAuth ca) throws Throwable {
-
+		Logger log = Logger.getRootLogger();
 		HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes())
 				.getRequest();
 		List<String> authRole = iUtil.cognitoAuth(request);
 		
 		if(stage.equals("dev")) {
+			log.info("\n Authorization 401 bypassed by Dev Route");
 			return pjp.proceed();
 		}
 		if (authRole == null) {

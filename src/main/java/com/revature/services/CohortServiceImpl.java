@@ -9,7 +9,7 @@ import com.revature.models.Cohort;
 import com.revature.repos.CohortRepo;
 
 @Service
-public class CohortServiceSpringDataImpl implements CohortService{
+public class CohortServiceImpl implements CohortService{
 
 	@Autowired
 	CohortRepo cohortRepo;
@@ -19,8 +19,8 @@ public class CohortServiceSpringDataImpl implements CohortService{
 	}
 
 	@Override
-	public List<Cohort> findAllByUserId(int id) {
-		return cohortRepo.findByTeacherUserId(id);
+	public List<Cohort> findAllByTrainerId(int id) {
+		return cohortRepo.findByTrainerUserId(id);
 	}
 
 }

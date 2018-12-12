@@ -13,7 +13,7 @@ import com.revature.models.User;
 @Service 
 public interface UserService {
 
-	UserService currentImplementation = new UserServiceSpringDataImpl();
+	UserService currentImplementation = new UserServiceImpl();
 	
 	public List<User> findAll();
 	public User findOneById(int id);

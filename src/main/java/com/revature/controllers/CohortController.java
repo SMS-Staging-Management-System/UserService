@@ -38,8 +38,8 @@ public class CohortController {
 	
 	@GetMapping("users/{id}")
 	@CognitoAuth(highestRole="staging-manager")
-	public ResponseEntity<Map<String,Object>> findOneById(@PathVariable int id){
-		List<Cohort> sCohort =  cohortService.findAllByUserId(id);
+	public ResponseEntity<Map<String,Object>> findAllByUserId(@PathVariable int id){
+		List<Cohort> sCohort =  cohortService.findAllByTrainerId(id);
 		if (sCohort == null) {
 			return  ResponseEntity.status(203).body(ResponseMap.getBadResponse("Cohorts Not found."));
 		}

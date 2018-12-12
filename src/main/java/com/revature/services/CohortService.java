@@ -8,11 +8,11 @@ import com.revature.models.Cohort;
 
 @Service
 public interface CohortService {
-	CohortService currentImplementation = new CohortServiceSpringDataImpl();
+	CohortService currentImplementation = new CohortServiceImpl();
 
 	Cohort saveCohort(Cohort cohort);
 
-	List<Cohort> findAllByUserId(int id);
+	List<Cohort> findAllByTrainerId(int id);
 
 	
 }
