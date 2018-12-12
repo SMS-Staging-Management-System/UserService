@@ -1,4 +1,4 @@
-package com.revature.repose;
+package com.revature.repos;
 
 import java.util.List;
 
@@ -10,6 +10,6 @@ import com.revature.models.Cohort;
 @Repository
 public interface CohortRepo extends JpaRepository<Cohort,Integer> {
 
-	List<Cohort> findAllByTeacherUserId(int id);
+	List<Cohort> findByTeacherUserId(int id);
 
 }

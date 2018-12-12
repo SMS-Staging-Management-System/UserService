@@ -1,4 +1,4 @@
-package com.revature.models;
+package com.revature.dto;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;

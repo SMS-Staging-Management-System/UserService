@@ -6,7 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.revature.models.Cohort;
-import com.revature.repose.CohortRepo;
+import com.revature.repos.CohortRepo;
 
 @Service
 public class CohortServiceSpringDataImpl implements CohortService{
@@ -20,7 +20,7 @@ public class CohortServiceSpringDataImpl implements CohortService{
 
 	@Override
 	public List<Cohort> findAllByUserId(int id) {
-		return cohortRepo.findAllByTeacherUserId(id);
+		return cohortRepo.findByTeacherUserId(id);
 	}
 
 }

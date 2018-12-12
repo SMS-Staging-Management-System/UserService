@@ -41,7 +41,7 @@ public class CohortController {
 	public ResponseEntity<Map<String,Object>> findOneById(@PathVariable int id){
 		List<Cohort> sCohort =  cohortService.findAllByUserId(id);
 		if (sCohort == null) {
-			return  ResponseEntity.status(203).body(ResponseMap.getBadResponse("Cohorts not found."));
+			return  ResponseEntity.status(203).body(ResponseMap.getBadResponse("Cohorts Not found."));
 		}
 		return  ResponseEntity.ok().body(ResponseMap.getGoodResponse(sCohort,"Here's all your cohorts."));
 	}

@@ -16,8 +16,8 @@ import org.springframework.stereotype.Component;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.revature.models.CognitoAuthResponse;
-import com.revature.models.CognitoRegisterResponse;
+import com.revature.dto.CognitoAuthResponse;
+import com.revature.dto.CognitoRegisterResponse;
 
 @Component
 public class CognitoUtil {
