@@ -58,9 +58,6 @@ public class UserServiceImpl implements UserService {
 		if (u.getLastName() != null) {
 			tempAppUser.setLastName(u.getLastName());
 		} 
-		if (u.getPassword() != null) {
-			tempAppUser.setPassword(u.getPassword());
-		} 
 		if (u.getEmail() != null) {
 			tempAppUser.setEmail(u.getEmail());
 		}

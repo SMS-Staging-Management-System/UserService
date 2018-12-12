@@ -57,11 +57,11 @@ public class CognitoAspect {
 			return ResponseEntity.status(401).body(ResponseMap.getBadResponse("Invalid Authentication"));
 		}
 		
-		if (ca.highestRole().equals("user")) {
+		if (ca.role().equals("user")) {
 			return pjp.proceed();
 		}
 		
-		if (!authRole.contains("admin") && !authRole.contains(ca.highestRole())) {	
+		if (!authRole.contains("admin") && !authRole.contains(ca.role())) {	
 			return ResponseEntity.status(403).body(ResponseMap.getBadResponse("Access Forbidden"));
 		}
 		return pjp.proceed();

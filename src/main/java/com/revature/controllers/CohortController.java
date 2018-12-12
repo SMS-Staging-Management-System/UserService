@@ -25,7 +25,7 @@ public class CohortController {
 	CohortService cohortService;
 	
 	@PostMapping()
-	@CognitoAuth(highestRole="staging-manager")
+	@CognitoAuth(role="staging-manager")
 	public ResponseEntity<Map<String,Object>> saveCohort(@RequestBody Cohort cohort) {
 		Cohort sCohort =  cohortService.saveCohort(cohort);
 		if (sCohort == null) {
@@ -37,7 +37,7 @@ public class CohortController {
 	
 	
 	@GetMapping("users/{id}")
-	@CognitoAuth(highestRole="staging-manager")
+	@CognitoAuth(role="staging-manager")
 	public ResponseEntity<Map<String,Object>> findAllByUserId(@PathVariable int id){
 		List<Cohort> sCohort =  cohortService.findAllByTrainerId(id);
 		if (sCohort == null) {

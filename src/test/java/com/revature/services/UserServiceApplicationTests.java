@@ -39,8 +39,8 @@ public class UserServiceApplicationTests {
 	
 	@Test
 	public void findOneById() {
-		User testUser = new User(1,"James","Dula","jDula@gmail.com","jdula","pass",new HashSet<Cohort>());
-		User testUser1 = new User(2,"James","Dula","jDula@gmail.com","jdula","pass",new HashSet<Cohort>());
+		User testUser = new User(1,"James","Dula","jDula@gmail.com","jdula",new HashSet<Cohort>());
+		User testUser1 = new User(2,"James","Dula","jDula@gmail.com","jdula",new HashSet<Cohort>());
 		
 		when(userRepo.findOneByUserId(1)).thenReturn(testUser1);
 		
@@ -52,8 +52,8 @@ public class UserServiceApplicationTests {
 	
 	@Test
 	public void findAll() {
-		User testUser = new User(1,"James","Dula","jDula@gmail.com","jdula","pass",new HashSet<Cohort>());
-		User testUser1 = new User(2,"An","Ta","jDula@gmail.com","jdula","pass",new HashSet<Cohort>());
+		User testUser = new User(1,"James","Dula","jDula@gmail.com","jdula",new HashSet<Cohort>());
+		User testUser1 = new User(2,"An","Ta","jDula@gmail.com","jdula",new HashSet<Cohort>());
 		
 		List<User> userList = new ArrayList<User>();
 		userList.add(testUser);
