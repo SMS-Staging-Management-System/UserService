@@ -1,10 +1,14 @@
 package com.revature.aspects;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.apache.log4j.Logger;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.springframework.stereotype.Component;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
 
 //import com.revature.annotations.Logging;
 
@@ -28,6 +32,16 @@ public class LoggingAspect {
 		Object value = pjp.proceed();
 		logInfo = logInfo + "Result: " + value.toString() + "\n";
 		logger.info(logInfo);
+		return value;
+	}
+	
+	@Around("execution(* com.revature.controllers.*.*(..))")
+	public Object Logging2(ProceedingJoinPoint pjp) throws Throwable {
+		HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes()).getRequest();
+		String logInfo = "";
+		logInfo = logInfo + "IP Address: " + request.getRemoteAddr() + "\n";
+		logger.info(logInfo);
+		Object value = pjp.proceed();
 		return value;
 	}
 }
