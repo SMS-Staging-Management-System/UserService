@@ -12,7 +12,7 @@ import com.revature.repos.UserRepo;
 import com.revature.utils.CognitoUtil;
 
 @Service
-public class UserServiceSpringDataImpl implements UserService {
+public class UserServiceImpl implements UserService {
 	@Autowired
 	UserRepo userRepo;
 	

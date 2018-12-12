@@ -46,7 +46,7 @@ public class Cohort {
 	@JoinColumn(name = "trainer_id", nullable = false)
     @OnDelete(action = OnDeleteAction.CASCADE)
 	@JsonIgnore
-	private User teacher;
+	private User trainer;
 
 	public Cohort() {
 		super();
@@ -54,14 +54,14 @@ public class Cohort {
 	}
 
 	public Cohort(int cohortId, @NotNull String cohortName, @NotNull String cohortDescription, String cohortToken,
-			Set<User> users, User teacher) {
+			Set<User> users, User trainer) {
 		super();
 		this.cohortId = cohortId;
 		this.cohortName = cohortName;
 		this.cohortDescription = cohortDescription;
 		this.cohortToken = cohortToken;
 		this.users = users;
-		this.teacher = teacher;
+		this.trainer = trainer;
 	}
 
 	public int getCohortId() {
@@ -104,12 +104,12 @@ public class Cohort {
 		this.users = users;
 	}
 
-	public User getTeacher() {
-		return teacher;
+	public User getTrainer() {
+		return trainer;
 	}
 
-	public void setTeacher(User teacher) {
-		this.teacher = teacher;
+	public void setTrainer(User trainer) {
+		this.trainer = trainer;
 	}
 
 	@Override
