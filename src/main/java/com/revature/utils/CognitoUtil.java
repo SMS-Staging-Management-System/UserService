@@ -34,9 +34,11 @@ public class CognitoUtil {
 	 * @return Response
 	 * @throws IOException
 	 */
-	public Boolean registerUser(String email) throws IOException {
+	public Boolean registerUser(String email, HttpServletRequest req) throws IOException {
 
-		ResponseEntity<String> response = cognitoRestTemplate.registerUser(email);
+		String cognitoToken = req.getHeader("Authentication");
+		
+		ResponseEntity<String> response = cognitoRestTemplate.registerUser(email,cognitoToken);
 
 		if (response.getStatusCodeValue() == HttpStatus.SC_OK) {
 			ObjectMapper mapper = new ObjectMapper().configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES,false);
@@ -59,8 +61,8 @@ public class CognitoUtil {
 	public List<String> cognitoAuth(HttpServletRequest req) throws IOException {
 		// "Authorization" : "Bearer tokenValue"1
 		String cognitoToken = req.getHeader("Authentication");
-
 		ResponseEntity<String> response = cognitoRestTemplate.checkAuth(cognitoToken);
+		
 		List<String> authRoleList = new ArrayList<String>();
 		
 		if (response.getStatusCodeValue() == HttpStatus.SC_OK) {

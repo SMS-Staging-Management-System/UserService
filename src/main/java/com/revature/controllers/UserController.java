@@ -7,7 +7,6 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
-import org.apache.http.HttpStatus;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -19,7 +18,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.revature.annotations.CognitoAuth;
-import com.revature.dto.CognitoRegisterResponse;
 import com.revature.models.User;
 import com.revature.services.UserService;
 import com.revature.utils.CognitoUtil;
@@ -32,13 +30,13 @@ public class UserController {
 	private UserService userService;
 
 	@Autowired
-	private CognitoUtil iUtil;
+	private CognitoUtil cUtil;
 	
 	@CognitoAuth(highestRole="user")
 	@GetMapping()
 	public ResponseEntity<Map<String,Object>> findAll(){
 		List<User> userList=  userService.findAll();
-		String emailTest = iUtil.extractTokenEmail();
+		String emailTest = cUtil.extractTokenEmail();
 		System.out.println(emailTest);
 		if (userList == null) {
 			return  ResponseEntity.badRequest().body(ResponseMap.getBadResponse("No users found."));
@@ -110,12 +108,12 @@ public class UserController {
 	
 	@PostMapping()
 	@CognitoAuth(highestRole="user")
-	public ResponseEntity<Map<String,Object>> saveUser(@RequestBody User u) throws IOException, URISyntaxException{
+	public ResponseEntity<Map<String,Object>> saveUser(@RequestBody User u, HttpServletRequest req) throws IOException, URISyntaxException{
 		User checkUser = userService.findOneByUsername(u.getUsername());
 		User tempUser = null;
 		String error = "";
 		if (checkUser == null) {
-			if( iUtil.registerUser(u.getEmail())) {
+			if( cUtil.registerUser(u.getEmail(),req)) {
 				tempUser = userService.saveUser(u);
 				return tempUser != null ?  
 						ResponseEntity.ok().body(ResponseMap.getGoodResponse(tempUser,"Saved user")) : 
