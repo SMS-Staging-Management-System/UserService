@@ -3,6 +3,7 @@ package com.revature.utils;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
 @Component
 public class ResponseMap {
@@ -40,6 +41,7 @@ public class ResponseMap {
 		return tMap;
 	}
 	
+	
 	/**
 	 * Create a new map object
 	 * @param tName
@@ -51,4 +53,5 @@ public class ResponseMap {
 		tMap.put(tName, pObject);
 		return tMap;
 	}
-}
+	
+	}
