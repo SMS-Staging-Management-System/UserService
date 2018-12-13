@@ -32,7 +32,7 @@ public class UserController {
 
 	@Autowired
 	private UserService userService;
-	
+
 	@Autowired
 	private CohortService cohortService;
 
@@ -92,22 +92,17 @@ public class UserController {
 
 	}
 
-
 	@PostMapping("{userid}/cohorts/{cohortid}")
 	@CognitoAuth(role = "user")
-	public User updateCohort(@PathVariable int userid, @PathVariable int cohortid){
+	public User updateCohort(@PathVariable int userid, @PathVariable int cohortid) {
 		Cohort cohort = cohortService.findOneByCohortId(cohortid);
 		User user = userService.findOneById(userid);
-		
+
 		user.getCohorts().add(cohort);
-		
+
 		return userService.saveUser(user);
-		
 	}
 
-	
-	
-	
 	// Need to do something with non created users.
 	@PostMapping("emails")
 	@CognitoAuth(role = "staging-manager")
@@ -130,8 +125,6 @@ public class UserController {
 		return createdUsers;
 
 	}
-	
-	
 
 	@PatchMapping("update/profile")
 	@CognitoAuth(role = "user")
