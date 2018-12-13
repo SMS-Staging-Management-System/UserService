@@ -42,10 +42,6 @@ public class UserServiceImpl implements UserService {
 		return userRepo.save(u);
 	}
 
-	@Override
-	public User findOneByUsername(String username) {
-		return userRepo.findByUsername(username);
-	}
 
 	@Override
 	public User findOneByEmail(String email) {

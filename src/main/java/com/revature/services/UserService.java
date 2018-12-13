@@ -21,6 +21,5 @@ public interface UserService {
 	public User saveUser(User u);
 	public User updateProfile(User u);
 	public User userInfo();
-	public User findOneByUsername(String username);
 	public User findOneByEmail(String email);
 }
