@@ -22,5 +22,16 @@ public class CohortServiceImpl implements CohortService{
 	public List<Cohort> findAllByTrainerId(int id) {
 		return cohortRepo.findByTrainerUserId(id);
 	}
+	
+	@Override
+	public Cohort findOneById(int id) {
+		return cohortRepo.findOneByCohortId(id);
+	}
+
+	@Override
+	public List<Cohort> findAll() {
+		return cohortRepo.findAll();
+	}
+
 
 }
