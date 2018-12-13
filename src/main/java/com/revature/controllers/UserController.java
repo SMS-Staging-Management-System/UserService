@@ -96,7 +96,7 @@ public class UserController {
 	@PostMapping("{userid}/cohorts/{cohortid}")
 	@CognitoAuth(role = "user")
 	public User updateCohort(@PathVariable int userid, @PathVariable int cohortid){
-		Cohort cohort = cohortService.findOneById(cohortid);
+		Cohort cohort = cohortService.findOneByCohortId(cohortid);
 		User user = userService.findOneById(userid);
 		
 		user.getCohorts().add(cohort);
@@ -119,7 +119,7 @@ public class UserController {
 		for (String email : emails) {
 			if (userService.findOneByEmail(email) == null) {
 				if (cUtil.registerUser(email, req)) {
-					User tempUser = userService.saveUser(new User(null, null, email, null, null));
+					User tempUser = userService.saveUser(new User(null, null, email, null));
 					if (tempUser != null) {
 						createdUsers.add(tempUser);
 						continue;

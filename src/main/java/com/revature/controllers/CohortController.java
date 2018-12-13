@@ -44,6 +44,13 @@ public class CohortController {
 		return cohortService.findAll();
 	}
 	
+	@GetMapping("{id}")
+	@CognitoAuth(role="staging-manager")
+	public Cohort findOneById(@PathVariable int id){
+		return cohortService.findOneByCohortId(id);
+	}
+	
+	
 	
 	
 	

@@ -24,7 +24,7 @@ public class CohortServiceImpl implements CohortService{
 	}
 	
 	@Override
-	public Cohort findOneById(int id) {
+	public Cohort findOneByCohortId(int id) {
 		return cohortRepo.findOneByCohortId(id);
 	}
 
