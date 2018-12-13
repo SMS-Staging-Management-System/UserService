@@ -54,7 +54,6 @@ public class User {
 //	@JoinColumn(name="user_role")
 //	private Role role;	
 	
-	@JsonIgnore
 	@ManyToMany(
 			fetch = FetchType.EAGER,
 			cascade = {

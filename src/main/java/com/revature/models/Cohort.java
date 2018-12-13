@@ -36,15 +36,14 @@ public class Cohort {
 	private String cohortDescription;
 
 	private String cohortToken;
-	
-	
+
 	@JsonIgnore
 	@ManyToMany(fetch = FetchType.LAZY, cascade = { CascadeType.MERGE }, mappedBy = "cohorts")
 	private Set<User> users = new HashSet<>();
 
 	@ManyToOne(fetch = FetchType.LAZY, optional = false)
 	@JoinColumn(name = "trainer_id", nullable = false)
-    @OnDelete(action = OnDeleteAction.CASCADE)
+	@OnDelete(action = OnDeleteAction.CASCADE)
 	@JsonIgnore
 	private User trainer;
 

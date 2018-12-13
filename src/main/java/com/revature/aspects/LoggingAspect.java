@@ -26,8 +26,13 @@ public class LoggingAspect {
 			logInfo = logInfo + args + "\n";
 		}
 		Object value = pjp.proceed();
-		logInfo = logInfo + "Result: " + value.toString() + "\n";
-		logger.info(logInfo);
+		try {
+			logInfo = logInfo + "Result: " + value.toString() + "\n";
+			logger.info(logInfo);
+		}catch (NullPointerException e) {
+			
+		}
+		
 		return value;
 	}
 }
