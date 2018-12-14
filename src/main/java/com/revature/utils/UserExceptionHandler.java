@@ -1,22 +1,24 @@
 package com.revature.utils;
 
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.ControllerAdvice;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 
-@ResponseStatus(value=HttpStatus.NOT_FOUND, reason="User not found")  // 404
-public class UserExceptionHandler extends RuntimeException {
+@ControllerAdvice
+public class UserExceptionHandler{
 
-	/**
-	 * 
-	 */
-    @Override
-    public synchronized Throwable fillInStackTrace() {
-        return this;
-    }
-	private static final long serialVersionUID = 1L;
+	
+	private static final Logger log = LoggerFactory.getLogger(UserExceptionHandler.class);
 
-	public UserExceptionHandler(int id) {
+	@ExceptionHandler(Exception.class)
+	public ResponseEntity<String> badRequest() {
 		
+		log.warn("Bad Request user");
+		return new ResponseEntity<String>("Unhandled Request",HttpStatus.BAD_REQUEST);
 	}
 	
 }
