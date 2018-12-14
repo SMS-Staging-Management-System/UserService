@@ -5,15 +5,12 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.log4j.Logger;
-import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.ProceedingJoinPoint;
-import org.aspectj.lang.annotation.After;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.web.context.request.RequestContextHolder;
@@ -21,7 +18,6 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 
 import com.revature.annotations.CognitoAuth;
 import com.revature.utils.CognitoUtil;
-import com.revature.utils.ResponseMap;
 
 @Aspect
 @Component
@@ -54,7 +50,7 @@ public class CognitoAspect {
 //			return pjp.proceed();
 //		}
 		if (authRole == null) {
-			return ResponseEntity.status(401).body(ResponseMap.getBadResponse("Invalid Authentication"));
+			return ResponseEntity.status(401).body("Invalid Authentication");
 		}
 		
 		if (ca.role().equals("user")) {
@@ -62,7 +58,7 @@ public class CognitoAspect {
 		}
 		
 		if (!authRole.contains("admin") && !authRole.contains(ca.role())) {	
-			return ResponseEntity.status(403).body(ResponseMap.getBadResponse("Access Forbidden, Need: " + ca.role()));
+			return ResponseEntity.status(403).body("Access Forbidden, Need: " + ca.role());
 		}
 		return pjp.proceed();
 	}
