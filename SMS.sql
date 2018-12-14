@@ -13,7 +13,6 @@ CREATE TABLE sms_users
     first_name TEXT NOT NULL,
     last_name TEXT NOT NULL,
     email TEXT NOT NULL UNIQUE,
-    username TEXT NOT NULL UNIQUE,
     phone_number TEXT,
     country TEXT,
     timezone TEXT,
