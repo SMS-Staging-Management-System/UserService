@@ -12,7 +12,7 @@ CREATE TABLE sms_users
     zip_code TEXT,
     city TEXT,
     state TEXT,
-    CONSTRAINT sms_users_PK PRIMARY KEY (sms_user_id),
+    CONSTRAINT sms_users_PK PRIMARY KEY (sms_user_id)
 );
 
 CREATE TABLE cohorts 
