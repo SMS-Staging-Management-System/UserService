@@ -3,6 +3,7 @@ package com.revature.utils;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
 @Component
 public class ResponseMap {
@@ -27,8 +28,7 @@ public class ResponseMap {
 	
 	public static Map<String, Object> getBadResponse() {
 		Map<String, Object> tMap = new HashMap<>();
-		tMap.put("result", null);
-		tMap.put("message", "Bad request");
+		tMap.put("message", "Invalid Request");
 		return tMap;
 	}
 	
@@ -39,6 +39,7 @@ public class ResponseMap {
 		tMap.put("message", pMessage);
 		return tMap;
 	}
+	
 	
 	/**
 	 * Create a new map object
@@ -51,4 +52,5 @@ public class ResponseMap {
 		tMap.put(tName, pObject);
 		return tMap;
 	}
-}
+	
+	}
