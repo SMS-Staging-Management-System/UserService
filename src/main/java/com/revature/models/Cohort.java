@@ -62,6 +62,14 @@ public class Cohort {
 		this.users = users;
 		this.trainer = trainer;
 	}
+	
+	public Cohort(@NotNull String cohortName, @NotNull String cohortDescription, User trainer) {
+		super();
+		this.cohortName = cohortName;
+		this.cohortDescription = cohortDescription;
+		this.trainer = trainer;
+	}
+	
 
 	public int getCohortId() {
 		return cohortId;

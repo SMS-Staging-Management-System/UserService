@@ -49,10 +49,10 @@ public class CognitoAspect {
 				.getRequest();
 		List<String> authRole = iUtil.cognitoAuth(request);
 		
-		if(stage.equals("dev")) {
-			log.info("\n Authorization 401 bypassed by Dev Route");
-			return pjp.proceed();
-		}
+//		if(stage.equals("dev")) {
+//			log.info("\n Authorization 401 bypassed by Dev Route");
+//			return pjp.proceed();
+//		}
 		if (authRole == null) {
 			return ResponseEntity.status(401).body(ResponseMap.getBadResponse("Invalid Authentication"));
 		}
@@ -62,7 +62,7 @@ public class CognitoAspect {
 		}
 		
 		if (!authRole.contains("admin") && !authRole.contains(ca.role())) {	
-			return ResponseEntity.status(403).body(ResponseMap.getBadResponse("Access Forbidden"));
+			return ResponseEntity.status(403).body(ResponseMap.getBadResponse("Access Forbidden, Need: " + ca.role()));
 		}
 		return pjp.proceed();
 	}
