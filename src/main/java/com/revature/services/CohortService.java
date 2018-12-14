@@ -14,5 +14,10 @@ public interface CohortService {
 
 	List<Cohort> findAllByTrainerId(int id);
 
+
+	Cohort findOneByCohortId(int id);
+
+	List<Cohort> findAll();
+
 	
 }

@@ -26,23 +26,33 @@ public class CohortController {
 	
 	@PostMapping()
 	@CognitoAuth(role="staging-manager")
-	public ResponseEntity<Map<String,Object>> saveCohort(@RequestBody Cohort cohort) {
-		Cohort sCohort =  cohortService.saveCohort(cohort);
-		if (sCohort == null) {
-			return  ResponseEntity.badRequest().body(ResponseMap.getBadResponse("Cohort not saved."));
-		}
-		return  ResponseEntity.ok().body(ResponseMap.getGoodResponse(sCohort,"Saved Cohort"));
+	public Cohort saveCohort(@RequestBody Cohort cohort) {
+		return cohortService.saveCohort(cohort);
 	
 	}
 	
 	
 	@GetMapping("users/{id}")
 	@CognitoAuth(role="staging-manager")
-	public ResponseEntity<Map<String,Object>> findAllByUserId(@PathVariable int id){
-		List<Cohort> sCohort =  cohortService.findAllByTrainerId(id);
-		if (sCohort == null) {
-			return  ResponseEntity.status(203).body(ResponseMap.getBadResponse("Cohorts Not found."));
-		}
-		return  ResponseEntity.ok().body(ResponseMap.getGoodResponse(sCohort,"Here's all your cohorts."));
+	public List<Cohort> findAllByTrainerId(@PathVariable int id){
+		return cohortService.findAllByTrainerId(id);
 	}
+	
+	@GetMapping()
+	@CognitoAuth(role="staging-manager")
+	public List<Cohort> findAll(){
+		return cohortService.findAll();
+	}
+	
+	@GetMapping("{id}")
+	@CognitoAuth(role="staging-manager")
+	public Cohort findOneById(@PathVariable int id){
+		return cohortService.findOneByCohortId(id);
+	}
+	
+	
+	
+	
+	
+
 }

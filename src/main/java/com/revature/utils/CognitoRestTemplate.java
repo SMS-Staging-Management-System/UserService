@@ -17,7 +17,7 @@ public class CognitoRestTemplate {
 	
 	final String baseUrl = "https://t4o3pxu8dj.execute-api.us-west-2.amazonaws.com/";
 	final String registerUrl = "dev/cognito/users";
-	final String authUrl = "dev/auth";
+	final String authUrl = "dev/cognito/auth";
 	
 	
 	public  ResponseEntity<String> registerUser(String email, String token) {
