@@ -26,6 +26,7 @@ import com.revature.models.User;
 import com.revature.services.CohortService;
 import com.revature.services.UserService;
 import com.revature.utils.CognitoUtil;
+import com.revature.utils.ResponseEntityUtil;
 
 @CrossOrigin(origins="*")
 @RestController
@@ -40,13 +41,17 @@ public class UserController {
 
 	@Autowired
 	private CognitoUtil cognitoUtil;
+	
+	@Autowired
+	private ResponseEntityUtil responseEntity;
 
 	Logger log = Logger.getRootLogger();
 
 	@CognitoAuth(role = "user")
 	@GetMapping()
 	public ResponseEntity<List<User>> findAll() {
-		return ResponseEntity.status(200).body(userService.findAll());
+		
+		return responseEntity.getResponseEntityUserList(userService.findAll());
 	}
 
 	// need to change this to unique end point
@@ -55,22 +60,24 @@ public class UserController {
 //	@Logging()
 	// Might need to change?
 	public ResponseEntity<User> findOneById(@PathVariable int id) {
-		return  ResponseEntity.status(200).body(userService.findOneById(id));
+
+		return responseEntity.getResponseEntity(userService.findOneById(id));
 	}
 
 	@GetMapping("email/{email}/")
 	@CognitoAuth(role = "user")
 	public ResponseEntity<User> findOneByEmail(@PathVariable String email) {
 		email.toLowerCase();
-		return ResponseEntity.status(200).body(userService.findOneByEmail(email));
-
+		
+		return responseEntity.getResponseEntity(userService.findOneByEmail(email));
 	}
 
 	// Need to fix
 	@GetMapping("info")
 	@CognitoAuth(role = "user")
 	public ResponseEntity<User> userInfo() {
-		return ResponseEntity.status(200).body(userService.userInfo());
+		
+		return responseEntity.getResponseEntity(userService.userInfo());
 	}
 
 	@GetMapping("cohorts/{id}")
@@ -80,12 +87,11 @@ public class UserController {
 		return  ResponseEntity.status(200).body(userService.findAllByCohortId(id));
 	}
 
-	// Double check this.
 	@PostMapping()
 	@CognitoAuth(role = "user")
 	public ResponseEntity<User> saveUser(@RequestBody User u, HttpServletRequest req) throws IOException, URISyntaxException {
 
-		return  ResponseEntity.status(200).body(cognitoUtil.registerUser(u, req));
+		return  responseEntity.getResponseEntity(cognitoUtil.registerUser(u, req));
 
 	}
 
@@ -96,7 +102,7 @@ public class UserController {
 		User user = userService.findOneById(userid);
 		user.getCohorts().add(cohort);
 
-		return  ResponseEntity.status(200).body(userService.saveUser(user));
+		return responseEntity.getResponseEntity(userService.saveUser(user));
 	}
 
 	// Need to do something with non created users.
@@ -115,9 +121,7 @@ public class UserController {
 	@PatchMapping("update/profile")
 	@CognitoAuth(role = "user")
 	public ResponseEntity<User> updateProfile(@RequestBody User u) {
-		User user = userService.updateProfile(u);
-		// UserDto or JSON ignore
-
-		return  ResponseEntity.status(200).body(user);
+		return  responseEntity.getResponseEntity(userService.updateProfile(u));
 	}
+
 }

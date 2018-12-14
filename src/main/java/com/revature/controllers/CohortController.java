@@ -5,7 +5,6 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
-import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -20,10 +19,10 @@ import com.revature.annotations.CognitoAuth;
 import com.revature.dto.CohortUserListInputDto;
 import com.revature.dto.CohortUserListOutputDto;
 import com.revature.models.Cohort;
-import com.revature.models.User;
 import com.revature.services.CohortService;
 import com.revature.services.UserService;
 import com.revature.utils.CognitoUtil;
+import com.revature.utils.ResponseEntityUtil;
 
 @CrossOrigin(origins="*")
 @RestController
@@ -38,6 +37,9 @@ public class CohortController {
 
 	@Autowired
 	CognitoUtil cognitoUtil;
+	
+	@Autowired
+	ResponseEntityUtil responseEntityUtil;
 
 
 //Allow cohort with no user list
@@ -65,19 +67,19 @@ public class CohortController {
 	@GetMapping("users/{id}")
 	@CognitoAuth(role = "staging-manager")
 	public ResponseEntity<List<Cohort>>findAllByTrainerId(@PathVariable int id) {
-		return ResponseEntity.status(200).body(cohortService.findAllByTrainerId(id));
+		return responseEntityUtil.getResponseEntityCohortList(cohortService.findAllByTrainerId(id));
 	}
 
 	@GetMapping()
 	@CognitoAuth(role = "staging-manager")
 	public ResponseEntity<List<Cohort>> findAll() {
-		return ResponseEntity.status(200).body(cohortService.findAll());
+		return responseEntityUtil.getResponseEntityCohortList(cohortService.findAll());
 	}
 
 	@GetMapping("{id}")
 	@CognitoAuth(role = "staging-manager")
 	public ResponseEntity<Cohort> findOneById(@PathVariable int id) {
-		return ResponseEntity.status(200).body(cohortService.findOneByCohortId(id));
+		return responseEntityUtil.getResponseEntity(cohortService.findOneByCohortId(id));
 	}
 
 }
