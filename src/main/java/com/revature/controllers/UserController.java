@@ -57,12 +57,10 @@ public class UserController {
 	@CognitoAuth(role = "user")
 //	@Logging()
 	// Might need to change?
-	public ResponseEntity<Map<String, Object>> findOneById(@PathVariable int id) {
+	public User findOneById(@PathVariable int id) {
 		User user = userService.findOneById(id);
-		if (user == null) {
-			return ResponseEntity.badRequest().body(ResponseMap.getBadResponse("User not found."));
-		}
-		return ResponseEntity.ok().body(ResponseMap.getGoodResponse(user, "Here is your users."));
+		
+		return user;
 	}
 
 	@GetMapping("email/{email}/")

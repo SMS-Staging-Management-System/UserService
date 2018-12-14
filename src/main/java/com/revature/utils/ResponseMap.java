@@ -28,8 +28,7 @@ public class ResponseMap {
 	
 	public static Map<String, Object> getBadResponse() {
 		Map<String, Object> tMap = new HashMap<>();
-		tMap.put("result", null);
-		tMap.put("message", "Bad request");
+		tMap.put("message", "Invalid Request");
 		return tMap;
 	}
 	
