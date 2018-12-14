@@ -1,12 +1,5 @@
 SET SCHEMA 'sms';
 
-CREATE TABLE roles
-(
-    role_id SERIAL,
-    sms_role TEXT NOT NULL UNIQUE,
-    CONSTRAINT sms_roles_PK PRIMARY KEY (role_id)
-);
-
 CREATE TABLE sms_users
 (
     sms_user_id SERIAL,
