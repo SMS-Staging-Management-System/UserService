@@ -65,7 +65,7 @@ public class UserServiceImpl implements UserService {
 	// Needs more verification before an update occurs.
 	@Override
 	public User updateProfile(User u) {
-		User tempAppUser = userRepo.findByEmail(cognitoUtil.extractTokenEmail());
+		User tempAppUser = userRepo.findByEmailIgnoreCase(cognitoUtil.extractTokenEmail());
 		if (tempAppUser == null){
 			log.info("User cannot be found.");
 			return null;
