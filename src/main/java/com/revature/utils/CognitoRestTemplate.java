@@ -26,16 +26,13 @@ public class CognitoRestTemplate {
 	private String stage;
 	
 	
-	private String registerUrl = "/dev/cognito/users";
-	private String authUrl = "/dev/cognito/auth";
+	private String registerUrl = "/cognito/users";
+	private String authUrl = "/cognito/auth";
 	
 	public  ResponseEntity<String> registerUser(String email) {
 		RestTemplate rt = new RestTemplate();
 		HttpHeaders headers = new HttpHeaders();
 		headers.setContentType(MediaType.APPLICATION_JSON);
-		if (stage.equals("prod")) {
-			registerUrl = "/cognito/users";
-		}
 		
 		String url = cognitoURL + registerUrl;
 		logger.info("Registering user to the following link: " + url);
@@ -53,9 +50,6 @@ public class CognitoRestTemplate {
 		RestTemplate rt = new RestTemplate();
 		HttpHeaders headers = new HttpHeaders();
 		headers.set("Authentication", token);
-		if (stage.equals("prod")) {
-			authUrl = "/cognito/auth";
-		}
 		String url= cognitoURL + authUrl;
 		logger.info("Checking user against the following url: " + url);
 		logger.info("Checking the following token: " + token);
