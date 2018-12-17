@@ -9,7 +9,6 @@ import org.springframework.stereotype.Service;
 
 import com.revature.dto.CohortUserListInputDto;
 import com.revature.dto.CohortUserListOutputDto;
-import com.revature.dto.UserListInputDto;
 import com.revature.models.Cohort;
 
 @Service
