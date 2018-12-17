@@ -59,7 +59,7 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public User findOneByEmail(String email) {
-		return userRepo.findByEmail(email);
+		return userRepo.findByEmailIgnoreCase(email);
 	}
 
 	@Override
@@ -82,7 +82,7 @@ public class UserServiceImpl implements UserService {
 
 	public User userInfo() {
 		String email = cUtil.extractTokenEmail();
-		return userRepo.findByEmail(email);
+		return userRepo.findByEmailIgnoreCase(email);
 	}
 
 	@Override
