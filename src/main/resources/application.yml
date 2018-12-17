@@ -5,7 +5,9 @@ logging:
       springframework:
         web: DEBUG
     root: ALL
-  
+cognito:
+  url: ${cognito_url}
+    
 spring:
   profiles:
     active: ${DEPLOYMENT_STAGE}

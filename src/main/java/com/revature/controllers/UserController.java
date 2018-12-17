@@ -51,7 +51,7 @@ public class UserController {
 	@CognitoAuth(role = "user")
 	@GetMapping()
 	public ResponseEntity<List<User>> findAll() {
-		
+//		System.out.println(userService.findAll());
 		return responseEntity.getResponseEntityUserList(userService.findAll());
 	}
 
