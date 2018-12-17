@@ -58,8 +58,6 @@ public class UserController {
 	// need to change this to unique end point
 	@GetMapping("id/{id}")
 	@CognitoAuth(role = "user")
-//	@Logging()
-	// Might need to change?
 	public ResponseEntity<User> findOneById(@PathVariable int id) {
 
 		return responseEntity.getResponseEntity(userService.findOneById(id));
