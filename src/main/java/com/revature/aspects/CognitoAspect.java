@@ -45,10 +45,10 @@ public class CognitoAspect {
 				.getRequest();
 		List<String> authRole = iUtil.cognitoAuth(request);
 		
-//		if(stage.equals("dev")) {
-//			log.info("\n Authorization 401 bypassed by Dev Route");
-//			return pjp.proceed();
-//		}
+		if(stage.equals("dev")) {
+			log.info("\n Authorization 401 bypassed by Dev Route");
+			return pjp.proceed();
+		}
 		if (authRole == null) {
 			return ResponseEntity.status(401).body("Invalid Authentication");
 		}

@@ -51,7 +51,7 @@ public class UserController {
 	@CognitoAuth(role = "user")
 	@GetMapping()
 	public ResponseEntity<List<User>> findAll() {
-		
+//		System.out.println(userService.findAll());
 		return responseEntity.getResponseEntityUserList(userService.findAll());
 	}
 
@@ -119,7 +119,7 @@ public class UserController {
 
 	}
 
-	@PatchMapping("update/profile")
+	@PatchMapping("{id}")
 	@CognitoAuth(role = "user")
 	public ResponseEntity<User> updateProfile(@RequestBody User u) {
 		return  responseEntity.getResponseEntity(userService.updateProfile(u));
