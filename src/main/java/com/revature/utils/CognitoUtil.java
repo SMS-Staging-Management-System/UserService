@@ -8,7 +8,9 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.http.HttpStatus;
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 
@@ -20,12 +22,18 @@ import com.revature.dto.CognitoRegisterResponse;
 import com.revature.models.User;
 import com.revature.services.UserService;
 
+
 @Component
 public class CognitoUtil {
 
+	
+	@Value("${spring.profiles}")
+	private String stage;
 	private String tokenEmail;
 	private String token;
-
+	
+	private Logger logger = Logger.getRootLogger();
+	
 	@Autowired
 	private CognitoRestTemplate cognitoRestTemplate;
 
@@ -79,7 +87,7 @@ public class CognitoUtil {
 			CognitoAuthResponse authModel = mapper.treeToValue(mapper.readTree(response.getBody()),
 					CognitoAuthResponse.class);
 			tokenEmail = authModel.getEmail();
-			System.out.println("email" + tokenEmail);
+			logger.info("email: " + tokenEmail);
 			token = cognitoToken;
 
 			if (authModel.getCognitoGroups() != null) {
@@ -103,6 +111,10 @@ public class CognitoUtil {
 	 * Returns email associated with token. // * @return String
 	 */
 	public String extractTokenEmail() {
+		if(stage.equals("dev") && tokenEmail == null) {
+			logger.info("\n Token bypassed by Dev Route");
+		}
+		
 		return tokenEmail;
 	}
 

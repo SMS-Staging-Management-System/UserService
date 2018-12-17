@@ -10,7 +10,6 @@ import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -51,13 +50,15 @@ public class UserController {
 	@CognitoAuth(role = "user")
 	@GetMapping()
 	public ResponseEntity<List<User>> findAll() {
-//		System.out.println(userService.findAll());
+		
 		return responseEntity.getResponseEntityUserList(userService.findAll());
 	}
 
 	// need to change this to unique end point
 	@GetMapping("id/{id}")
 	@CognitoAuth(role = "user")
+//	@Logging()
+	// Might need to change?
 	public ResponseEntity<User> findOneById(@PathVariable int id) {
 
 		return responseEntity.getResponseEntity(userService.findOneById(id));
@@ -117,7 +118,7 @@ public class UserController {
 
 	}
 
-	@PatchMapping("{id}")
+	@PatchMapping()
 	@CognitoAuth(role = "user")
 	public ResponseEntity<User> updateProfile(@RequestBody User u) {
 		return  responseEntity.getResponseEntity(userService.updateProfile(u));
