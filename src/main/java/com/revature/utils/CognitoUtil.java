@@ -57,8 +57,6 @@ public class CognitoUtil {
 				ObjectMapper mapper = new ObjectMapper().configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES,
 						false);
 				JsonNode obj = mapper.readTree(response.getBody());
-
-				// Response Object of Cognito Response.
 				CognitoRegisterResponse registerModel = mapper.treeToValue(obj.get("User"),
 						CognitoRegisterResponse.class);
 

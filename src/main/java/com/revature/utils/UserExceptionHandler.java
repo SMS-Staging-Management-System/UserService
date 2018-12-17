@@ -17,8 +17,8 @@ public class UserExceptionHandler{
 	@ExceptionHandler(Exception.class)
 	public ResponseEntity<String> badRequest() {
 		
-		log.warn("Bad Request user");
-		return new ResponseEntity<String>("Unhandled Request",HttpStatus.BAD_REQUEST);
+		log.warn("Internal server has been caught in UserController");
+		return new ResponseEntity<String>("Internal Server Error",HttpStatus.INTERNAL_SERVER_ERROR);
 	}
 	
 }
