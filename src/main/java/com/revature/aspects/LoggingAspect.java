@@ -26,13 +26,13 @@ public class LoggingAspect {
 			logInfo = logInfo + "Method not found\n";
 		}
 		String args = "";
-		if (pjp.getArgs().length > 0) {
-			args = "Arguments:";
-			for (Object o: pjp.getArgs()) {
-				args = args + " " + o.toString();
-			}
-			logInfo = logInfo + args + "\n";
-		}
+//		if (pjp.getArgs().length > 0) {
+//			args = "Arguments:";
+//			for (Object o: pjp.getArgs()) {
+//				args = args + " " + o.toString();
+//			}
+//			logInfo = logInfo + args + "\n";
+//		}
 		Object value = pjp.proceed();
 		try {
 			logInfo = logInfo + "Result: " + value.toString() + "\n";

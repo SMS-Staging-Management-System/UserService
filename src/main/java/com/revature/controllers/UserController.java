@@ -2,8 +2,6 @@ package com.revature.controllers;
 
 import java.io.IOException;
 import java.net.URISyntaxException;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -11,6 +9,7 @@ import javax.servlet.http.HttpServletRequest;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
@@ -21,13 +20,16 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.revature.annotations.CognitoAuth;
-import com.revature.dto.EmailList;
+import com.revature.dto.CohortUserListOutputDto;
+import com.revature.dto.UserListInputDto;
 import com.revature.models.Cohort;
 import com.revature.models.User;
 import com.revature.services.CohortService;
 import com.revature.services.UserService;
 import com.revature.utils.CognitoUtil;
+import com.revature.utils.ResponseEntityUtil;
 
+@CrossOrigin(origins="*")
 @RestController
 @RequestMapping("users")
 public class UserController {
@@ -39,104 +41,86 @@ public class UserController {
 	private CohortService cohortService;
 
 	@Autowired
-	private CognitoUtil cUtil;
+	private CognitoUtil cognitoUtil;
+	
+	@Autowired
+	private ResponseEntityUtil responseEntity;
 
 	Logger log = Logger.getRootLogger();
 
 	@CognitoAuth(role = "user")
 	@GetMapping()
-	public List<User> findAll() {
-		return userService.findAll();
+	public ResponseEntity<List<User>> findAll() {
+//		System.out.println(userService.findAll());
+		return responseEntity.getResponseEntityUserList(userService.findAll());
 	}
 
 	// need to change this to unique end point
 	@GetMapping("id/{id}")
 	@CognitoAuth(role = "user")
-//	@Logging()
-	// Might need to change?
-	public User findOneById(@PathVariable int id) {
-		User user = userService.findOneById(id);
-		 
-		return user;
+	public ResponseEntity<User> findOneById(@PathVariable int id) {
 
+		return responseEntity.getResponseEntity(userService.findOneById(id));
 	}
 
 	@GetMapping("email/{email}/")
 	@CognitoAuth(role = "user")
-	public User findOneByEmail(@PathVariable String email) {
+	public ResponseEntity<User> findOneByEmail(@PathVariable String email) {
 		email.toLowerCase();
-		return userService.findOneByEmail(email);
-
+		
+		return responseEntity.getResponseEntity(userService.findOneByEmail(email));
 	}
 
 	// Need to fix
 	@GetMapping("info")
 	@CognitoAuth(role = "user")
-	public User userInfo() {
-		return userService.userInfo();
+	public ResponseEntity<User> userInfo() {
+		
+		return responseEntity.getResponseEntity(userService.userInfo());
 	}
 
 	@GetMapping("cohorts/{id}")
 	@CognitoAuth(role = "user")
 //	@Logging()
-	public List<User> findAllByCohortId(@PathVariable int id) {
-		return userService.findAllByCohortId(id);
+	public ResponseEntity<List<User>> findAllByCohortId(@PathVariable int id) {
+		return  ResponseEntity.status(200).body(userService.findAllByCohortId(id));
 	}
 
 	@PostMapping()
 	@CognitoAuth(role = "user")
-	public User saveUser(@RequestBody User u, HttpServletRequest req) throws IOException, URISyntaxException {
-		User checkUser = userService.findOneByEmail(u.getEmail());
+	public ResponseEntity<User> saveUser(@RequestBody User u, HttpServletRequest req) throws IOException, URISyntaxException {
 
-		if (checkUser == null) {
-			if (cUtil.registerUser(u.getEmail(), req)) {
-				return userService.saveUser(u);
-			}
-		}
-		return null;
+		return  responseEntity.getResponseEntity(cognitoUtil.registerUser(u, req));
 
 	}
 
-	@PostMapping("{userid}/cohorts/{cohortid}")
+	@PatchMapping("{userid}/cohorts/{cohortid}")
 	@CognitoAuth(role = "user")
-	public User updateCohort(@PathVariable int userid, @PathVariable int cohortid) {
+	public ResponseEntity<User> updateCohort(@PathVariable int userid, @PathVariable int cohortid) {
 		Cohort cohort = cohortService.findOneByCohortId(cohortid);
 		User user = userService.findOneById(userid);
-
 		user.getCohorts().add(cohort);
 
-		return userService.saveUser(user);
+		return responseEntity.getResponseEntity(userService.saveUser(user));
 	}
 
 	// Need to do something with non created users.
-	@PostMapping("emails")
+	@PostMapping("cohorts/{id}")
 	@CognitoAuth(role = "staging-manager")
-	public List<User> saveUsersFromEmails(@RequestBody EmailList emailList, HttpServletRequest req)
-			throws IOException, URISyntaxException {
-		log.info(emailList);
-		List<String> emails = Arrays.asList(emailList.getEmails());
-		List<User> createdUsers = new ArrayList<>();
-		for (String email : emails) {
-			if (userService.findOneByEmail(email) == null) {
-				if (cUtil.registerUser(email, req)) {
-					User tempUser = userService.saveUser(new User(null, null, email, null));
-					if (tempUser != null) {
-						createdUsers.add(tempUser);
-						continue;
-					}
-				}
-			}
-		}
-		return createdUsers;
+	public ResponseEntity<CohortUserListOutputDto> saveUsers(@RequestBody UserListInputDto userList, @PathVariable int id,
+			HttpServletRequest req) throws IOException, URISyntaxException {
+		
+		CohortUserListOutputDto cuListOutput = userService.saveUsers(userList,id,req);
+		
+	
+		return ResponseEntity.status(200).body(cuListOutput);
 
 	}
 
-	@PatchMapping("update/profile")
+	@PatchMapping("{id}")
 	@CognitoAuth(role = "user")
-	public User updateProfile(@RequestBody User u) {
-		User user = userService.updateProfile(u);
-		// UserDto or JSON ignore
-
-		return user;
+	public ResponseEntity<User> updateProfile(@RequestBody User u) {
+		return  responseEntity.getResponseEntity(userService.updateProfile(u));
 	}
+
 }
