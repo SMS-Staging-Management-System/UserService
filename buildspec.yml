@@ -3,7 +3,7 @@ version: 0.2
 phases:
   post_build:
     commands:
-      - mvn clean package
+      - mvn -Dmaven.test.skip=true clean package
 artifacts:
   files:
     - '**/*'
