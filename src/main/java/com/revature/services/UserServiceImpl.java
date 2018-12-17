@@ -62,9 +62,14 @@ public class UserServiceImpl implements UserService {
 		return userRepo.findByEmailIgnoreCase(email);
 	}
 
+	// Needs more verification before an update occurs.
 	@Override
 	public User updateProfile(User u) {
-		User tempAppUser = userRepo.findById(u.getUserId()).get();
+		User tempAppUser = userRepo.findByEmail(cognitoUtil.extractTokenEmail());
+		if (tempAppUser == null){
+			log.info("User cannot be found.");
+			return null;
+		}
 		if (u.getFirstName() != null) {
 			tempAppUser.setFirstName(u.getFirstName());
 		}
@@ -76,6 +81,24 @@ public class UserServiceImpl implements UserService {
 //		if (u.getEmail() != null) {
 //			tempAppUser.setEmail(u.getEmail());
 //		}
+		if (u.getPhoneNumber() != null) {
+			tempAppUser.setPhoneNumber(u.getPhoneNumber());
+		}
+		if (u.getCountry() != null) {
+			tempAppUser.setCountry(u.getCountry());
+		}
+		if (u.getTimezone() != null) {
+			tempAppUser.setTimezone(u.getTimezone());
+		}
+		if (u.getZipCode() != null) {
+			tempAppUser.setZipCode(u.getZipCode());
+		}
+		if (u.getCity() != null) {
+			tempAppUser.setCity(u.getCity());
+		}
+		if (u.getState() != null) {
+			tempAppUser.setState(u.getState());
+		}
 		userRepo.save(tempAppUser);
 		return tempAppUser;
 	}
