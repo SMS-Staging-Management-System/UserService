@@ -43,18 +43,7 @@ public class User {
 
 	@NotNull
 	private String email;
-
-	@JsonProperty(access = Access.WRITE_ONLY)
-	private String username;
-
 	
-//	@NotNull
-//	@ManyToOne
-//
-//	@JoinColumn(name="user_role")
-//	private Role role;	
-	
-	@JsonIgnore
 	@ManyToMany(
 			fetch = FetchType.EAGER,
 			cascade = {
@@ -72,28 +61,22 @@ public class User {
 		// TODO Auto-generated constructor stub
 	}
 
-	public User(int userId, String firstName, String lastName, @NotNull String email, String username,
-			Set<Cohort> cohorts) {
+	public User(int userId, String firstName, String lastName, @NotNull String email, Set<Cohort> cohorts) {
 		super();
 		this.userId = userId;
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.email = email;
-		this.username = username;
 		this.cohorts = cohorts;
 	}
 	
-	public User(String firstName, String lastName, @NotNull String email, String username,
-			Set<Cohort> cohorts) {
+	public User( String firstName, String lastName, @NotNull String email, Set<Cohort> cohorts) {
 		super();
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.email = email;
-		this.username = username;
 		this.cohorts = cohorts;
 	}
-	
-	
 
 	public int getUserId() {
 		return userId;
@@ -127,14 +110,6 @@ public class User {
 		this.email = email;
 	}
 
-	public String getUsername() {
-		return username;
-	}
-
-	public void setUsername(String username) {
-		this.username = username;
-	}
-
 	public Set<Cohort> getCohorts() {
 		return cohorts;
 	}
@@ -152,7 +127,6 @@ public class User {
 		result = prime * result + ((firstName == null) ? 0 : firstName.hashCode());
 		result = prime * result + ((lastName == null) ? 0 : lastName.hashCode());
 		result = prime * result + userId;
-		result = prime * result + ((username == null) ? 0 : username.hashCode());
 		return result;
 	}
 
@@ -187,23 +161,13 @@ public class User {
 			return false;
 		if (userId != other.userId)
 			return false;
-		if (username == null) {
-			if (other.username != null)
-				return false;
-		} else if (!username.equals(other.username))
-			return false;
 		return true;
 	}
 
 	@Override
 	public String toString() {
 		return "User [userId=" + userId + ", firstName=" + firstName + ", lastName=" + lastName + ", email=" + email
-				+ ", username=" + username + ", cohorts=" + cohorts + "]";
-	}
-
-
-	
-	
-	
+				+ ", cohorts=" + cohorts + "]";
+	}	
 
 }

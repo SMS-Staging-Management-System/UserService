@@ -12,4 +12,6 @@ public interface CohortRepo extends JpaRepository<Cohort,Integer> {
 
 	List<Cohort> findByTrainerUserId(int id);
 
+	Cohort findOneByCohortId(int id);
+
 }
