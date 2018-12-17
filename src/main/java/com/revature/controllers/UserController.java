@@ -59,7 +59,7 @@ public class UserController {
 	// Might need to change?
 	public User findOneById(@PathVariable int id) {
 		User user = userService.findOneById(id);
-		
+		 
 		return user;
 	}
 
