@@ -2,7 +2,7 @@
 repository for user service
 
 
-ENVIROMENT VARIABLES
+## ENVIROMENT VARIABLES  
 db_username: username  
 db_passeord: password  
 db_schema: sms  
