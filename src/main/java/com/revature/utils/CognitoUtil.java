@@ -8,6 +8,7 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.http.HttpStatus;
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
@@ -29,6 +30,9 @@ public class CognitoUtil {
 	@Autowired
 	private CognitoRestTemplate cognitoRestTemplate;
 
+	Logger log = Logger.getRootLogger();
+	
+	
 	@Autowired
 	private UserService userService;
 
@@ -41,23 +45,23 @@ public class CognitoUtil {
 	 */
 	public User registerUser(User user, HttpServletRequest req) throws IOException {
 
-		String cognitoToken = req.getHeader("Authentication");
 		if (userService.findOneByEmail(user.getEmail()) == null) {
 			ResponseEntity<String> response = cognitoRestTemplate.registerUser(user.getEmail());
-			System.out.println(response);
 			if (response.getStatusCodeValue() == HttpStatus.SC_OK) {
 				ObjectMapper mapper = new ObjectMapper().configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES,
 						false);
 				JsonNode obj = mapper.readTree(response.getBody());
-
-				// Response Object of Cognito Response.
-				CognitoRegisterResponse registerModel = mapper.treeToValue(obj.get("User"),
-						CognitoRegisterResponse.class);
-
+				
+//				// Response Object of Cognito Response.
+//				CognitoRegisterResponse registerModel = mapper.treeToValue(obj.get("User"), CognitoRegisterResponse.class);
 				return userService.saveUser(user);				
 			}
+			
+			log.info("Email " + user.getEmail() + " could not be registered with cognito.");
+			return null;
 		}
 		
+		log.info("Email " + user.getEmail() + " already registered with database");
 		return null;
 	}
 

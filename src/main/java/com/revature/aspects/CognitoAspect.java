@@ -27,7 +27,7 @@ public class CognitoAspect {
 	private String stage;
 	
 	@Autowired
-	private CognitoUtil iUtil;
+	private CognitoUtil cUtil;
 
 	@Pointcut(" @annotation(ca)")
 	public void annotationPointCutDefinition(CognitoAuth ca) {}
@@ -43,7 +43,7 @@ public class CognitoAspect {
 		Logger log = Logger.getRootLogger();
 		HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes())
 				.getRequest();
-		List<String> authRole = iUtil.cognitoAuth(request);
+		List<String> authRole = cUtil.cognitoAuth(request);
 		
 		if(stage.equals("dev")) {
 			log.info("\n Authorization 401 bypassed by Dev Route");

@@ -69,7 +69,6 @@ public class UserController {
 	@CognitoAuth(role = "user")
 	public ResponseEntity<User> findOneByEmail(@PathVariable String email) {
 		email.toLowerCase();
-		
 		return responseEntity.getResponseEntity(userService.findOneByEmail(email));
 	}
 
