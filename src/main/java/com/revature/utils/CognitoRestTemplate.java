@@ -1,5 +1,7 @@
 package com.revature.utils;
 
+import org.apache.log4j.Logger;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
@@ -10,22 +12,26 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 
-import com.revature.dto.CognitoAuthResponse;
-
 @Component
 public class CognitoRestTemplate {
 	
-	final String baseUrl = "https://t4o3pxu8dj.execute-api.us-west-2.amazonaws.com/";
-	final String registerUrl = "dev/cognito/users";
-	final String authUrl = "dev/cognito/auth";
+	private Logger logger = Logger.getRootLogger();
+	
+	@Value("${cognito_url}")
+	private String cognitoURL;
+	
+	private final String registerUrl = "/cognito/users";
+	private final String authUrl = "/coginto/auth";
 	
 	
 	public  ResponseEntity<String> registerUser(String email) {
 		RestTemplate rt = new RestTemplate();
 		HttpHeaders headers = new HttpHeaders();
 		headers.setContentType(MediaType.APPLICATION_JSON);
-		String url= baseUrl + registerUrl;
 		String requestJson = "{\"email\":\"" + email + "\"}";
+		
+		String url = cognitoURL + registerUrl;
+		logger.info("Registering user to the following link: " + url);
 		HttpEntity<String> entity = new HttpEntity<String>(requestJson,headers);
 		try{
 			return rt.exchange(url ,HttpMethod.POST, entity , String.class );			
@@ -40,8 +46,10 @@ public class CognitoRestTemplate {
 		HttpHeaders headers = new HttpHeaders();
 		headers.set("Authentication", token);
 		String requestJson = "";
-		String url= baseUrl + authUrl;
-		System.out.println(headers.toString());
+		String url= cognitoURL + authUrl;
+		logger.info("Checking user against the following url: " + url);
+		logger.info("Checking the following token: " + token);
+		
 		HttpEntity<String> entity = new HttpEntity<String>(requestJson,headers);
 		System.out.println("Entity = " + entity.toString());
 		try{
