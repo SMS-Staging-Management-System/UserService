@@ -22,7 +22,7 @@ public class CognitoRestTemplate {
 	
 
 	private final String registerUrl = "/cognito/users";
-	private final String authUrl = "/coginto/auth";
+	private final String authUrl = "/cognito/auth";
 	
 	@Value("${spring.profiles}")
 	private String stage;
