@@ -49,7 +49,7 @@ public class CohortController {
 	public ResponseEntity<CohortUserListOutputDto> saveCohortWithUserList(@RequestBody CohortUserListInputDto cuList,
 			HttpServletRequest req) throws IOException {
 		
-		CohortUserListOutputDto cuListOutput = cohortService.saveCohortWithUserList(cuList,req);
+		CohortUserListOutputDto cuListOutput = cohortService.saveCohortWithUserList(cuList);
 		if (cuListOutput.getCohort() == null) {
 			cuListOutput.setMessages("Cohort could not be created or already exists, all users rejected");
 			return ResponseEntity.status(400).body(cuListOutput);

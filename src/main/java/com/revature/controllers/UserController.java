@@ -87,9 +87,9 @@ public class UserController {
 
 	@PostMapping()
 	@CognitoAuth(role = "user")
-	public ResponseEntity<User> saveUser(@RequestBody User u, HttpServletRequest req) throws IOException, URISyntaxException {
+	public ResponseEntity<User> saveUser(@RequestBody User u) throws IOException, URISyntaxException {
 
-		return  responseEntity.getResponseEntitySaveUser(cognitoUtil.registerUser(u, req));
+		return  responseEntity.getResponseEntitySaveUser(cognitoUtil.registerUser(u));
 
 	}
 
@@ -106,10 +106,9 @@ public class UserController {
 	// Need to do something with non created users.
 	@PostMapping("cohorts/{id}")
 	@CognitoAuth(role = "staging-manager")
-	public ResponseEntity<CohortUserListOutputDto> saveUsers(@RequestBody UserListInputDto userList, @PathVariable int id,
-			HttpServletRequest req) throws IOException, URISyntaxException {
+	public ResponseEntity<CohortUserListOutputDto> saveUsers(@RequestBody UserListInputDto userList, @PathVariable int id) throws IOException, URISyntaxException {
 		
-		CohortUserListOutputDto cuListOutput = userService.saveUsers(userList,id,req);
+		CohortUserListOutputDto cuListOutput = userService.saveUsers(userList,id);
 		
 	
 		return ResponseEntity.status(200).body(cuListOutput);
