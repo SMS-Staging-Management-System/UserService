@@ -89,7 +89,7 @@ public class UserController {
 	@CognitoAuth(role = "user")
 	public ResponseEntity<User> saveUser(@RequestBody User u, HttpServletRequest req) throws IOException, URISyntaxException {
 
-		return  responseEntity.getResponseEntity(cognitoUtil.registerUser(u, req));
+		return  responseEntity.getResponseEntitySaveUser(cognitoUtil.registerUser(u, req));
 
 	}
 
