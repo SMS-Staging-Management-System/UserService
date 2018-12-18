@@ -43,7 +43,7 @@ public class CognitoAspect {
 		Logger log = Logger.getRootLogger();
 		HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes())
 				.getRequest();
-		List<String> authRole = cUtil.cognitoAuth(request);
+		List<String> authRole = cUtil.cognitoAuth();
 		
 		if(stage.equals("dev")) {
 			log.info("\n Authorization 401 bypassed by Dev Route");

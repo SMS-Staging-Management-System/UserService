@@ -13,12 +13,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
 
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.revature.dto.CognitoAuthResponse;
-import com.revature.dto.CognitoRegisterResponse;
 import com.revature.models.User;
 import com.revature.services.UserService;
 
@@ -29,8 +30,6 @@ public class CognitoUtil {
 	
 	@Value("${spring.profiles}")
 	private String stage;
-	private String tokenEmail;
-	private String token;
 	
 	private Logger logger = Logger.getRootLogger();
 	
@@ -50,8 +49,7 @@ public class CognitoUtil {
 	 * @return Response
 	 * @throws IOException
 	 */
-	public User registerUser(User user, HttpServletRequest req) throws IOException {
-
+	public User registerUser(User user) throws IOException {
 		if (userService.findOneByEmail(user.getEmail()) == null) {
 			ResponseEntity<String> response = cognitoRestTemplate.registerUser(user.getEmail());
 			if (response.getStatusCodeValue() == HttpStatus.SC_OK) {
@@ -79,7 +77,8 @@ public class CognitoUtil {
 	 * @param req // * @return List<String>
 	 * @throws IOException
 	 */
-	public List<String> cognitoAuth(HttpServletRequest req) throws IOException {
+	public List<String> cognitoAuth() throws IOException {
+		HttpServletRequest req = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
 		// "Authorization" : "Bearer tokenValue"1
 		String cognitoToken = req.getHeader("Authentication");
 		ResponseEntity<String> response = cognitoRestTemplate.checkAuth(cognitoToken);
@@ -92,9 +91,9 @@ public class CognitoUtil {
 
 			CognitoAuthResponse authModel = mapper.treeToValue(mapper.readTree(response.getBody()),
 					CognitoAuthResponse.class);
-			tokenEmail = authModel.getEmail();
-			logger.info("email: " + tokenEmail);
-			token = cognitoToken;
+			req.setAttribute("tokenEmail", authModel.getEmail());
+			logger.info("email: " + req.getAttribute("tokenEmail"));
+			req.setAttribute("token", cognitoToken);
 
 			if (authModel.getCognitoGroups() != null) {
 				if (authModel.getCognitoGroups().length() == 1) {
@@ -117,6 +116,8 @@ public class CognitoUtil {
 	 * Returns email associated with token. // * @return String
 	 */
 	public String extractTokenEmail() {
+		HttpServletRequest req = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
+		String tokenEmail = (String) req.getAttribute("tokenEmail");
 		if(stage.equals("dev") && tokenEmail == null) {
 			logger.info("\n Token bypassed by Dev Route");
 		}
@@ -128,6 +129,8 @@ public class CognitoUtil {
 	 * Returns email associated with token. // * @return String
 	 */
 	public String extractToken() {
+		HttpServletRequest req = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
+		String token = (String) req.getAttribute("token");
 		return token;
 	}
 

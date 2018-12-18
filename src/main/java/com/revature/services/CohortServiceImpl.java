@@ -60,11 +60,10 @@ public class CohortServiceImpl implements CohortService{
 
 
 	@Override
-	public CohortUserListOutputDto saveCohortWithUserList(CohortUserListInputDto cuList, HttpServletRequest req) throws IOException {
-		User trainer = userService.findOneByEmail(cognitoUtil.extractTokenEmail());
+	public CohortUserListOutputDto saveCohortWithUserList(CohortUserListInputDto cuList) throws IOException{
+		User trainer = userService.findOneByEmail(cuList.getTrainerEmail());
 
 		log.info("\n Trainer is: " + trainer);
-
 		CohortUserListOutputDto cuListOutput = new CohortUserListOutputDto();
 		Cohort cohort = new Cohort(cuList.getCohortName(), cuList.getCohortDescription(), trainer);
 
@@ -85,7 +84,7 @@ public class CohortServiceImpl implements CohortService{
 		List<User> users = cuList.toUsersList(savedCohort);
 
 		for (User user : users) {
-			User tempUser = cognitoUtil.registerUser(user, req);
+			User tempUser = cognitoUtil.registerUser(user);
 			if (tempUser != null)
 				cuListOutput.getAcceptedUsers().add(tempUser);
 			else

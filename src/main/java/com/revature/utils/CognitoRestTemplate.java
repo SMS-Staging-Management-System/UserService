@@ -20,21 +20,24 @@ public class CognitoRestTemplate {
 	@Value("${cognito_url}")
 	private String cognitoURL;
 	
+
+	private final String registerUrl = "/cognito/users";
+	private final String authUrl = "/coginto/auth";
+	
 	@Value("${spring.profiles}")
 	private String stage;
-	
-	
-	private String registerUrl = "/cognito/users";
-	private String authUrl = "/cognito/auth";
+
+
 	
 	public  ResponseEntity<String> registerUser(String email) {
 		RestTemplate rt = new RestTemplate();
 		HttpHeaders headers = new HttpHeaders();
 		headers.setContentType(MediaType.APPLICATION_JSON);
+
+		String requestJson = "{\"email\":\"" + email + "\"}";
 		
 		String url = cognitoURL + registerUrl;
 		logger.info("Registering user to the following link: " + url);
-		String requestJson = "{\"email\":\"" + email + "\"}";
 		HttpEntity<String> entity = new HttpEntity<String>(requestJson,headers);
 		try{
 			return rt.exchange(url ,HttpMethod.POST, entity , String.class );			
@@ -48,6 +51,7 @@ public class CognitoRestTemplate {
 		RestTemplate rt = new RestTemplate();
 		HttpHeaders headers = new HttpHeaders();
 		headers.set("Authentication", token);
+
 		String url= cognitoURL + authUrl;
 		logger.info("Checking user against the following url: " + url);
 		logger.info("Checking the following token: " + token);

@@ -24,5 +24,5 @@ public interface UserService {
 	public User updateProfile(User u);
 	public User userInfo();
 	public User findOneByEmail(String email);
-	public CohortUserListOutputDto saveUsers(UserListInputDto userList, int id, HttpServletRequest req) throws IOException;
+	public CohortUserListOutputDto saveUsers(UserListInputDto userList, int id) throws IOException;
 }

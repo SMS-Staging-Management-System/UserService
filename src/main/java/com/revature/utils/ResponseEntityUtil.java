@@ -18,6 +18,13 @@ public class ResponseEntityUtil {
 					 new ResponseEntity<User>(user,HttpStatus.OK);
 	}
 	
+	public ResponseEntity<User> getResponseEntitySaveUser(User user){
+		return user == null ?  
+				 new ResponseEntity<User>(HttpStatus.CONFLICT) :
+					 new ResponseEntity<User>(user,HttpStatus.OK);
+	}
+	
+	
 	public ResponseEntity<List<User>> getResponseEntityUserList(List<User> userList){
 		return userList == null || userList.size() == 0 ?  
 				 new ResponseEntity<List<User>>(HttpStatus.NO_CONTENT) :

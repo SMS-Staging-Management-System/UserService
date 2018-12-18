@@ -109,7 +109,7 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public CohortUserListOutputDto saveUsers(UserListInputDto userList, int id, HttpServletRequest req) throws IOException {
+	public CohortUserListOutputDto saveUsers(UserListInputDto userList, int id) throws IOException {
 		log.info(userList);
 		Cohort cohort = cohortService.findOneByCohortId(id);
 		List<User> users = userList.toUsersList(cohort);
@@ -118,7 +118,7 @@ public class UserServiceImpl implements UserService {
 		cuListOutput.setCohort(cohort);
 		if (cohort != null) {
 			for (User user : users) {
-				User tempUser = cognitoUtil.registerUser(user, req);
+				User tempUser = cognitoUtil.registerUser(user);
 				if (tempUser != null)
 					cuListOutput.getAcceptedUsers().add(tempUser);
 				else
