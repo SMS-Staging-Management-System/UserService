@@ -68,8 +68,8 @@ public class UserController {
 	@GetMapping("email/{email}/")
 	@CognitoAuth(role = "user")
 	public ResponseEntity<User> findOneByEmail(@PathVariable String email) {	
-		return new ResponseEntity<User>(userService.findOneByEmail(email.toLowerCase()), HttpStatus.OK);
-//		return responseEntity.getResponseEntity(userService.findOneByEmail(email.toLowerCase()));
+//		return new ResponseEntity<User>(userService.findOneByEmail(email.toLowerCase()), HttpStatus.OK);
+		return responseEntity.getResponseEntity(userService.findOneByEmail(email.toLowerCase()));
 	}
 
 	// Need to fix
