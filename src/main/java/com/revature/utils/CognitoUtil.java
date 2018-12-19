@@ -17,28 +17,24 @@ import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
 import com.fasterxml.jackson.databind.DeserializationFeature;
-import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.revature.dto.CognitoAuthResponse;
 import com.revature.models.User;
 import com.revature.services.UserService;
 
-
 @Component
 public class CognitoUtil {
 
-	
 	@Value("${spring.profiles}")
 	private String stage;
-	
+
 	private Logger logger = Logger.getRootLogger();
-	
+
 	@Autowired
 	private CognitoRestTemplate cognitoRestTemplate;
 
 	Logger log = Logger.getRootLogger();
-	
-	
+
 	@Autowired
 	private UserService userService;
 
@@ -53,20 +49,14 @@ public class CognitoUtil {
 		if (userService.findOneByEmail(user.getEmail()) == null) {
 			ResponseEntity<String> response = cognitoRestTemplate.registerUser(user.getEmail());
 			if (response.getStatusCodeValue() == HttpStatus.SC_OK) {
-				ObjectMapper mapper = new ObjectMapper().configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES,
-						false);
-				JsonNode obj = mapper.readTree(response.getBody());
-        
-//				// Response Object of Cognito Response.
-//				CognitoRegisterResponse registerModel = mapper.treeToValue(obj.get("User"), CognitoRegisterResponse.class);
-				
-        return userService.saveUser(user);				
+
+				return userService.saveUser(user);
 			}
-			
+
 			log.info("Email " + user.getEmail() + " could not be registered with cognito.");
 			return null;
 		}
-		
+
 		log.info("Email " + user.getEmail() + " already registered with database");
 		return null;
 	}
@@ -118,10 +108,10 @@ public class CognitoUtil {
 	public String extractTokenEmail() {
 		HttpServletRequest req = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
 		String tokenEmail = (String) req.getAttribute("tokenEmail");
-		if(stage.equals("dev") && tokenEmail == null) {
+		if (stage.equals("dev") && tokenEmail == null) {
 			logger.info("\n Token bypassed by Dev Route");
 		}
-		
+
 		return tokenEmail;
 	}
 

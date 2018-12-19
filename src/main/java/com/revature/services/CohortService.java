@@ -2,11 +2,7 @@ package com.revature.services;
 
 import java.io.IOException;
 import java.util.List;
-
-import javax.servlet.http.HttpServletRequest;
-
 import org.springframework.stereotype.Service;
-
 import com.revature.dto.CohortUserListInputDto;
 import com.revature.dto.CohortUserListOutputDto;
 import com.revature.models.Cohort;
@@ -19,13 +15,10 @@ public interface CohortService {
 
 	List<Cohort> findAllByTrainerId(int id);
 
-
 	Cohort findOneByCohortId(int id);
 
 	List<Cohort> findAll();
 
 	CohortUserListOutputDto saveCohortWithUserList(CohortUserListInputDto cuList) throws IOException;
 
-
-	
 }

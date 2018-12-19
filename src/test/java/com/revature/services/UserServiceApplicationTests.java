@@ -25,50 +25,48 @@ import com.revature.repos.UserRepo;
 @SpringBootTest
 public class UserServiceApplicationTests {
 	private static Logger log = Logger.getRootLogger();
-	
+
 	@Mock
 	public UserRepo userRepo;
-	
+
 	@InjectMocks
-	public  UserServiceImpl userService;
-	
+	public UserServiceImpl userService;
+
 	@BeforeClass
 	public static void beforeAll() {
 		log.debug("User service starting");
 	}
-	
+
 	@Test
 	public void findOneById() {
-		User testUser = new User(1,"James","Dula","jDula@gmail.com",new HashSet<Cohort>());
-		User testUser1 = new User(2,"James","Dula","jDula@gmail.com",new HashSet<Cohort>());
-		
+//		User testUser = new User(1,"James","Dula","jDula@gmail.com",new HashSet<Cohort>());
+		User testUser1 = new User(2, "James", "Dula", "jDula@gmail.com", new HashSet<Cohort>());
+
 		when(userRepo.findOneByUserId(1)).thenReturn(testUser1);
-		
+
 		User calledUser = userService.findOneById(1);
-		
-		 Assert.assertEquals(testUser1,calledUser);
-		
+
+		Assert.assertEquals(testUser1, calledUser);
+
 	}
-	
+
 	@Test
 	public void findAll() {
-		User testUser = new User(1,"James","Dula","jDula@gmail.com",new HashSet<Cohort>());
-		User testUser1 = new User(2,"An","Ta","jDula@gmail.com",new HashSet<Cohort>());
-		
+		User testUser = new User(1, "James", "Dula", "jDula@gmail.com", new HashSet<Cohort>());
+		User testUser1 = new User(2, "An", "Ta", "jDula@gmail.com", new HashSet<Cohort>());
+
 		List<User> userList = new ArrayList<User>();
 		userList.add(testUser);
 		userList.add(testUser1);
 
-		
 		when(userRepo.findAll()).thenReturn(userList);
-		
+
 		List<User> calledUser = userService.findAll();
-		
-		 Assert.assertEquals(userList,calledUser);
-		
+
+		Assert.assertEquals(userList, calledUser);
+
 	}
-	
-	
+
 	@AfterClass
 	public static void afterAll() {
 		log.debug("User service is complete");

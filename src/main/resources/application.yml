@@ -6,7 +6,7 @@ logging:
         web: DEBUG
     root: ALL
 cognito:
-  url: ${cognito_url}
+  url: ${COGNITO_URL}
     
 spring:
   profiles:
@@ -18,9 +18,9 @@ spring:
   datasource:
     driverClassName: org.postgresql.Driver
     initialization-mode: NEVER
-    password: ${db_password}
+    password: ${DB_PASSWORD}
     url: ${db_url}
-    username: ${db_username}
+    username: ${DB_USERNAME}
     
   jpa:
     database-platform: org.hibernate.dialect.PostgreSQLDialect
@@ -29,7 +29,7 @@ spring:
       ddl-auto: none
     properties:
       hibernate:
-        default_schema: ${db_schema}
+        default_schema: ${DB_SCHEMA}
     show-sql: false
 ---
 spring:
@@ -42,8 +42,6 @@ eureka:
   client:
     service-url:
       defaultZone: ${DISCOVERY_URL:http://localhost:8888}/eureka/
-#    register-with-eureka: false
-#    fetch-registry: false
   instance:
     lease-renewal-interval-in-seconds: 1
     lease-expiration-duration-in-seconds: 2
@@ -58,4 +56,12 @@ server:
 eureka:
   client:
     enabled: false
+    
+ribbon:
+  eureka: 
+    enabled: false
+    
+user-service:
+  ribbon:
+    listOfServers: ${GATEWAY_URL}
     

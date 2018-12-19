@@ -25,7 +25,7 @@ public class LoggingAspect {
 		} else {
 			logInfo = logInfo + "Method not found\n";
 		}
-		String args = "";
+//		String args = "";
 //		if (pjp.getArgs().length > 0) {
 //			args = "Arguments:";
 //			for (Object o: pjp.getArgs()) {

@@ -2,6 +2,9 @@ package com.revature.dto;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
+/*
+ * mode that represents a response from cognito for registration
+ * */
 @JsonIgnoreProperties(ignoreUnknown=true)
 public class CognitoRegisterResponse {
 

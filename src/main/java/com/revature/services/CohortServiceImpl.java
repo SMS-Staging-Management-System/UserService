@@ -3,8 +3,6 @@ package com.revature.services;
 import java.io.IOException;
 import java.util.List;
 
-import javax.servlet.http.HttpServletRequest;
-
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -17,36 +15,31 @@ import com.revature.repos.CohortRepo;
 import com.revature.utils.CognitoUtil;
 
 @Service
-public class CohortServiceImpl implements CohortService{
+public class CohortServiceImpl implements CohortService {
 
 	@Autowired
 	CohortRepo cohortRepo;
-	
+
 	@Autowired
 	UserService userService;
-	
+
 	@Autowired
 	CognitoUtil cognitoUtil;
-	
-	
-	
 
 	Logger log = Logger.getRootLogger();
-	
+
 	public Cohort saveCohort(Cohort cohort) {
-		if (cohortRepo.findOneByCohortName(cohort.getCohortName()) == null){
+		if (cohortRepo.findOneByCohortName(cohort.getCohortName()) == null) {
 			return cohortRepo.save(cohort);
 		}
 		return null;
 	}
 
-	
-	
 	@Override
 	public List<Cohort> findAllByTrainerId(int id) {
 		return cohortRepo.findByTrainerUserId(id);
 	}
-	
+
 	@Override
 	public Cohort findOneByCohortId(int id) {
 		return cohortRepo.findOneByCohortId(id);
@@ -57,10 +50,8 @@ public class CohortServiceImpl implements CohortService{
 		return cohortRepo.findAll();
 	}
 
-
-
 	@Override
-	public CohortUserListOutputDto saveCohortWithUserList(CohortUserListInputDto cuList) throws IOException{
+	public CohortUserListOutputDto saveCohortWithUserList(CohortUserListInputDto cuList) throws IOException {
 		User trainer = userService.findOneByEmail(cuList.getTrainerEmail());
 
 		log.info("\n Trainer is: " + trainer);
@@ -90,13 +81,12 @@ public class CohortServiceImpl implements CohortService{
 			else
 				cuListOutput.getRejectedUsers().add(user);
 		}
-		
+
 		cuListOutput.setMessages("Created Cohort with users");
 		log.info("Accepted Users: " + cuListOutput.getAcceptedUsers());
 		log.info("Rejected Users: " + cuListOutput.getRejectedUsers());
 		return cuListOutput;
-		
-	}
 
+	}
 
 }

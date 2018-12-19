@@ -4,8 +4,6 @@ import java.io.IOException;
 import java.net.URISyntaxException;
 import java.util.List;
 
-import javax.servlet.http.HttpServletRequest;
-
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -29,7 +27,7 @@ import com.revature.services.UserService;
 import com.revature.utils.CognitoUtil;
 import com.revature.utils.ResponseEntityUtil;
 
-@CrossOrigin(origins="*")
+@CrossOrigin(origins = "*")
 @RestController
 @RequestMapping("users")
 public class UserController {
@@ -42,7 +40,7 @@ public class UserController {
 
 	@Autowired
 	private CognitoUtil cognitoUtil;
-	
+
 	@Autowired
 	private ResponseEntityUtil responseEntity;
 
@@ -51,7 +49,7 @@ public class UserController {
 	@CognitoAuth(role = "user")
 	@GetMapping()
 	public ResponseEntity<List<User>> findAll() {
-		
+
 		return new ResponseEntity<List<User>>(userService.findAll(), HttpStatus.OK);
 	}
 
@@ -62,12 +60,12 @@ public class UserController {
 	// Might need to change?
 	public ResponseEntity<User> findOneById(@PathVariable int id) {
 
-		return new ResponseEntity<User>(userService.findOneById(id),HttpStatus.OK);
+		return new ResponseEntity<User>(userService.findOneById(id), HttpStatus.OK);
 	}
 
 	@GetMapping("email/{email}/")
 	@CognitoAuth(role = "user")
-	public ResponseEntity<User> findOneByEmail(@PathVariable String email) {	
+	public ResponseEntity<User> findOneByEmail(@PathVariable String email) {
 //		return new ResponseEntity<User>(userService.findOneByEmail(email.toLowerCase()), HttpStatus.OK);
 		return responseEntity.getResponseEntity(userService.findOneByEmail(email.toLowerCase()));
 	}
@@ -76,8 +74,8 @@ public class UserController {
 	@GetMapping("info")
 	@CognitoAuth(role = "user")
 	public ResponseEntity<User> userInfo() {
-		
-		return new ResponseEntity<User>(userService.userInfo(),HttpStatus.OK);
+
+		return new ResponseEntity<User>(userService.userInfo(), HttpStatus.OK);
 	}
 
 	@GetMapping("cohorts/{id}")
@@ -108,8 +106,9 @@ public class UserController {
 	// Need to do something with non created users.
 	@PostMapping("cohorts/{id}")
 	@CognitoAuth(role = "staging-manager")
-	public ResponseEntity<CohortUserListOutputDto> saveUsers(@RequestBody UserListInputDto userList, @PathVariable int id) throws IOException, URISyntaxException {
-		CohortUserListOutputDto cuListOutput = userService.saveUsers(userList,id);
+	public ResponseEntity<CohortUserListOutputDto> saveUsers(@RequestBody UserListInputDto userList,
+			@PathVariable int id) throws IOException, URISyntaxException {
+		CohortUserListOutputDto cuListOutput = userService.saveUsers(userList, id);
 		return new ResponseEntity<CohortUserListOutputDto>(cuListOutput, HttpStatus.OK);
 
 	}

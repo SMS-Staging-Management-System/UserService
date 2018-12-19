@@ -3,8 +3,6 @@ package com.revature.services;
 import java.io.IOException;
 import java.util.List;
 
-import javax.servlet.http.HttpServletRequest;
-
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -23,16 +21,15 @@ public class UserServiceImpl implements UserService {
 
 	@Autowired
 	CognitoUtil cognitoUtil;
-	
+
 	@Autowired
 	CohortService cohortService;
-	
-	
+
 	@Autowired
 	CognitoUtil cUtil;
 
 	Logger log = Logger.getRootLogger();
-	
+
 	@Override
 	public List<User> findAll() {
 		return userRepo.findAll();
@@ -56,7 +53,6 @@ public class UserServiceImpl implements UserService {
 		return userRepo.save(u);
 	}
 
-
 	@Override
 	public User findOneByEmail(String email) {
 		return userRepo.findByEmailIgnoreCase(email);
@@ -66,7 +62,7 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public User updateProfile(User u) {
 		User tempAppUser = userRepo.findByEmailIgnoreCase(cognitoUtil.extractTokenEmail());
-		if (tempAppUser == null){
+		if (tempAppUser == null) {
 			log.info("User cannot be found.");
 			return null;
 		}
