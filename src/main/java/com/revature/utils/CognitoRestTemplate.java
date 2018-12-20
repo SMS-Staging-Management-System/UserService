@@ -12,8 +12,6 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 
-import com.revature.dto.CognitoAuthResponse;
-
 @Component
 public class CognitoRestTemplate {
 	
@@ -22,21 +20,24 @@ public class CognitoRestTemplate {
 	@Value("${cognito_url}")
 	private String cognitoURL;
 	
+
+	private final String registerUrl = "/cognito/users";
+	private final String authUrl = "/cognito/auth";
+	
 	@Value("${spring.profiles}")
 	private String stage;
-	
-	
-	private String registerUrl = "/cognito/users";
-	private String authUrl = "/cognito/auth";
+
+
 	
 	public  ResponseEntity<String> registerUser(String email) {
 		RestTemplate rt = new RestTemplate();
 		HttpHeaders headers = new HttpHeaders();
 		headers.setContentType(MediaType.APPLICATION_JSON);
+
+		String requestJson = "{\"email\":\"" + email + "\"}";
 		
 		String url = cognitoURL + registerUrl;
 		logger.info("Registering user to the following link: " + url);
-		String requestJson = "{\"email\":\"" + email + "\"}";
 		HttpEntity<String> entity = new HttpEntity<String>(requestJson,headers);
 		try{
 			return rt.exchange(url ,HttpMethod.POST, entity , String.class );			
@@ -49,10 +50,10 @@ public class CognitoRestTemplate {
 	public ResponseEntity<String> checkAuth(String token) {
 		RestTemplate rt = new RestTemplate();
 		HttpHeaders headers = new HttpHeaders();
-		headers.set("Authentication", token);
+		headers.set(HttpHeaders.AUTHORIZATION, token);
 		String url= cognitoURL + authUrl;
-		logger.info("Checking user against the following url: " + url);
-		logger.info("Checking the following token: " + token);
+		System.out.println("Checking user against the following url: " + url);
+		System.out.println("Checking the following token: " + token);
 		HttpEntity<String> entity = new HttpEntity<String>("",headers);
 		try{
 			return rt.exchange(url,HttpMethod.GET ,entity , String.class );

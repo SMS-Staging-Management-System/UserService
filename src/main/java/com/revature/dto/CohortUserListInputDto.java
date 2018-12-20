@@ -11,7 +11,7 @@ import com.revature.models.User;
 public class CohortUserListInputDto {
 	private String cohortName;
 	private String cohortDescription;
-
+	private String trainerEmail;
 	List<UserInputDto> userList;
 
 	public CohortUserListInputDto() {
@@ -19,10 +19,12 @@ public class CohortUserListInputDto {
 		// TODO Auto-generated constructor stub
 	}
 
-	public CohortUserListInputDto(String cohortName, String cohortDescription, List<UserInputDto> userList) {
+	public CohortUserListInputDto(String cohortName, String cohortDescription, String trainerEmail,
+			List<UserInputDto> userList) {
 		super();
 		this.cohortName = cohortName;
 		this.cohortDescription = cohortDescription;
+		this.trainerEmail = trainerEmail;
 		this.userList = userList;
 	}
 
@@ -42,7 +44,14 @@ public class CohortUserListInputDto {
 		this.cohortDescription = cohortDescription;
 	}
 
-	
+	public String getTrainerEmail() {
+		return trainerEmail;
+	}
+
+	public void setTrainerEmail(String trainerEmail) {
+		this.trainerEmail = trainerEmail;
+	}
+
 	public List<UserInputDto> getUserList() {
 		return userList;
 	}
@@ -55,15 +64,12 @@ public class CohortUserListInputDto {
 		List<User> users = new ArrayList<>();
 		Set<Cohort> cohorts = new HashSet<>();
 		cohorts.add(cohort);
-		
+
 		for (UserInputDto uiDto : this.userList) {
-			users.add(new User(uiDto,cohorts));
+			users.add(new User(uiDto, cohorts));
 		}
 		return users;
 	}
-
-	
-	
 
 	@Override
 	public int hashCode() {
@@ -71,6 +77,7 @@ public class CohortUserListInputDto {
 		int result = 1;
 		result = prime * result + ((cohortDescription == null) ? 0 : cohortDescription.hashCode());
 		result = prime * result + ((cohortName == null) ? 0 : cohortName.hashCode());
+		result = prime * result + ((trainerEmail == null) ? 0 : trainerEmail.hashCode());
 		result = prime * result + ((userList == null) ? 0 : userList.hashCode());
 		return result;
 	}
@@ -94,6 +101,11 @@ public class CohortUserListInputDto {
 				return false;
 		} else if (!cohortName.equals(other.cohortName))
 			return false;
+		if (trainerEmail == null) {
+			if (other.trainerEmail != null)
+				return false;
+		} else if (!trainerEmail.equals(other.trainerEmail))
+			return false;
 		if (userList == null) {
 			if (other.userList != null)
 				return false;
@@ -104,8 +116,10 @@ public class CohortUserListInputDto {
 
 	@Override
 	public String toString() {
-		return "CohortUserList [cohortName=" + cohortName + ", cohortDescription=" + cohortDescription + ", userList="
-				+ userList + "]";
+		return "CohortUserListInputDto [cohortName=" + cohortName + ", cohortDescription=" + cohortDescription
+				+ ", trainerEmail=" + trainerEmail + ", userList=" + userList + "]";
 	}
+
+	
 
 }
