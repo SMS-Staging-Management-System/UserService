@@ -101,6 +101,7 @@ public class UserServiceImpl implements UserService {
 
 	public User userInfo() {
 		String email = cUtil.extractTokenEmail();
+		System.out.println("Checking email: " + email);
 		return userRepo.findByEmailIgnoreCase(email);
 	}
 

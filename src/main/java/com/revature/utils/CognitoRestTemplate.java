@@ -50,11 +50,10 @@ public class CognitoRestTemplate {
 	public ResponseEntity<String> checkAuth(String token) {
 		RestTemplate rt = new RestTemplate();
 		HttpHeaders headers = new HttpHeaders();
-		headers.set("Authentication", token);
-
+		headers.set(HttpHeaders.AUTHORIZATION, token);
 		String url= cognitoURL + authUrl;
-		logger.info("Checking user against the following url: " + url);
-		logger.info("Checking the following token: " + token);
+		System.out.println("Checking user against the following url: " + url);
+		System.out.println("Checking the following token: " + token);
 		HttpEntity<String> entity = new HttpEntity<String>("",headers);
 		try{
 			return rt.exchange(url,HttpMethod.GET ,entity , String.class );

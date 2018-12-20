@@ -88,8 +88,13 @@ public class UserController {
 	@PostMapping()
 	@CognitoAuth(role = "user")
 	public ResponseEntity<User> saveUser(@RequestBody User u) throws IOException, URISyntaxException {
-
-		return new ResponseEntity<User>(cognitoUtil.registerUser(u), HttpStatus.OK);
+		User user = cognitoUtil.registerUser(u);
+		if (user == null) {
+//			User tempUser = userService.findOneByEmail(u.getEmail());
+			return new ResponseEntity<User>(userService.findOneByEmail(u.getEmail()), HttpStatus.CONFLICT);
+		}else {
+			return new ResponseEntity<User>(user, HttpStatus.OK);	
+		}
 
 	}
 

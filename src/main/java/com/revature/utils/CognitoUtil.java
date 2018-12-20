@@ -18,6 +18,7 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.common.net.HttpHeaders;
 import com.revature.dto.CognitoAuthResponse;
 import com.revature.models.User;
 import com.revature.services.UserService;
@@ -70,7 +71,10 @@ public class CognitoUtil {
 	public List<String> cognitoAuth() throws IOException {
 		HttpServletRequest req = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
 		// "Authorization" : "Bearer tokenValue"1
-		String cognitoToken = req.getHeader("Authentication");
+//		System.out.println(req.toString());
+		String cognitoToken = req.getHeader(HttpHeaders.AUTHORIZATION);
+		
+		System.out.println(cognitoToken);
 		ResponseEntity<String> response = cognitoRestTemplate.checkAuth(cognitoToken);
 
 		List<String> authRoleList = new ArrayList<String>();
