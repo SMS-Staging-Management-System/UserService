@@ -64,12 +64,18 @@ public class UserController {
 		return new ResponseEntity<User>(userService.findOneById(id), HttpStatus.OK);
 	}
 
-	@GetMapping(path="email/{email:.+}", produces="application/json")
+	@GetMapping(path="email/{email:.+}")
 	@CognitoAuth(role = "user")
 	public ResponseEntity<User> findOneByEmail(@PathVariable String email) {
 		HttpHeaders headers = new HttpHeaders();
 		headers.add("Content-Type", "application/json");
-		return new ResponseEntity<User>(userService.findOneByEmail(email.toLowerCase()),headers, HttpStatus.OK);
+		try {
+			return new ResponseEntity<User>(userService.findOneByEmail(java.net.URLDecoder.decode(email.toLowerCase(), "utf-8")),headers, HttpStatus.OK);
+		} catch (UnsupportedEncodingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return null;
 	}
 
 	// Need to fix
