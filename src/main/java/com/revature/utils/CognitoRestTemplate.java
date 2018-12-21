@@ -29,11 +29,11 @@ public class CognitoRestTemplate {
 
 
 	
-	public  ResponseEntity<String> registerUser(String email) {
+	public  ResponseEntity<String> registerUser(String email,String token) {
 		RestTemplate rt = new RestTemplate();
 		HttpHeaders headers = new HttpHeaders();
 		headers.setContentType(MediaType.APPLICATION_JSON);
-
+		headers.set(HttpHeaders.AUTHORIZATION, token);
 		String requestJson = "{\"email\":\"" + email + "\"}";
 		
 		String url = cognitoURL + registerUrl;
