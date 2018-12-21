@@ -19,7 +19,7 @@ spring:
     driverClassName: org.postgresql.Driver
     initialization-mode: NEVER
     password: ${DB_PASSWORD}
-    url: ${db_url}
+    url: ${DB_URL}
     username: ${DB_USERNAME}
     
   jpa:

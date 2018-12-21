@@ -30,18 +30,19 @@ public class CognitoRestTemplate {
 
 
 	
-	public  ResponseEntity<String> registerUser(String email, String token) {
+	public  ResponseEntity<String> registerUser(String email,String token) {
 		RestTemplate rt = new RestTemplate();
 		HttpHeaders headers = new HttpHeaders();
 		headers.setContentType(MediaType.APPLICATION_JSON);
 		headers.set(HttpHeaders.AUTHORIZATION, token);
 		JSONObject reqJSON = new JSONObject();
 		reqJSON.put("email", email);
-//		String requestJson = "{\"email\":\"" + email + "\"}";
-//		System.out.println(requestJson);
 		String url = cognitoURL + registerUrl;
 		logger.info("Registering user to the following link: " + url);
 		HttpEntity<String> entity = new HttpEntity<String>(reqJSON.toString(),headers);
+		System.out.println(entity.getHeaders());
+		System.out.println(entity.getBody());
+		System.out.println(entity.toString());
 		try{
 			return rt.exchange(url ,HttpMethod.POST, entity , String.class );			
 		}catch(HttpClientErrorException e) {

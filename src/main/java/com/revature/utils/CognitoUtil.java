@@ -52,6 +52,8 @@ public class CognitoUtil {
 //		System.out.println(req.toString());
 		String cognitoToken = req.getHeader(HttpHeaders.AUTHORIZATION);
 		if (userService.findOneByEmail(user.getEmail()) == null) {
+			HttpServletRequest req = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
+			String cognitoToken = req.getHeader(HttpHeaders.AUTHORIZATION);
 			ResponseEntity<String> response = cognitoRestTemplate.registerUser(user.getEmail(),cognitoToken);
 			if (response.getStatusCodeValue() == HttpStatus.SC_OK) {
 
