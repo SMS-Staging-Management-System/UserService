@@ -48,7 +48,9 @@ public class CognitoUtil {
 	 */
 	public User registerUser(User user) throws IOException {
 		if (userService.findOneByEmail(user.getEmail()) == null) {
-			ResponseEntity<String> response = cognitoRestTemplate.registerUser(user.getEmail());
+			HttpServletRequest req = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
+			String cognitoToken = req.getHeader(HttpHeaders.AUTHORIZATION);
+			ResponseEntity<String> response = cognitoRestTemplate.registerUser(user.getEmail(),cognitoToken);
 			if (response.getStatusCodeValue() == HttpStatus.SC_OK) {
 
 				return userService.saveUser(user);
