@@ -39,6 +39,9 @@ public class CognitoRestTemplate {
 		String url = cognitoURL + registerUrl;
 		logger.info("Registering user to the following link: " + url);
 		HttpEntity<String> entity = new HttpEntity<String>(requestJson,headers);
+		System.out.println(entity.getHeaders());
+		System.out.println(entity.getBody());
+		System.out.println(entity.toString());
 		try{
 			return rt.exchange(url ,HttpMethod.POST, entity , String.class );			
 		}catch(HttpClientErrorException e) {
