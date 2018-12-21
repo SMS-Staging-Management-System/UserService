@@ -63,7 +63,7 @@ public class UserController {
 		return new ResponseEntity<User>(userService.findOneById(id), HttpStatus.OK);
 	}
 
-	@GetMapping("email/{email}/")
+	@GetMapping("email/{email:.+}")
 	@CognitoAuth(role = "user")
 	public ResponseEntity<User> findOneByEmail(@PathVariable String email) {
 //		return new ResponseEntity<User>(userService.findOneByEmail(email.toLowerCase()), HttpStatus.OK);
