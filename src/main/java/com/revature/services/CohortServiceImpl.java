@@ -30,6 +30,7 @@ public class CohortServiceImpl implements CohortService {
 
 	public Cohort saveCohort(Cohort cohort) {
 		if (cohortRepo.findOneByCohortName(cohort.getCohortName()) == null) {
+			System.out.println("saving cohort");
 			return cohortRepo.save(cohort);
 		}
 		return null;

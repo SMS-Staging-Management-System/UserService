@@ -27,7 +27,7 @@ import com.revature.dto.UserInputDto;
 public class User {
 
 	@Id
-	@Column(name = "sms_user_id")
+	@Column(name = "sms_user_id", unique=true)
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int userId;
 
