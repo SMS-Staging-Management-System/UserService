@@ -17,7 +17,7 @@ public class UserExceptionHandler{
 	@ExceptionHandler(Exception.class)
 	public ResponseEntity<String> badRequest(Exception e) {
 		Arrays.stream(e.getStackTrace()).forEach(trace -> {
-			log.warn(trace);
+			log.warn(trace.toString());
 		});
 		log.warn("Internal server has been caught in UserController");
 		return new ResponseEntity<String>("Internal Server Error",HttpStatus.INTERNAL_SERVER_ERROR);
