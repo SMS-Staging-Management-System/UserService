@@ -67,7 +67,7 @@ public class UserController {
 	@GetMapping(path="email/{email:.+}", produces="application/json")
 	@CognitoAuth(role = "user")
 	public ResponseEntity<User> findOneByEmail(@PathVariable String email) {
-		HttpHeaders headers = new Headers();
+		HttpHeaders headers = new HttpHeaders();
 		headers.add("Content-Type", "application/json");
 		return new ResponseEntity<User>(userService.findOneByEmail(email.toLowerCase()),headers, HttpStatus.OK);
 	}
