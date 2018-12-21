@@ -1,6 +1,7 @@
 package com.revature.controllers;
 
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.net.URISyntaxException;
 import java.util.List;
 
@@ -8,6 +9,7 @@ import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.HttpHeaders;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
@@ -63,11 +65,18 @@ public class UserController {
 		return new ResponseEntity<User>(userService.findOneById(id), HttpStatus.OK);
 	}
 
-	@GetMapping("email/{email}/")
+	@GetMapping(path="email/{email:.+}")
 	@CognitoAuth(role = "user")
 	public ResponseEntity<User> findOneByEmail(@PathVariable String email) {
-//		return new ResponseEntity<User>(userService.findOneByEmail(email.toLowerCase()), HttpStatus.OK);
-		return responseEntity.getResponseEntity(userService.findOneByEmail(email.toLowerCase()));
+		HttpHeaders headers = new HttpHeaders();
+		headers.add("Content-Type", "application/json");
+		try {
+			return new ResponseEntity<User>(userService.findOneByEmail(java.net.URLDecoder.decode(email.toLowerCase(), "utf-8")),headers, HttpStatus.OK);
+		} catch (UnsupportedEncodingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return null;
 	}
 
 	// Need to fix

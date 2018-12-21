@@ -1,6 +1,7 @@
 package com.revature.utils;
 
 import org.apache.log4j.Logger;
+import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -29,16 +30,18 @@ public class CognitoRestTemplate {
 
 
 	
-	public  ResponseEntity<String> registerUser(String email) {
+	public  ResponseEntity<String> registerUser(String email, String token) {
 		RestTemplate rt = new RestTemplate();
 		HttpHeaders headers = new HttpHeaders();
 		headers.setContentType(MediaType.APPLICATION_JSON);
-
-		String requestJson = "{\"email\":\"" + email + "\"}";
-		
+		headers.set(HttpHeaders.AUTHORIZATION, token);
+		JSONObject reqJSON = new JSONObject();
+		reqJSON.put("email", email);
+//		String requestJson = "{\"email\":\"" + email + "\"}";
+//		System.out.println(requestJson);
 		String url = cognitoURL + registerUrl;
 		logger.info("Registering user to the following link: " + url);
-		HttpEntity<String> entity = new HttpEntity<String>(requestJson,headers);
+		HttpEntity<String> entity = new HttpEntity<String>(reqJSON.toString(),headers);
 		try{
 			return rt.exchange(url ,HttpMethod.POST, entity , String.class );			
 		}catch(HttpClientErrorException e) {

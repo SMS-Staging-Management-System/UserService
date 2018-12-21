@@ -50,11 +50,14 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public User saveUser(User u) {
+		System.out.println(u.toString());
 		return userRepo.save(u);
 	}
 
 	@Override
 	public User findOneByEmail(String email) {
+		System.out.println("Finding email: " + email);
+//		System.out.println(userRepo.findByEmail(email));
 		return userRepo.findByEmailIgnoreCase(email);
 	}
 

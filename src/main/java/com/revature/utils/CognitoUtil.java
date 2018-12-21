@@ -47,8 +47,12 @@ public class CognitoUtil {
 	 * @throws IOException
 	 */
 	public User registerUser(User user) throws IOException {
+		HttpServletRequest req = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
+		// "Authorization" : "Bearer tokenValue"1
+//		System.out.println(req.toString());
+		String cognitoToken = req.getHeader(HttpHeaders.AUTHORIZATION);
 		if (userService.findOneByEmail(user.getEmail()) == null) {
-			ResponseEntity<String> response = cognitoRestTemplate.registerUser(user.getEmail());
+			ResponseEntity<String> response = cognitoRestTemplate.registerUser(user.getEmail(),cognitoToken);
 			if (response.getStatusCodeValue() == HttpStatus.SC_OK) {
 
 				return userService.saveUser(user);
