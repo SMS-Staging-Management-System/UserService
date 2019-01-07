@@ -5,9 +5,10 @@ CREATE TABLE addresses (
 	alias TEXT,
 	street TEXT NOT NULL,
 	zip TEXT NOT NULL,
-	CITY TEXT NOT NULL,
-	STATE TEXT NOT NULL,
-	COUNTRY TEXT NOT NULL DEFAULT 'United States'
+	city TEXT NOT NULL,
+	state TEXT NOT NULL,
+	country TEXT NOT NULL DEFAULT 'United States',
+	is_training_location BOOLEAN NOT NULL DEFAULT false
 );
 
 CREATE TABLE sms_users (
