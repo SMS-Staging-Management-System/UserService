@@ -14,7 +14,7 @@ spring:
   application:
   
     name: user-service
-  
+
   datasource:
     driverClassName: org.postgresql.Driver
     initialization-mode: NEVER
@@ -31,6 +31,7 @@ spring:
       hibernate:
         default_schema: ${DB_SCHEMA}
     show-sql: false
+    
 ---
 spring:
   profiles: dev    

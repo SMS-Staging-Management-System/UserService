@@ -37,6 +37,10 @@ public class Cohort {
 
 	private String cohortToken;
 
+	@ManyToOne
+	@JoinColumn(name = "address")
+	private Address address;
+
 	@JsonIgnore
 	@ManyToMany(fetch = FetchType.LAZY, cascade = { CascadeType.MERGE }, mappedBy = "cohorts")
 	private Set<User> users = new HashSet<>();
@@ -62,14 +66,25 @@ public class Cohort {
 		this.users = users;
 		this.trainer = trainer;
 	}
-	
+
+	public Cohort(int cohortId, @NotNull String cohortName, @NotNull String cohortDescription, String cohortToken,
+			Address address, Set<User> users, User trainer) {
+		super();
+		this.cohortId = cohortId;
+		this.cohortName = cohortName;
+		this.cohortDescription = cohortDescription;
+		this.cohortToken = cohortToken;
+		this.address = address;
+		this.users = users;
+		this.trainer = trainer;
+	}
+
 	public Cohort(@NotNull String cohortName, @NotNull String cohortDescription, User trainer) {
 		super();
 		this.cohortName = cohortName;
 		this.cohortDescription = cohortDescription;
 		this.trainer = trainer;
 	}
-	
 
 	public int getCohortId() {
 		return cohortId;
@@ -101,6 +116,14 @@ public class Cohort {
 
 	public void setCohortToken(String cohortToken) {
 		this.cohortToken = cohortToken;
+	}
+
+	public Address getAddress() {
+		return address;
+	}
+
+	public void setAddress(Address address) {
+		this.address = address;
 	}
 
 	public Set<User> getUsers() {

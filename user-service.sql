@@ -1,34 +1,38 @@
-SET SCHEMA 'sms';
+SET SCHEMA 'user_service';
 
-CREATE TABLE sms_users
-(
+CREATE TABLE addresses (
+	address_id SERIAL PRIMARY KEY,
+	alias TEXT,
+	street TEXT NOT NULL,
+	zip TEXT NOT NULL,
+	CITY TEXT NOT NULL,
+	STATE TEXT NOT NULL,
+	COUNTRY TEXT NOT NULL DEFAULT 'United States'
+);
+
+CREATE TABLE sms_users (
     sms_user_id SERIAL,
     first_name TEXT NOT NULL,
     last_name TEXT NOT NULL,
     email TEXT NOT NULL UNIQUE,
     phone_number TEXT,
-    country TEXT,
-    timezone TEXT,
-    zip_code TEXT,
-    city TEXT,
-    state TEXT,
+    address INTEGER NOT NULL REFERENCES address (address_id),
     CONSTRAINT sms_users_PK PRIMARY KEY (sms_user_id)
 );
 
-CREATE TABLE cohorts 
-(
+CREATE TABLE cohorts (
     cohort_id SERIAL,
     cohort_name TEXT NOT NULL UNIQUE,
-    cohort_description TEXT NOT NULL,
-    cohort_token TEXT NOT NULL,
+    cohort_description TEXT,
+    cohort_token TEXT,
     trainer_id INTEGER NOT NULL,
+	address INTEGER  NOT NULL REFERENCES address (address_id),
     CONSTRAINT sms_cohorts_PK PRIMARY KEY (cohort_id),
     CONSTRAINT sms_cohorts_FK_trainer FOREIGN KEY (trainer_id)
     REFERENCES sms_users (sms_user_id) ON DELETE CASCADE
 );
 
-CREATE TABLE users_cohorts
-(
+CREATE TABLE users_cohorts (
     sms_user_id INTEGER NOT NULL,
     cohort_id INTEGER NOT NULL,
     CONSTRAINT sms_users_cohorts_PK PRIMARY KEY (sms_user_id, cohort_id),

@@ -1,4 +1,4 @@
-package com.revature.annotations;
+package com.revature.cognito.annotations;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
@@ -10,5 +10,5 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)
 public @interface CognitoAuth {
 	
-	public String role() default "user";	  
+	public String[] roles() default {};	  
 }
