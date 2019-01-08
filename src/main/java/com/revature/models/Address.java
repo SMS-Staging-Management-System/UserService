@@ -25,7 +25,7 @@ public class Address {
 	private String city;
 	private String state;
 	private String country;
-	private Boolean isTrainingLocation;
+	private boolean isTrainingLocation;
 
 	public Address() {
 		super();
@@ -33,7 +33,7 @@ public class Address {
 	}
 
 	public Address(int addressId, String alias, String street, String zip, String city, String state, String country,
-			Boolean isTrainingLocation) {
+			boolean isTrainingLocation) {
 		super();
 		this.addressId = addressId;
 		this.alias = alias;
@@ -101,11 +101,11 @@ public class Address {
 		this.country = country;
 	}
 
-	public Boolean getIsTrainingLocation() {
+	public boolean getIsTrainingLocation() {
 		return isTrainingLocation;
 	}
 
-	public void setIsTrainingLocation(Boolean isTrainingLocation) {
+	public void setIsTrainingLocation(boolean isTrainingLocation) {
 		this.isTrainingLocation = isTrainingLocation;
 	}
 
@@ -117,7 +117,7 @@ public class Address {
 		result = prime * result + ((alias == null) ? 0 : alias.hashCode());
 		result = prime * result + ((city == null) ? 0 : city.hashCode());
 		result = prime * result + ((country == null) ? 0 : country.hashCode());
-		result = prime * result + ((isTrainingLocation == null) ? 0 : isTrainingLocation.hashCode());
+		result = prime * result + (isTrainingLocation ? 1231 : 1237);
 		result = prime * result + ((state == null) ? 0 : state.hashCode());
 		result = prime * result + ((street == null) ? 0 : street.hashCode());
 		result = prime * result + ((zip == null) ? 0 : zip.hashCode());
@@ -150,10 +150,7 @@ public class Address {
 				return false;
 		} else if (!country.equals(other.country))
 			return false;
-		if (isTrainingLocation == null) {
-			if (other.isTrainingLocation != null)
-				return false;
-		} else if (!isTrainingLocation.equals(other.isTrainingLocation))
+		if (isTrainingLocation != other.isTrainingLocation)
 			return false;
 		if (state == null) {
 			if (other.state != null)
