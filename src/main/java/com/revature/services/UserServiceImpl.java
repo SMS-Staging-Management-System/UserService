@@ -2,12 +2,15 @@ package com.revature.services;
 
 import java.util.List;
 
+import javax.transaction.Transactional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.revature.cognito.dtos.CognitoRegisterBody;
 import com.revature.cognito.intercomm.CognitoClient;
 import com.revature.cognito.utils.CognitoUtil;
+import com.revature.feign.FeignException;
 import com.revature.models.User;
 import com.revature.repos.UserRepo;
 
@@ -15,10 +18,10 @@ import com.revature.repos.UserRepo;
 public class UserServiceImpl implements UserService {
 	@Autowired
 	private UserRepo userRepo;
-	
-	@Autowired 
+
+	@Autowired
 	private CognitoClient cognitoClient;
-	
+
 	@Autowired
 	private CognitoUtil cognitoUtil;
 
@@ -33,11 +36,20 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
+	@Transactional
 	public User saveUser(User u) {
-		User savedUser = userRepo.saveAndFlush(u);
 		// make a call to register the new user with cognito
-		cognitoClient.registerUser(cognitoUtil.getCurrentUserToken(), new CognitoRegisterBody(u.getEmail()));
-		return savedUser;
+		try {
+			cognitoClient.registerUser(cognitoUtil.getCurrentUserToken(), new CognitoRegisterBody(u.getEmail()));
+		} catch(FeignException e) {
+			// can occur if the user is already in cognito
+		}
+		if (userRepo.findByEmailIgnoreCase(u.getEmail()) != null) {
+			return null;
+		} else {
+			User savedUser = userRepo.saveAndFlush(u);
+			return savedUser;
+		}
 	}
 
 	@Override
