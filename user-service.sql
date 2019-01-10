@@ -17,7 +17,7 @@ CREATE TABLE sms_users (
     last_name TEXT NOT NULL,
     email TEXT NOT NULL UNIQUE,
     phone_number TEXT,
-    address INTEGER NOT NULL REFERENCES address (address_id),
+    address INTEGER NOT NULL REFERENCES addresses (address_id),
     CONSTRAINT sms_users_PK PRIMARY KEY (sms_user_id)
 );
 
@@ -29,7 +29,7 @@ CREATE TABLE cohorts (
     trainer_id INTEGER NOT NULL,
     start_date TIMESTAMP WITHOUT TIME ZONE NOT NULL,
     end_date TIMESTAMP WITHOUT TIME ZONE NOT NULL,
-	  address INTEGER  NOT NULL REFERENCES address (address_id),
+	  address INTEGER  NOT NULL REFERENCES addresses (address_id),
     CONSTRAINT sms_cohorts_PK PRIMARY KEY (cohort_id),
     CONSTRAINT sms_cohorts_FK_trainer FOREIGN KEY (trainer_id)
     REFERENCES sms_users (sms_user_id) ON DELETE CASCADE
