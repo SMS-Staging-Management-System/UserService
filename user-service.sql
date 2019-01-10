@@ -27,7 +27,9 @@ CREATE TABLE cohorts (
     cohort_description TEXT,
     cohort_token TEXT,
     trainer_id INTEGER NOT NULL,
-	address INTEGER  NOT NULL REFERENCES address (address_id),
+    start_date TIMESTAMP WITHOUT TIME ZONE NOT NULL,
+    end_date TIMESTAMP WITHOUT TIME ZONE NOT NULL,
+	  address INTEGER  NOT NULL REFERENCES address (address_id),
     CONSTRAINT sms_cohorts_PK PRIMARY KEY (cohort_id),
     CONSTRAINT sms_cohorts_FK_trainer FOREIGN KEY (trainer_id)
     REFERENCES sms_users (sms_user_id) ON DELETE CASCADE

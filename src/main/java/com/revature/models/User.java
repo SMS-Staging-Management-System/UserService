@@ -16,8 +16,9 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonProperty.Access;
 
 @Entity
 @JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
@@ -29,8 +30,10 @@ public class User {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int userId;
 
+	@NotNull
 	private String firstName;
 
+	@NotNull
 	private String lastName;
 
 	@NotNull
@@ -39,10 +42,10 @@ public class User {
 	private String phoneNumber;
 
 	@ManyToOne
-	@JoinColumn(name="address")
+	@JoinColumn(name = "address")
 	private Address address;
 
-	// @JsonProperty(access = Access.WRITE_ONLY)
+	@JsonProperty(access = Access.WRITE_ONLY)
 	@ManyToMany(fetch = FetchType.LAZY)
 	@JoinTable(name = "usersCohorts", joinColumns = { @JoinColumn(name = "smsUserId") }, inverseJoinColumns = {
 			@JoinColumn(name = "cohortId") })
