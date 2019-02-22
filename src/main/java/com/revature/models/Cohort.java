@@ -16,9 +16,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
-import org.hibernate.annotations.OnDelete;
-import org.hibernate.annotations.OnDeleteAction;
-
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
@@ -33,7 +31,6 @@ public class Cohort {
 	@NotNull
 	private String cohortName;
 
-	@NotNull
 	private String cohortDescription;
 
 	private String cohortToken;
@@ -42,8 +39,10 @@ public class Cohort {
 	@JoinColumn(name = "address")
 	private Address address;
 
+	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
 	private LocalDate startDate;
 
+	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
 	private LocalDate endDate;
 
 	@JsonIgnore
@@ -52,6 +51,7 @@ public class Cohort {
 
 	@ManyToOne(fetch = FetchType.LAZY, optional = false)
 	@JoinColumn(name = "trainer_id", nullable = false)
+	@NotNull
 	private User trainer;
 
 	public Cohort() {

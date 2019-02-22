@@ -10,4 +10,6 @@ import com.revature.models.Cohort;
 public interface CohortService {
 
 	List<Cohort> findByTrainer(int trainerId);
+
+	Cohort save(Cohort cohort);
 }
