@@ -5,6 +5,7 @@ import java.util.List;
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import com.revature.cognito.dtos.CognitoRegisterBody;
@@ -16,6 +17,10 @@ import com.revature.repos.UserRepo;
 
 @Service
 public class UserServiceImpl implements UserService {
+	
+	@Value("${cognito.key}")
+	private String cognitoKey;
+	
 	@Autowired
 	private UserRepo userRepo;
 
@@ -40,7 +45,7 @@ public class UserServiceImpl implements UserService {
 	public User saveUser(User u) {
 		// make a call to register the new user with cognito
 		try {
-			cognitoClient.registerUser(cognitoUtil.getCurrentUserToken(), new CognitoRegisterBody(u.getEmail()));
+			cognitoClient.registerUser(cognitoKey, new CognitoRegisterBody(u.getEmail()));
 		} catch(FeignException e) {
 			// can occur if the user is already in cognito
 		}

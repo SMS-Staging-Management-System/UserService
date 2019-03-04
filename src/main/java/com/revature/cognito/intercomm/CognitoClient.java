@@ -15,6 +15,6 @@ public interface CognitoClient {
 	CognitoTokenClaims authenticateToken(@RequestHeader("Authorization") String token);
 
 	@PostMapping("/cognito/users")
-	CognitoRegisterResponse registerUser(@RequestHeader("Authorization") String token, CognitoRegisterBody body);
+	CognitoRegisterResponse registerUser(@RequestHeader("x-api-key") String apiKey, CognitoRegisterBody body);
 
 }

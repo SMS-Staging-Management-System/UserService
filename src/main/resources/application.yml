@@ -8,6 +8,7 @@ logging:
     
 cognito:
   url: ${COGNITO_URL}
+  key: ${COGNITO_KEY}
     
 spring:
   profiles:
