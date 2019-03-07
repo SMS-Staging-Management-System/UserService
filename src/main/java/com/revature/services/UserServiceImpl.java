@@ -59,7 +59,14 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public User updateProfile(User u) {
-		// TODO Auto-generated method stub
+		if (userRepo.findById(u.getUserId()) != null)
+		{
+			if (u.getAddress() != null && u.getFirstName() != null &&
+				u.getLastName() != null) {
+					return userRepo.save(u);
+			}
+		}
+		
 		return null;
 	}
 
@@ -67,5 +74,6 @@ public class UserServiceImpl implements UserService {
 	public User findOneByEmail(String email) {
 		return userRepo.findByEmailIgnoreCase(email);
 	}
+	
 
 }
