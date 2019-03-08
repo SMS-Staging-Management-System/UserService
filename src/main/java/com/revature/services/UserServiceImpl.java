@@ -57,6 +57,8 @@ public class UserServiceImpl implements UserService {
 		}
 	}
 
+	// Can only change number, first and last name at the moment
+	// TODO need to be able to update personal address
 	@Override
 	public User updateProfile(User u) {
 		if (userRepo.findById(u.getUserId()) != null)
