@@ -13,6 +13,9 @@ public interface CohortService {
 	List<Cohort> findByTrainer(int trainerId);
 
 	Cohort save(Cohort cohort);
+
+	List<Cohort> findAll();
 	
 	String joinCohort(User user, String cohortToken) ;
+  
 }

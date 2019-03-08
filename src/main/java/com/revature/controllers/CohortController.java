@@ -33,6 +33,13 @@ public class CohortController {
 		return cohortService.findByTrainer(trainerId);
 	}
 	
+	@GetMapping
+    @CognitoAuth(roles = {CognitoRoles.ADMIN, CognitoRoles.STAGING_MANAGER})
+	public List<Cohort> findAll() {
+		return cohortService.findAll();
+	}
+	
+	
 	@CognitoAuth(roles= {CognitoRoles.STAGING_MANAGER, CognitoRoles.TRAINER})
 	@PostMapping
 	public Cohort save(@RequestBody Cohort cohort) {

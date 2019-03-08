@@ -36,6 +36,10 @@ public class CohortServiceImpl implements CohortService {
 	}
 
 	@Override
+	public List<Cohort> findAll() {
+		return cohortRepo.findAll();
+	
+  @Override
 	@Transactional
 	public String joinCohort(User user, String cohortToken) {
 		Cohort cohort = cohortRepo.findByCohortToken(cohortToken);
@@ -59,7 +63,6 @@ public class CohortServiceImpl implements CohortService {
 				return "Internal Server Error";
 			}
 		}
-		
 	}
 
 }
