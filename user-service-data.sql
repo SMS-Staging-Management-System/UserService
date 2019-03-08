@@ -7,3 +7,8 @@ INSERT INTO addresses (alias, street, zip, city, state, is_training_location)
 INSERT INTO sms_users (first_name, last_name, email, phone_number, address)
 	VALUES ('Blake', 'Kruppa', 'blake.kruppa@revature.com', '9093804081', (SELECT address_id FROM addresses WHERE alias = 'USF'));
 
+select * from cohorts;
+
+
+truncate users_cohorts;
+select * from users_cohorts;
