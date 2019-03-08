@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 
 import com.revature.models.Cohort;
+import com.revature.models.User;
 
 @Service
 public interface CohortService {
@@ -14,4 +15,7 @@ public interface CohortService {
 	Cohort save(Cohort cohort);
 
 	List<Cohort> findAll();
+	
+	String joinCohort(User user, String cohortToken) ;
+  
 }

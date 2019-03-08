@@ -8,8 +8,10 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -60,8 +62,13 @@ public class UserController {
 
 	@CognitoAuth(roles = { "staging-manager" })
 	@PostMapping
-	public User save(@RequestBody User u) {
-		return userService.saveUser(u);
+	public User save(@RequestBody User user) {
+		return userService.saveUser(user);
+	}
+	
+	@PatchMapping
+	public User update(@RequestBody User user) {
+		return userService.updateProfile(user);
 	}
 
 }
