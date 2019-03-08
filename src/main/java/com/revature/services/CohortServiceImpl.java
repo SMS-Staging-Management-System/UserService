@@ -27,4 +27,9 @@ public class CohortServiceImpl implements CohortService {
 		return cohort;
 	}
 
+	@Override
+	public List<Cohort> findAll() {
+		return cohortRepo.findAll();
+	}
+
 }
