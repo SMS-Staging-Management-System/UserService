@@ -1,5 +1,7 @@
 package com.revature.configuration;
 
+import java.io.File;
+import java.io.IOException;
 import java.lang.reflect.Method;
 import java.util.Map;
 
@@ -8,11 +10,17 @@ import org.junit.Test;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 
+import com.fasterxml.jackson.core.JsonParseException;
+import com.fasterxml.jackson.databind.JsonMappingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
+
 public class WebConfigTest {
 
 	@Test
 	public void testAddCorsMappings() {
 
+		
 		
 		WebConfig tester = new WebConfig();
 
@@ -20,6 +28,11 @@ public class WebConfigTest {
 		tester.addCorsMappings(testInput);
 
 		try {
+			File file = new File("./src/test/resources/WebConfigTest.yml");
+			ObjectMapper mapper = new ObjectMapper(new YAMLFactory());
+			WebConfigTestYml testProperties = mapper.readValue(file, WebConfigTestYml.class);
+			
+			
 			Method getConfig = testInput.getClass().getDeclaredMethod("getCorsConfigurations");
 			getConfig.setAccessible(true);
 			@SuppressWarnings("unchecked")
