@@ -9,6 +9,11 @@ public class FeignException extends RuntimeException {
 	
 	private int status;
 	private String reason;
+	
+	public FeignException() {
+		this.status = 0;
+		this.reason = null;
+	}
 
 	public FeignException(int status, String reason) {
 		super();
