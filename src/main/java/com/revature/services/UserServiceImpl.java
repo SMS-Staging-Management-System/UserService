@@ -63,7 +63,7 @@ public class UserServiceImpl implements UserService {
 	public User updateProfile(User u) {
 		if (userRepo.findById(u.getUserId()) != null)
 		{
-			if (u.getPersonalAddress() != null && u.getFirstName() != null &&
+			if (u.getTrainingAddress() != null && u.getFirstName() != null &&
 				u.getLastName() != null) {
 					return userRepo.save(u);
 			}
