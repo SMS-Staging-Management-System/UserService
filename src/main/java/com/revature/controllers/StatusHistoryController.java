@@ -33,5 +33,7 @@ public class StatusHistoryController {
 		return statusHistoryService.saveStatusHistory(statusHistory);
 	}
 	
+//	TODO: create a check for the role of the user here so that users cannot change the data of other users in Postman for example
+	
 
 }

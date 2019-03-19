@@ -26,14 +26,15 @@ INSERT INTO addresses (alias, street, zip, city, state, is_training_location)
 	VALUES ('Reston', '11730 Plaza America Dr #205', 20190, 'Reston', 'VA', TRUE),
 		   ('USF', 'Northwest Educational Complex', '33613', 'Tampa', 'FL', TRUE);
 		   
-INSERT INTO sms_users (first_name, last_name, email, phone_number, training_address, personal_address, user_status)
-	VALUES ('Blake', 'Kruppa', 'blake.kruppa@revature.com', '9093804081', (SELECT address_id FROM addresses WHERE alias = 'USF'),(SELECT address_id FROM addresses WHERE alias = 'USF'), 8),
-		   ('Alec', 'Batson', 'abatson94@gmail.com', '9093804081', (SELECT address_id FROM addresses WHERE alias = 'USF'),(SELECT address_id FROM addresses WHERE alias = 'USF'), 8),
-		   ('Lori', 'Oliver', 'loricodes@gmail.com', '9093804081', (SELECT address_id FROM addresses WHERE alias = 'USF'),(SELECT address_id FROM addresses WHERE alias = 'USF'), 8),
-		   ('Kenneth', 'Currie', 'kenneth.james.currie@gmail.com', '9093804081', (SELECT address_id FROM addresses WHERE alias = 'USF'),(SELECT address_id FROM addresses WHERE alias = 'USF'), 1),
-		   ('Dom', 'Felix', 'dfeli014@fiu.edu', '9093804081', (SELECT address_id FROM addresses WHERE alias = 'USF'),(SELECT address_id FROM addresses WHERE alias = 'USF'), 10),
-		   ('Mohamed', 'Omar', 'mohamedwomar21@gmail.com', '9093804081', (SELECT address_id FROM addresses WHERE alias = 'USF'),(SELECT address_id FROM addresses WHERE alias = 'USF'), 7),
-		   ('John', 'Goncalves', 'goncalvesjohnp@gmail.com', '9093804081', (SELECT address_id FROM addresses WHERE alias = 'USF'),(SELECT address_id FROM addresses WHERE alias = 'USF'), 8);
+INSERT INTO sms_users (first_name, last_name, email, phone_number, training_address, user_status)
+	VALUES ('Blake', 'Kruppa', 'blake.kruppa@revature.com', '9093804081', (SELECT address_id FROM addresses WHERE alias = 'USF'), 8),
+		   ('Alec', 'Batson', 'abatson94@gmail.com', '9093804081', (SELECT address_id FROM addresses WHERE alias = 'USF'), 8),
+		   ('Lori', 'Oliver', 'loricodes@gmail.com', '9093804081', (SELECT address_id FROM addresses WHERE alias = 'USF'), 8),
+		   ('Kenneth', 'Currie', 'kenneth.james.currie@gmail.com', '9093804081', (SELECT address_id FROM addresses WHERE alias = 'USF'), 1),
+		   ('Dom', 'Felix', 'dfeli014@fiu.edu', '9093804081', (SELECT address_id FROM addresses WHERE alias = 'USF'), 10),
+		   ('Mohamed', 'Omar', 'mohamedwomar21@gmail.com', '9093804081', (SELECT address_id FROM addresses WHERE alias = 'USF'),7),
+		   ('John', 'Goncalves', 'goncalvesjohnp@gmail.com', '9093804081', (SELECT address_id FROM addresses WHERE alias = 'USF'), 8),
+		   ('Aaron', 'Gravelle', 'agrav12825@gmail.com', '1234567890', (SELECT address_id FROM addresses WHERE alias = 'USF'), 8);
 
 
 INSERT INTO cohorts

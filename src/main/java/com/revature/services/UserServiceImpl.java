@@ -16,7 +16,10 @@ import com.revature.feign.FeignException;
 import com.revature.models.StatusHistory;
 import com.revature.models.User;
 import com.revature.repos.AddressRepo;
+
 import com.revature.repos.StatusHistoryRepo;
+
+
 import com.revature.repos.UserRepo;
 
 @Service
@@ -30,9 +33,11 @@ public class UserServiceImpl implements UserService {
 	
 	@Autowired
 	private AddressRepo addressRepo;
+
 	
 	@Autowired
 	private StatusHistoryRepo statusHistoryRepo;
+
 
 	@Autowired
 	private CognitoClient cognitoClient;
@@ -79,13 +84,16 @@ public class UserServiceImpl implements UserService {
 	// Can only change number, first and last name at the moment
 	// TODO need to be able to update personal address
 	@Override
+	@Transactional
 	public User updateProfile(User u) {
 		Optional<User> oldUser = userRepo.findById(u.getUserId());
 		
-		if (oldUser.isPresent())
-		{
+		if (oldUser.isPresent()) {
 			if (u.getTrainingAddress() != null && u.getFirstName() != null &&
 				u.getLastName() != null) {
+				if (u.getPersonalAddress() != null) {
+					u.setPersonalAddress(addressRepo.save(u.getPersonalAddress()));
+				}
 					return userRepo.save(u);
 			}
 			if(!oldUser.get().getUserStatus().equals(u.getUserStatus())) {
