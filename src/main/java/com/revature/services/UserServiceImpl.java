@@ -94,15 +94,16 @@ public class UserServiceImpl implements UserService {
 				if (u.getPersonalAddress() != null) {
 					u.setPersonalAddress(addressRepo.save(u.getPersonalAddress()));
 				}
+				if(!oldUser.get().getUserStatus().equals(u.getUserStatus())) {
+					StatusHistory statusHistory = new StatusHistory();
+					statusHistory.setAddress(u.getTrainingAddress());
+					statusHistory.setUser(u);
+					statusHistory.setStatus(u.getUserStatus());
+					statusHistoryRepo.save(statusHistory);
+				}
 					return userRepo.save(u);
 			}
-			if(!oldUser.get().getUserStatus().equals(u.getUserStatus())) {
-				StatusHistory statusHistory = new StatusHistory();
-				statusHistory.setAddress(u.getTrainingAddress());
-				statusHistory.setUser(u);
-				statusHistory.setStatus(u.getUserStatus());
-				statusHistoryRepo.save(statusHistory);
-			}
+			
 		}
 		
 		return null;
