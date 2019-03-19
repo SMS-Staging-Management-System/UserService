@@ -13,6 +13,7 @@ import com.revature.cognito.intercomm.CognitoClient;
 import com.revature.cognito.utils.CognitoUtil;
 import com.revature.feign.FeignException;
 import com.revature.models.User;
+import com.revature.repos.AddressRepo;
 import com.revature.repos.UserRepo;
 
 @Service
@@ -23,6 +24,9 @@ public class UserServiceImpl implements UserService {
 	
 	@Autowired
 	private UserRepo userRepo;
+	
+	@Autowired
+	private AddressRepo addressRepo;
 
 	@Autowired
 	private CognitoClient cognitoClient;
@@ -60,11 +64,15 @@ public class UserServiceImpl implements UserService {
 	// Can only change number, first and last name at the moment
 	// TODO need to be able to update personal address
 	@Override
+	@Transactional
 	public User updateProfile(User u) {
 		if (userRepo.findById(u.getUserId()) != null)
 		{
 			if (u.getTrainingAddress() != null && u.getFirstName() != null &&
 				u.getLastName() != null) {
+				if (u.getPersonalAddress() != null) {
+					u.setPersonalAddress(addressRepo.save(u.getPersonalAddress()));
+				}
 					return userRepo.save(u);
 			}
 		}
