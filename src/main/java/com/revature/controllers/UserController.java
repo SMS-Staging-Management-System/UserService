@@ -43,15 +43,20 @@ public class UserController {
 	public ResponseEntity<User> findByEmail(@PathVariable String email) {
 		HttpHeaders headers = new HttpHeaders();
 		headers.add("Content-Type", "application/json");
+		
+		User resultBody = null;
+		HttpStatus resultStatus = HttpStatus.OK;
 		try {
-			return new ResponseEntity<User>(
-					userService.findOneByEmail(java.net.URLDecoder.decode(email.toLowerCase(), "utf-8")), headers,
-					HttpStatus.OK);
-		} catch (UnsupportedEncodingException e) {
-			// TODO Auto-generated catch block
+			resultBody = userService.findOneByEmail(java.net.URLDecoder.decode(email.toLowerCase(), "utf-8"));
+			} catch (UnsupportedEncodingException e) {
+
 			e.printStackTrace();
+		} 
+		
+		if(resultBody == null) {
+			resultStatus = HttpStatus.NOT_FOUND;
 		}
-		return null;
+		return new ResponseEntity<User>(resultBody, headers, resultStatus);
 	}
 
 	@CognitoAuth(roles = { CognitoRoles.STAGING_MANAGER, CognitoRoles.TRAINER })
