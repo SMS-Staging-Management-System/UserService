@@ -20,6 +20,7 @@ public interface UserService {
 	 public User updateProfile(User u);
 	//
 	 public User findOneByEmail(String email);
+	 
 	//
 	// public CohortUserListOutputDto saveUsers(UserListInputDto userList, int id)
 	// throws IOException;

@@ -9,4 +9,6 @@ import com.revature.models.Cohort;
 public interface CohortRepo extends JpaRepository<Cohort, Integer> {
 	List<Cohort> findByTrainerUserId(int trainerId);
 	
+	Cohort findByCohortToken(String cohortToken);
+	
 }
