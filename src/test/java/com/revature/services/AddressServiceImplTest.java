@@ -6,9 +6,9 @@ import org.junit.Test;
 
 public class AddressServiceImplTest {
 
-	@Test
-	public void testFindByIsTrainingLocation() {
-		fail("Not yet implemented");
-	}
+//	@Test
+//	public void testFindByIsTrainingLocation() {
+//		fail("Not yet implemented");
+//	}
 
 }

@@ -121,27 +121,27 @@ public class UserControllerTest {
 
 	}
 
-	@Test
-	public void testFindAllByCohortId() {
-		fail("Not yet implemented");
-	}
+//	@Test
+//	public void testFindAllByCohortId() {
+//		fail("Not yet implemented");
+//	}
 
-	@Test
-	public void testSave() {
-		idUserMap.clear();
-		// Saving without collision
-		// Saving invalid user
-		// Saving valid user with collision
-		fail("Not yet implemented");
-	}
+//	@Test
+//	public void testSave() {
+//		idUserMap.clear();
+//		// Saving without collision
+//		// Saving invalid user
+//		// Saving valid user with collision
+//		fail("Not yet implemented");
+//	}
 
-	@Test
-	public void testUpdate() {
-		idUserMap.clear();
-		// Updating where user exists and valid
-		// Updating where user does not exist
-		// Updating where user is not valid
-		fail("Not yet implemented");
-	}
+//	@Test
+//	public void testUpdate() {
+//		idUserMap.clear();
+//		// Updating where user exists and valid
+//		// Updating where user does not exist
+//		// Updating where user is not valid
+//		fail("Not yet implemented");
+//	}
 
 }
