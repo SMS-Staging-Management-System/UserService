@@ -1,5 +1,16 @@
 SET SCHEMA 'user_service';
 
+drop table users_cohorts;
+drop table cohorts;
+drop table status_history;
+drop table sms_users;
+drop table addresses;
+drop table status;
+
+
+
+
+
 CREATE TABLE addresses (
 	address_id SERIAL PRIMARY KEY,
 	alias TEXT,
@@ -11,13 +22,23 @@ CREATE TABLE addresses (
 	is_training_location BOOLEAN NOT NULL DEFAULT false
 );
 
+create table status (
+	status_id serial,
+	general_status text not null,
+	specific_status text not null,
+	virtual boolean default false,
+	constraint sms_status_pk primary key (status_id)
+);
+
 CREATE TABLE sms_users (
     sms_user_id SERIAL,
     first_name TEXT NOT NULL,
     last_name TEXT NOT NULL,
     email TEXT NOT NULL UNIQUE,
     phone_number TEXT,
-    address INTEGER NOT NULL REFERENCES addresses (address_id),
+    training_address INTEGER NOT NULL REFERENCES addresses (address_id),
+    personal_address INTEGER references addresses (address_id),
+    user_status INTEGER not null references status (status_id),
     CONSTRAINT sms_users_PK PRIMARY KEY (sms_user_id)
 );
 
@@ -44,3 +65,21 @@ CREATE TABLE users_cohorts (
     CONSTRAINT sms_users_cohorts_FK_cohort FOREIGN KEY (cohort_id)
     REFERENCES cohorts (cohort_id) ON DELETE CASCADE
 );
+
+create table status_history (
+	status_history_id serial,
+	status_start timestamp NOT NULL DEFAULT now()::timestamp without time zone,
+	users_id INTEGER not null,
+	status_id integer not null,
+	address_id integer not null,
+	CONSTRAINT status_history_PK PRIMARY KEY (status_history_id),
+	CONSTRAINT status_history_FK_user FOREIGN KEY (users_id)
+    REFERENCES sms_users (sms_user_id),
+    CONSTRAINT status_history_FK_status FOREIGN KEY (status_id)
+    REFERENCES status (status_id),
+    CONSTRAINT status_history_FK_address FOREIGN KEY (address_id)
+    REFERENCES addresses (address_id)
+);
+
+
+

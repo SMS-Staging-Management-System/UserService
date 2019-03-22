@@ -8,8 +8,10 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -41,15 +43,20 @@ public class UserController {
 	public ResponseEntity<User> findByEmail(@PathVariable String email) {
 		HttpHeaders headers = new HttpHeaders();
 		headers.add("Content-Type", "application/json");
+		
+		User resultBody = null;
+		HttpStatus resultStatus = HttpStatus.OK;
 		try {
-			return new ResponseEntity<User>(
-					userService.findOneByEmail(java.net.URLDecoder.decode(email.toLowerCase(), "utf-8")), headers,
-					HttpStatus.OK);
-		} catch (UnsupportedEncodingException e) {
-			// TODO Auto-generated catch block
+			resultBody = userService.findOneByEmail(java.net.URLDecoder.decode(email.toLowerCase(), "utf-8"));
+			} catch (UnsupportedEncodingException e) {
+
 			e.printStackTrace();
+		} 
+		
+		if(resultBody == null) {
+			resultStatus = HttpStatus.NOT_FOUND;
 		}
-		return null;
+		return new ResponseEntity<User>(resultBody, headers, resultStatus);
 	}
 
 	@CognitoAuth(roles = { CognitoRoles.STAGING_MANAGER, CognitoRoles.TRAINER })
@@ -58,10 +65,15 @@ public class UserController {
 		return userService.findAllByCohortId(id);
 	}
 
-	@CognitoAuth(roles = { "staging-manager" })
+	//@CognitoAuth(roles = { "staging-manager" })
 	@PostMapping
-	public User save(@RequestBody User u) {
-		return userService.saveUser(u);
+	public User save(@RequestBody User user) {
+		return userService.saveUser(user);
+	}
+	
+	@PatchMapping
+	public User update(@RequestBody User user) {
+		return userService.updateProfile(user);
 	}
 
 }
