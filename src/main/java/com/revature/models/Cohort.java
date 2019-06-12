@@ -1,5 +1,6 @@
 package com.revature.models;
 
+import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -15,9 +16,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
-import org.hibernate.annotations.OnDelete;
-import org.hibernate.annotations.OnDeleteAction;
-
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
@@ -32,10 +31,19 @@ public class Cohort {
 	@NotNull
 	private String cohortName;
 
-	@NotNull
 	private String cohortDescription;
 
 	private String cohortToken;
+
+	@ManyToOne
+	@JoinColumn(name = "address")
+	private Address address;
+
+	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
+	private LocalDate startDate;
+
+	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
+	private LocalDate endDate;
 
 	@JsonIgnore
 	@ManyToMany(fetch = FetchType.LAZY, cascade = { CascadeType.MERGE }, mappedBy = "cohorts")
@@ -43,8 +51,7 @@ public class Cohort {
 
 	@ManyToOne(fetch = FetchType.LAZY, optional = false)
 	@JoinColumn(name = "trainer_id", nullable = false)
-	@OnDelete(action = OnDeleteAction.CASCADE)
-	@JsonIgnore
+	@NotNull
 	private User trainer;
 
 	public Cohort() {
@@ -53,23 +60,18 @@ public class Cohort {
 	}
 
 	public Cohort(int cohortId, @NotNull String cohortName, @NotNull String cohortDescription, String cohortToken,
-			Set<User> users, User trainer) {
+			Address address, LocalDate startDate, LocalDate endDate, Set<User> users, User trainer) {
 		super();
 		this.cohortId = cohortId;
 		this.cohortName = cohortName;
 		this.cohortDescription = cohortDescription;
 		this.cohortToken = cohortToken;
+		this.address = address;
+		this.startDate = startDate;
+		this.endDate = endDate;
 		this.users = users;
 		this.trainer = trainer;
 	}
-	
-	public Cohort(@NotNull String cohortName, @NotNull String cohortDescription, User trainer) {
-		super();
-		this.cohortName = cohortName;
-		this.cohortDescription = cohortDescription;
-		this.trainer = trainer;
-	}
-	
 
 	public int getCohortId() {
 		return cohortId;
@@ -103,6 +105,30 @@ public class Cohort {
 		this.cohortToken = cohortToken;
 	}
 
+	public Address getAddress() {
+		return address;
+	}
+
+	public void setAddress(Address address) {
+		this.address = address;
+	}
+
+	public LocalDate getStartDate() {
+		return startDate;
+	}
+
+	public void setStartDate(LocalDate startDate) {
+		this.startDate = startDate;
+	}
+
+	public LocalDate getEndDate() {
+		return endDate;
+	}
+
+	public void setEndDate(LocalDate endDate) {
+		this.endDate = endDate;
+	}
+
 	public Set<User> getUsers() {
 		return users;
 	}
@@ -123,10 +149,13 @@ public class Cohort {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
+		result = prime * result + ((address == null) ? 0 : address.hashCode());
 		result = prime * result + ((cohortDescription == null) ? 0 : cohortDescription.hashCode());
 		result = prime * result + cohortId;
 		result = prime * result + ((cohortName == null) ? 0 : cohortName.hashCode());
 		result = prime * result + ((cohortToken == null) ? 0 : cohortToken.hashCode());
+		result = prime * result + ((endDate == null) ? 0 : endDate.hashCode());
+		result = prime * result + ((startDate == null) ? 0 : startDate.hashCode());
 		return result;
 	}
 
@@ -139,6 +168,11 @@ public class Cohort {
 		if (getClass() != obj.getClass())
 			return false;
 		Cohort other = (Cohort) obj;
+		if (address == null) {
+			if (other.address != null)
+				return false;
+		} else if (!address.equals(other.address))
+			return false;
 		if (cohortDescription == null) {
 			if (other.cohortDescription != null)
 				return false;
@@ -156,13 +190,24 @@ public class Cohort {
 				return false;
 		} else if (!cohortToken.equals(other.cohortToken))
 			return false;
+		if (endDate == null) {
+			if (other.endDate != null)
+				return false;
+		} else if (!endDate.equals(other.endDate))
+			return false;
+		if (startDate == null) {
+			if (other.startDate != null)
+				return false;
+		} else if (!startDate.equals(other.startDate))
+			return false;
 		return true;
 	}
 
 	@Override
 	public String toString() {
 		return "Cohort [cohortId=" + cohortId + ", cohortName=" + cohortName + ", cohortDescription="
-				+ cohortDescription + ", cohortToken=" + cohortToken + "]";
+				+ cohortDescription + ", cohortToken=" + cohortToken + ", address=" + address + ", startDate="
+				+ startDate + ", endDate=" + endDate + "]";
 	}
 
 }

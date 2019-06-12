@@ -1,49 +1,38 @@
 package com.revature.services;
 
-import java.io.IOException;
 import java.util.List;
+import java.util.Set;
+import java.util.UUID;
 
-import org.apache.log4j.Logger;
+import javax.transaction.Transactional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.revature.dto.CohortUserListInputDto;
-import com.revature.dto.CohortUserListOutputDto;
 import com.revature.models.Cohort;
 import com.revature.models.User;
 import com.revature.repos.CohortRepo;
-import com.revature.utils.CognitoUtil;
+import com.revature.repos.UserRepo;
 
 @Service
 public class CohortServiceImpl implements CohortService {
-
 	@Autowired
-	CohortRepo cohortRepo;
-
+	private CohortRepo cohortRepo;
+	
 	@Autowired
-	UserService userService;
+	private UserRepo userRepo;
 
-	@Autowired
-	CognitoUtil cognitoUtil;
-
-	Logger log = Logger.getRootLogger();
-
-	public Cohort saveCohort(Cohort cohort) {
-		if (cohortRepo.findOneByCohortName(cohort.getCohortName()) == null) {
-			System.out.println("saving cohort");
-			return cohortRepo.save(cohort);
-		}
-		return null;
+	@Override
+	public List<Cohort> findByTrainer(int trainerId) {
+		return cohortRepo.findByTrainerUserId(trainerId);
 	}
 
 	@Override
-	public List<Cohort> findAllByTrainerId(int id) {
-		return cohortRepo.findByTrainerUserId(id);
-	}
-
-	@Override
-	public Cohort findOneByCohortId(int id) {
-		return cohortRepo.findOneByCohortId(id);
+	public Cohort save(Cohort cohort) {
+		cohort.setCohortToken(UUID.randomUUID().toString());
+		cohort.setCohortId(0);
+		cohortRepo.saveAndFlush(cohort);
+		return cohort;
 	}
 
 	@Override
@@ -51,43 +40,30 @@ public class CohortServiceImpl implements CohortService {
 		return cohortRepo.findAll();
 	}
 
-	@Override
-	public CohortUserListOutputDto saveCohortWithUserList(CohortUserListInputDto cuList) throws IOException {
-		User trainer = userService.findOneByEmail(cuList.getTrainerEmail());
-
-		log.info("\n Trainer is: " + trainer);
-		CohortUserListOutputDto cuListOutput = new CohortUserListOutputDto();
-		Cohort cohort = new Cohort(cuList.getCohortName(), cuList.getCohortDescription(), trainer);
-
-		log.info("Cohort is: " + cohort);
-		Cohort savedCohort = saveCohort(cohort);
-		cuListOutput.setCohort(savedCohort);
-
-		if (cuListOutput.getCohort() == null) {
-			cuListOutput.setMessages("Cohort could not be created or already exists, all users rejected");
-			return cuListOutput;
+  	@Override
+	@Transactional
+	public String joinCohort(User user, String cohortToken) {
+		Cohort cohort = cohortRepo.findByCohortToken(cohortToken);
+		User nUser = userRepo.findByEmailIgnoreCase(user.getEmail());
+		if(cohort == null) {
+			return "Not Found";
+		} else if(nUser == null){
+			return "Bad Request";
+		} else {
+			try {
+				//Set<User> nUsers = cohort.getUsers();
+				//nUsers.add(user);
+				//cohort.setUsers(nUsers);
+				Set<Cohort> nCohorts = nUser.getCohorts();
+				nCohorts.add(cohort);
+				nUser.setCohorts(nCohorts);
+				userRepo.save(nUser);
+				//cohortRepo.save(cohort);
+				return "OK";
+			} catch (Exception e) {
+				return "Internal Server Error";
+			}
 		}
-
-		if (cuList.getUserList() == null) {
-			cuListOutput.setMessages("Created cohort with no users");
-			return cuListOutput;
-		}
-
-		List<User> users = cuList.toUsersList(savedCohort);
-
-		for (User user : users) {
-			User tempUser = cognitoUtil.registerUser(user);
-			if (tempUser != null)
-				cuListOutput.getAcceptedUsers().add(tempUser);
-			else
-				cuListOutput.getRejectedUsers().add(user);
-		}
-
-		cuListOutput.setMessages("Created Cohort with users");
-		log.info("Accepted Users: " + cuListOutput.getAcceptedUsers());
-		log.info("Rejected Users: " + cuListOutput.getRejectedUsers());
-		return cuListOutput;
-
 	}
 
 }

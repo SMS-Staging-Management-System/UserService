@@ -5,16 +5,17 @@ logging:
       springframework:
         web: DEBUG
     root: ALL
+    
 cognito:
   url: ${COGNITO_URL}
+  key: ${COGNITO_KEY}
     
 spring:
   profiles:
     active: ${DEPLOYMENT_STAGE}
   application:
-  
     name: user-service
-  
+
   datasource:
     driverClassName: org.postgresql.Driver
     initialization-mode: NEVER
@@ -31,6 +32,7 @@ spring:
       hibernate:
         default_schema: ${DB_SCHEMA}
     show-sql: false
+    
 ---
 spring:
   profiles: dev    

@@ -1,24 +1,21 @@
 package com.revature.services;
 
-import java.io.IOException;
 import java.util.List;
+
 import org.springframework.stereotype.Service;
-import com.revature.dto.CohortUserListInputDto;
-import com.revature.dto.CohortUserListOutputDto;
+
 import com.revature.models.Cohort;
+import com.revature.models.User;
 
 @Service
 public interface CohortService {
-	CohortService currentImplementation = new CohortServiceImpl();
 
-	Cohort saveCohort(Cohort cohort);
+	List<Cohort> findByTrainer(int trainerId);
 
-	List<Cohort> findAllByTrainerId(int id);
-
-	Cohort findOneByCohortId(int id);
+	Cohort save(Cohort cohort);
 
 	List<Cohort> findAll();
-
-	CohortUserListOutputDto saveCohortWithUserList(CohortUserListInputDto cuList) throws IOException;
-
+	
+	String joinCohort(User user, String cohortToken) ;
+  
 }

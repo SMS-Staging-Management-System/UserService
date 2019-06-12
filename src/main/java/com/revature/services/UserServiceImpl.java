@@ -1,135 +1,118 @@
 package com.revature.services;
 
-import java.io.IOException;
 import java.util.List;
+import java.util.Optional;
 
-import org.apache.log4j.Logger;
+import javax.transaction.Transactional;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
-import com.revature.dto.CohortUserListOutputDto;
-import com.revature.dto.UserListInputDto;
-import com.revature.models.Cohort;
+import com.revature.cognito.dtos.CognitoRegisterBody;
+import com.revature.cognito.intercomm.CognitoClient;
+import com.revature.cognito.utils.CognitoUtil;
+import com.revature.feign.FeignException;
+import com.revature.models.StatusHistory;
 import com.revature.models.User;
+import com.revature.repos.AddressRepo;
+
+import com.revature.repos.StatusHistoryRepo;
+
+
 import com.revature.repos.UserRepo;
-import com.revature.utils.CognitoUtil;
 
 @Service
 public class UserServiceImpl implements UserService {
+	
+	@Value("${cognito.key}")
+	private String cognitoKey;
+	
 	@Autowired
-	UserRepo userRepo;
+	private UserRepo userRepo;
+	
+	@Autowired
+	private AddressRepo addressRepo;
+
+	
+	@Autowired
+	private StatusHistoryRepo statusHistoryRepo;
+
 
 	@Autowired
-	CognitoUtil cognitoUtil;
+	private CognitoClient cognitoClient;
 
 	@Autowired
-	CohortService cohortService;
-
-	@Autowired
-	CognitoUtil cUtil;
-
-	Logger log = Logger.getRootLogger();
-
-	@Override
-	public List<User> findAll() {
-		return userRepo.findAll();
-
-	}
+	private CognitoUtil cognitoUtil;
 
 	@Override
 	public User findOneById(int id) {
-		return userRepo.findOneByUserId(id);
-
+		return userRepo.getOne(id);
 	}
 
 	@Override
 	public List<User> findAllByCohortId(int id) {
 		return userRepo.findAllByCohortsCohortId(id);
-
 	}
 
 	@Override
+	@Transactional
 	public User saveUser(User u) {
-		System.out.println(u.toString());
-		return userRepo.save(u);
+		// make a call to register the new user with cognito
+		try {
+			cognitoClient.registerUser(cognitoKey, new CognitoRegisterBody(u.getEmail()));
+		} catch(FeignException e) {
+			// can occur if the user is already in cognito
+		}
+		if (userRepo.findByEmailIgnoreCase(u.getEmail()) != null) {
+			return null;
+		} else {
+			
+			addressRepo.save(u.getPersonalAddress());
+			User savedUser = userRepo.save(u);
+			
+			StatusHistory statusHistory = new StatusHistory();
+			statusHistory.setAddress(savedUser.getTrainingAddress());
+			statusHistory.setUser(savedUser);
+			statusHistory.setStatus(savedUser.getUserStatus());
+			statusHistoryRepo.save(statusHistory);
+			
+			return savedUser;
+		}
+	}
+
+	// Can only change number, first and last name at the moment
+	// TODO need to be able to update personal address
+	@Override
+	@Transactional
+	public User updateProfile(User u) {
+		Optional<User> oldUser = userRepo.findById(u.getUserId());
+		
+		if (oldUser.isPresent()) {
+			if (u.getTrainingAddress() != null && u.getFirstName() != null &&
+				u.getLastName() != null) {
+				if (u.getPersonalAddress() != null) {
+					u.setPersonalAddress(addressRepo.save(u.getPersonalAddress()));
+				}
+				if(!oldUser.get().getUserStatus().equals(u.getUserStatus())) {
+					StatusHistory statusHistory = new StatusHistory();
+					statusHistory.setAddress(u.getTrainingAddress());
+					statusHistory.setUser(u);
+					statusHistory.setStatus(u.getUserStatus());
+					statusHistoryRepo.save(statusHistory);
+				}
+					return userRepo.save(u);
+			}
+			
+		}
+		
+		return null;
 	}
 
 	@Override
 	public User findOneByEmail(String email) {
-		System.out.println("Finding email: " + email);
-//		System.out.println(userRepo.findByEmail(email));
 		return userRepo.findByEmailIgnoreCase(email);
 	}
-
-	// Needs more verification before an update occurs.
-	@Override
-	public User updateProfile(User u) {
-		User tempAppUser = userRepo.findByEmailIgnoreCase(cognitoUtil.extractTokenEmail());
-		if (tempAppUser == null) {
-			log.info("User cannot be found.");
-			return null;
-		}
-		if (u.getFirstName() != null) {
-			tempAppUser.setFirstName(u.getFirstName());
-		}
-		if (u.getLastName() != null) {
-			tempAppUser.setLastName(u.getLastName());
-		}
-//	 	Email doesn't get updated with cognito so we
-//		have to fix that before we can change our email
-//		if (u.getEmail() != null) {
-//			tempAppUser.setEmail(u.getEmail());
-//		}
-		if (u.getPhoneNumber() != null) {
-			tempAppUser.setPhoneNumber(u.getPhoneNumber());
-		}
-		if (u.getCountry() != null) {
-			tempAppUser.setCountry(u.getCountry());
-		}
-		if (u.getTimezone() != null) {
-			tempAppUser.setTimezone(u.getTimezone());
-		}
-		if (u.getZipCode() != null) {
-			tempAppUser.setZipCode(u.getZipCode());
-		}
-		if (u.getCity() != null) {
-			tempAppUser.setCity(u.getCity());
-		}
-		if (u.getState() != null) {
-			tempAppUser.setState(u.getState());
-		}
-		userRepo.save(tempAppUser);
-		return tempAppUser;
-	}
-
-	public User userInfo() {
-		String email = cUtil.extractTokenEmail();
-		System.out.println("Checking email: " + email);
-		return userRepo.findByEmailIgnoreCase(email);
-	}
-
-	@Override
-	public CohortUserListOutputDto saveUsers(UserListInputDto userList, int id) throws IOException {
-		log.info(userList);
-		Cohort cohort = cohortService.findOneByCohortId(id);
-		List<User> users = userList.toUsersList(cohort);
-
-		CohortUserListOutputDto cuListOutput = new CohortUserListOutputDto();
-		cuListOutput.setCohort(cohort);
-		if (cohort != null) {
-			for (User user : users) {
-				User tempUser = cognitoUtil.registerUser(user);
-				if (tempUser != null)
-					cuListOutput.getAcceptedUsers().add(tempUser);
-				else
-					cuListOutput.getRejectedUsers().add(user);
-			}
-			cuListOutput.setMessages("Returned Accepted Users and Rejected Users");
-		} else {
-			cuListOutput.setMessages("Cohort could not be found");
-			cuListOutput.setRejectedUsers(users);
-		}
-		return cuListOutput;
-	}
+	
 
 }
