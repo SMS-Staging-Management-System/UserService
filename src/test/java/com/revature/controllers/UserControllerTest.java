@@ -1,6 +1,5 @@
 package com.revature.controllers;
 
-import static org.hamcrest.CoreMatchers.any;
 import static org.mockito.Mockito.when;
 
 import java.util.ArrayList;
@@ -15,7 +14,6 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.MockitoJUnitRunner;
-import org.mockito.ArgumentMatchers;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -49,7 +47,7 @@ public class UserControllerTest {
 		idUserMap.clear();
 		for (int i = 0; i < NUM_USERS; i++) {
 			idUserMap.add(new User());
-		}
+		}		
 
 		int i = 0;
 		for (User user : idUserMap) {

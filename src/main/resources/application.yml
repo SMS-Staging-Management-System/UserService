@@ -39,29 +39,13 @@ spring:
 
 server:
   port: 8090
-
-eureka:
-  client:
-    service-url:
-      defaultZone: ${DISCOVERY_URL:http://localhost:8888}/eureka/
-  instance:
-    lease-renewal-interval-in-seconds: 1
-    lease-expiration-duration-in-seconds: 2
-    
+  
 ---
 spring:
   profiles: prod
 
 server:
   port: 5000
-  
-eureka:
-  client:
-    enabled: false
-    
-ribbon:
-  eureka: 
-    enabled: false
     
 user-service:
   ribbon:

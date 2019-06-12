@@ -1,20 +1,5 @@
 package com.revature.configuration;
 
-import java.io.File;
-import java.io.IOException;
-import java.lang.reflect.Method;
-import java.util.Map;
-
-import org.junit.Assert;
-import org.junit.Test;
-import org.springframework.web.cors.CorsConfiguration;
-import org.springframework.web.servlet.config.annotation.CorsRegistry;
-
-import com.fasterxml.jackson.core.JsonParseException;
-import com.fasterxml.jackson.databind.JsonMappingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
-
 public class WebConfigTest {
 
 //	@Test

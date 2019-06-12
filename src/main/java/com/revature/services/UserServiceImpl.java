@@ -15,7 +15,6 @@ import org.springframework.stereotype.Service;
 
 import com.revature.cognito.dtos.CognitoRegisterBody;
 import com.revature.cognito.intercomm.CognitoClient;
-import com.revature.cognito.utils.CognitoUtil;
 import com.revature.feign.FeignException;
 import com.revature.models.StatusHistory;
 import com.revature.models.User;
@@ -42,9 +41,6 @@ public class UserServiceImpl implements UserService {
 
 	@Autowired
 	private CognitoClient cognitoClient;
-
-	@Autowired
-	private CognitoUtil cognitoUtil;
 	
 	@Override
 	public Page<User> findAll(Pageable pageable) {

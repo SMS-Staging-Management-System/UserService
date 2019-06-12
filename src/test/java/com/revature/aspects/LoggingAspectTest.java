@@ -1,9 +1,5 @@
 package com.revature.aspects;
 
-import static org.junit.Assert.*;
-
-import org.junit.Test;
-
 public class LoggingAspectTest {
 
 //	@Test
