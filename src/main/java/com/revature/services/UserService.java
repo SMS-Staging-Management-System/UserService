@@ -2,6 +2,8 @@ package com.revature.services;
 
 import java.util.List;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.revature.models.User;
@@ -9,7 +11,7 @@ import com.revature.models.User;
 @Service
 public interface UserService {
 	//
-	// public List<User> findAll();
+	 public Page<User> findAll(Pageable pageable);
 	//
 	 public User findOneById(int id);
 	//
@@ -20,7 +22,16 @@ public interface UserService {
 	 public User updateProfile(User u);
 	//
 	 public User findOneByEmail(String email);
+	//
+	 //This method is added for use in findUserByEmail() method
+	 //In UserController class that handles path = "email/partial" (ss)
+	 public Page<User> findUserByPartialEmail(String email, Pageable pageable);
+	//
+	 public Page<User> findListByEmail(List<String> emailList, Pageable pageable);
 	 
+	 public List<User> findListByEmailNotPageable(List<String> emailList);
+  
+	 public List<User> findListByEmail(List<String> emailList);
 	//
 	// public CohortUserListOutputDto saveUsers(UserListInputDto userList, int id)
 	// throws IOException;
