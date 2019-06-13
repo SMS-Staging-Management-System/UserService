@@ -33,6 +33,10 @@ spring:
         default_schema: ${DB_SCHEMA}
     show-sql: false
     
+user-service:
+  ribbon:
+    listOfServers: ${GATEWAY_URL:http://localhost:8765}/user-service/
+    
 ---
 spring:
   profiles: dev    
@@ -46,8 +50,4 @@ spring:
 
 server:
   port: 5000
-    
-user-service:
-  ribbon:
-    listOfServers: ${GATEWAY_URL}
     
