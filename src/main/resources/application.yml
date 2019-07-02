@@ -30,7 +30,7 @@ spring:
       ddl-auto: none
     properties:
       hibernate:
-        default_schema: user_service
+        default_schema: ${DB_SCHEMA}
     show-sql: false
     
 user-service:
