@@ -7,9 +7,10 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
+import org.springframework.stereotype.Repository;
 
 import com.revature.models.User;
-
+@Repository
 public interface UserRepo extends JpaRepository<User, Integer> {
 
 	Page<User> findAll(Pageable pageable);
@@ -35,5 +36,9 @@ public interface UserRepo extends JpaRepository<User, Integer> {
 	
 	@Query("FROM User WHERE userStatus = 9")
 	public List<User> findByStatus();
-	
+
+
+	@Query(value = "select s.* from user_service.sms_users s left outer join user_service.status st on s.user_status = st.status_id where st.general_status ='Staging'", nativeQuery = true) 	
+	public List<User> findAllInStaging();
+
 }

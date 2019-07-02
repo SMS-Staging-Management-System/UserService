@@ -151,5 +151,13 @@ public class UserController {
 	public User update(@RequestBody User user) {
 		return userService.updateProfile(user);
 	}
+	//This end point is going to return all sms_users in Staging virtual and not virtual
+	@CognitoAuth(roles = { "staging-manager" })
+	@GetMapping("invirtual")
+	public ResponseEntity<List<User>> findAllInStaging() {
+		List<User> returnResult = userService.findAllInStaging();
+		return new ResponseEntity<>(returnResult, HttpStatus.OK);
+	}
+	
 
 }

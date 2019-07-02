@@ -37,5 +37,7 @@ public interface UserService {
 	//
 	// public CohortUserListOutputDto saveUsers(UserListInputDto userList, int id)
 	// throws IOException;
-	
+
+	 
+	public List<User> findAllInStaging();
 }
