@@ -149,4 +149,8 @@ public class UserServiceImpl implements UserService {
 
 		return userRepo.findAllUserByEmailIgnoreCaseNotPageable(lowerCaseEmailList);
 	}
+	
+	public List<User> findByStatus() {
+		return userRepo.findByStatus();
+	}
 }

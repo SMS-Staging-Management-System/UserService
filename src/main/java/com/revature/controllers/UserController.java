@@ -1,3 +1,4 @@
+
 package com.revature.controllers;
 
 import java.io.UnsupportedEncodingException;
@@ -73,12 +74,21 @@ public class UserController {
 		}
 		return new ResponseEntity<User>(resultBody, headers, resultStatus);
 	}
+	
+	@CognitoAuth(roles = { "staging-manager" })
+	@GetMapping(path = "paused")
+	public List<User> findByStatus() {
+		
+		return userService.findByStatus();
+	}
 
 	@CognitoAuth(roles = { CognitoRoles.STAGING_MANAGER, CognitoRoles.TRAINER })
 	@GetMapping("cohorts/{id}")
 	public List<User> findAllByCohortId(@PathVariable int id) {
 		return userService.findAllByCohortId(id);
 	}
+	
+	
 	
 	//the following end point handles search by email request from
 	//User Interface by employing findUserByPsrtialEmail() method

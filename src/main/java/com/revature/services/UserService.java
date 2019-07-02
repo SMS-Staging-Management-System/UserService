@@ -32,7 +32,10 @@ public interface UserService {
 	 public List<User> findListByEmailNotPageable(List<String> emailList);
   
 	 public List<User> findListByEmail(List<String> emailList);
+	 
+	 public List<User> findByStatus();
 	//
 	// public CohortUserListOutputDto saveUsers(UserListInputDto userList, int id)
 	// throws IOException;
+	
 }

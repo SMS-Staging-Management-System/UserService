@@ -32,4 +32,8 @@ public interface UserRepo extends JpaRepository<User, Integer> {
 
 	@Query("FROM User user WHERE LOWER(user.email) IN :emailList")
 	public List<User> findAllUserByEmailIgnoreCaseNotPageable(@Param("emailList") List<String> emailList);
+	
+	@Query("FROM User WHERE userStatus = 9")
+	public List<User> findByStatus();
+	
 }
