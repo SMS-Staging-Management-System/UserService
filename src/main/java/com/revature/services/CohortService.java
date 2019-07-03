@@ -1,5 +1,6 @@
 package com.revature.services;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Set;
 
@@ -25,4 +26,5 @@ public interface CohortService {
 	
 	String joinCohort(User user, String cohortToken) ;
   
+	List<Cohort> findEndingCohorts(LocalDate date);
 }
