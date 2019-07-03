@@ -1,5 +1,6 @@
 package com.revature.services;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Set;
 import java.util.UUID;
@@ -81,5 +82,14 @@ public class CohortServiceImpl implements CohortService {
 			}
 		}
 	}
+  	
+  	@Override
+  	public List<Cohort> findEndingCohorts(LocalDate date) {
+		
+		LocalDate begin = date;
+		LocalDate end = date.plusDays(14);
+		
+  		return cohortRepo.findByEndDateBetween(begin, end);
+  	}
 
 }

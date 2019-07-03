@@ -1,5 +1,8 @@
 package com.revature.controllers;
 
+import java.time.Instant;
+import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.List;
 import java.util.Set;
 
@@ -61,6 +64,19 @@ public class CohortController {
 	@PostMapping
 	public Cohort save(@RequestBody Cohort cohort) {
 		return cohortService.save(cohort);
+	}
+	
+	@GetMapping("prestaging/{epochDate}")
+	public List<Cohort> findPreStagingCohorts(@PathVariable long epochDate) {
+		
+		// Epoch dates are easier to pass, but...
+		// convert the epoch date milliseconds to a LocalDate using
+		// the system's current time zone as the default time zone
+		// and using the Instant class to do the conversion,
+		// because this is being stored in the model as a LocalDate
+		// object instead of a Date object
+		LocalDate date = Instant.ofEpochMilli(epochDate).atZone(ZoneId.systemDefault()).toLocalDate();
+		return cohortService.findEndingCohorts(date);
 	}
 	
 	@PostMapping("token/{cohortToken}")
