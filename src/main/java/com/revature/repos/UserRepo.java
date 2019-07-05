@@ -18,6 +18,8 @@ public interface UserRepo extends JpaRepository<User, Integer> {
 	public List<User> findAllByCohortsCohortId(int id);
 
 	public User findByEmailIgnoreCase(String email);
+	
+	public User findByEmail(String email);
 
 	// The following Query method is specifically added for the
 	// findUserByEmail method in UserController method that handels

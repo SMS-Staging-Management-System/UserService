@@ -162,5 +162,11 @@ public class UserServiceImpl implements UserService {
 
 	}
 
+	@Override
+	public User findByEmail(String email) {
+		// TODO Auto-generated method stub
+		return userRepo.findByEmailIgnoreCase(email);
+	}
+
 }
 
