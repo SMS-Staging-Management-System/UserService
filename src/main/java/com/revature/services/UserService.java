@@ -22,6 +22,8 @@ public interface UserService {
 	 public User updateProfile(User u);
 	//
 	 public User findOneByEmail(String email);
+	 
+	 public User findByEmail(String email);
 	//
 	 //This method is added for use in findUserByEmail() method
 	 //In UserController class that handles path = "email/partial" (ss)

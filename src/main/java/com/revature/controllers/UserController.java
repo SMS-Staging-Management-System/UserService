@@ -52,6 +52,20 @@ public class UserController {
 	public User findById(@PathVariable int id) {
 		return userService.findOneById(id);
 	}
+	
+	@GetMapping("user/{email:.+}")
+	public User getUserByEmail(@PathVariable String email) {
+		User resultBody = null;
+		try {
+			resultBody = userService.findOneByEmail(java.net.URLDecoder.decode(email.toLowerCase(), "utf-8"));
+		} catch (UnsupportedEncodingException e) {
+
+			e.printStackTrace();
+		}
+		
+		return resultBody;
+
+	}
 
 	
 	@CognitoAuth(roles = { "staging-manager" })
