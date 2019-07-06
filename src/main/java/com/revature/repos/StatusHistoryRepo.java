@@ -11,4 +11,6 @@ import com.revature.models.StatusHistory;
 
 public interface StatusHistoryRepo extends JpaRepository<StatusHistory, Integer> {
 	List<StatusHistory> findByUserUserId(int userId);
+	
+	List<StatusHistory> findByUserEmail(String email);
 }
