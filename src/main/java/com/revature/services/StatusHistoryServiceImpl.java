@@ -28,4 +28,10 @@ public class StatusHistoryServiceImpl implements StatusHistoryService{
 		return statusHistoryRepo.save(statusHistory);
 	}
 
+	@Override
+	public List<StatusHistory> findByEmail(String email) {
+		// TODO Auto-generated method stub
+		return statusHistoryRepo.findByUserEmail(email);
+	}
+
 }
