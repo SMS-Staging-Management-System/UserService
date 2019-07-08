@@ -143,7 +143,7 @@ VALUES( 'Jaaamers', 'For jam enthusiasts', '20e48c2d-e9e6-4250-82bf-431927682324
 	  ( 'SurveyCrew', 'For people who love rocks', '20e48c2d-e9e6-4250-82bf-4333333333333', 1, '2019-01-10 00:00:00.000', '2019-03-21 00:00:00.000', 2),
 	  ( 'Interviewers', 'For people who like to make others sweat', '20e48c2d-e9e6-4250-82bf-4555555555555', 1, '2019-01-10 00:00:00.000', '2019-03-21 00:00:00.000', 2),
 	  ( 'Penguineers', 'For people who are in 1905JavaReact', '20e48c2d-e9e6-4250-82bf-43e07d3a70b1a', 2, '2019-05-06 00:00:00.000', '2019-07-12 00:00:00.000', 1),
-	  ( 'Crocodocs', 'For people who are in a USF cohort', '20e48c2d-e9e6-4250-82bf-438580ab91dd0', 1, '2019-05-06 00:00:00.000', '2019-07-12 00:00:00.000', 1);
+	  ( 'Crocodocs', 'For people who are in a USF cohort', '20e48c2d-e9e6-4250-82bf-438580ab91dd0', 1, '2019-05-06 00:00:00.000', '2019-07-12 00:00:00.000', 2);
 
 
 insert into users_cohorts
