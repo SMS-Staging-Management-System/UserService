@@ -54,46 +54,9 @@ public class UserController {
 		return userService.findOneById(id);
 	}
 	
-	
-	@GetMapping("user/{email:.+}")
-	public User getUserByEmail(@PathVariable String email) {
-		User resultBody = null;
-		try {
-			resultBody = userService.findOneByEmail(java.net.URLDecoder.decode(email.toLowerCase(), "utf-8"));
-		} catch (UnsupportedEncodingException e) {
-
-			e.printStackTrace();
-		}
-		
-		return resultBody;
-
-	}
-
-	
 	@CognitoAuth(roles = { "staging-manager" })
 	@GetMapping(path = "email/{email:.+}")
 	public ResponseEntity<User> findByEmail(@PathVariable String email) {
-		HttpHeaders headers = new HttpHeaders();
-		headers.add("Content-Type", "application/json");
-
-		User resultBody = null;
-		HttpStatus resultStatus = HttpStatus.OK;
-		try {
-			resultBody = userService.findOneByEmail(java.net.URLDecoder.decode(email.toLowerCase(), "utf-8"));
-		} catch (UnsupportedEncodingException e) {
-
-			e.printStackTrace();
-		}
-
-		if (resultBody == null) {
-			resultStatus = HttpStatus.NOT_FOUND;
-		}
-		return new ResponseEntity<User>(resultBody, headers, resultStatus);
-	}
-	
-	@CognitoAuth(roles = { "staging-manager" })
-	@GetMapping(path = "user/email/{email:.+}")
-	public ResponseEntity<User> getByEmail(@PathVariable String email) {
 		HttpHeaders headers = new HttpHeaders();
 		headers.add("Content-Type", "application/json");
 
