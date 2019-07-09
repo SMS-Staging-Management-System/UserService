@@ -42,4 +42,9 @@ public interface UserService {
 
 	 
 	public List<User> findAllInStaging();
+	
+	//method to get all the dropped users from last week
+	public List<User> findAllDroppedAssociate();
+	
+	public Page<User> findAllDroppedAssociate(Pageable pageable);
 }

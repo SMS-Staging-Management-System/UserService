@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.revature.cognito.annotations.CognitoAuth;
@@ -124,6 +125,24 @@ public class UserController {
 		return userService.findAllByCohortId(id);
 	}
 	
+	
+	
+	//End point to get all the dropped associate in the last week
+		@CognitoAuth(roles = { "staging-manager" })
+		@GetMapping("dropped")
+		public List<User> findAllDroppedAssociate(){
+			return userService.findAllDroppedAssociate();
+		}
+		
+		@GetMapping("dropped/page")
+		public Page<User> findAllDroppedAssociatePage(
+			@RequestParam(name="pageNumber", defaultValue="0") Integer pageNumber,
+	        @RequestParam(name="pageSize", defaultValue="5") Integer pageSize) {
+			// Example url call: ~:8091/reports/InterviewsPerAssociate/page?pageNumber=0&pageSize=3
+			// The above url will return the 0th page of size 3.
+		    Pageable pageParameters = PageRequest.of(pageNumber, pageSize);
+	        return userService.findAllDroppedAssociate(pageParameters);
+	    }
 	
 	
 	//the following end point handles search by email request from

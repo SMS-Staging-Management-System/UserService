@@ -10,6 +10,7 @@ import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
@@ -21,6 +22,7 @@ import com.revature.models.User;
 import com.revature.repos.AddressRepo;
 import com.revature.repos.StatusHistoryRepo;
 import com.revature.repos.UserRepo;
+import com.revature.util.ListToPage;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -166,6 +168,17 @@ public class UserServiceImpl implements UserService {
 	public User findByEmail(String email) {
 		// TODO Auto-generated method stub
 		return userRepo.findByEmailIgnoreCase(email);
+	}
+	
+	@Override
+	public List<User> findAllDroppedAssociate() {
+		return userRepo.findAllDroppedAssociate();
+	}
+	
+	@SuppressWarnings({"unchecked", "rawtypes"})
+	public Page<User> findAllDroppedAssociate(Pageable page) {
+		PageImpl PI = ListToPage.getPage(findAllDroppedAssociate(), page);
+		return PI;
 	}
 
 }
