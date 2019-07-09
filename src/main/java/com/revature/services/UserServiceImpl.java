@@ -172,7 +172,7 @@ public class UserServiceImpl implements UserService {
 	
 	@Override
 	public List<User> findAllDroppedAssociate() {
-		return userRepo.findAllDroppedAssociate();
+		return userRepo.findAllDroppedAssociate().stream().distinct().collect(Collectors.toList());	
 	}
 	
 	@SuppressWarnings({"unchecked", "rawtypes"})
