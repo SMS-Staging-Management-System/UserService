@@ -129,7 +129,7 @@ public class UserController {
 	//the following end point handles search by email request from
 	//User Interface by employing findUserByPsrtialEmail() method
 	//from UserService interface. It also take cares of pagination (ss)
-	@CognitoAuth(roles = { "staging-manager" })
+	//@CognitoAuth(roles = { "staging-manager" })
 	@PostMapping(path = "email/partial")
 	public ResponseEntity<Page<User>> findUserByEmail(@RequestBody EmailSearch searchParams) {
 		HttpHeaders headers = new HttpHeaders();
