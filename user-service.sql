@@ -74,6 +74,11 @@ create table status_history (
     REFERENCES addresses (address_id)
 );
 
+create table managers (
+	id serial,
+	email text unique,
+	address integer references addresses (address_id)
+);
 
 SET SCHEMA 'user_service';
 
@@ -132,6 +137,8 @@ values (2,1),
 	 
 insert into status_history(users_id, status_id, address_id)
 	values(1,15,2);
+	
+insert into managers (email, address) values ('blake.kruppa@revature.com', (select address_id from addresses where alias = 'Reston'));
 
 select * from status_history;
 
