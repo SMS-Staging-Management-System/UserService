@@ -36,12 +36,12 @@ public class ManagersController {
 		return managersService.findByAddress(alias);
 	}
 	
-	@PostMapping("")
+	@PostMapping("new")
 	public void saveNewManager(@RequestBody String email, int address_id) {
 		managersService.newManager(email, address_id);
 	}
 	
-	@PostMapping("")
+	@PostMapping("update")
 	public void updateManager(@RequestBody Managers woop) {
 		managersService.updateManager(woop);
 	}

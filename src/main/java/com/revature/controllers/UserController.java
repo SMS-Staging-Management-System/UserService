@@ -54,7 +54,7 @@ public class UserController {
 		return userService.findOneById(id);
 	}
 	
-	@CognitoAuth(roles = { "staging-manager" })
+	//@CognitoAuth(roles = { "staging-manager" })
 	@GetMapping(path = "email/{email:.+}")
 	public ResponseEntity<User> findByEmail(@PathVariable String email) {
 		HttpHeaders headers = new HttpHeaders();
