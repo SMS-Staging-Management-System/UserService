@@ -192,13 +192,3 @@ select * from addresses;
 select * from sms_users;
 
 select * from status;
-
-select * from user_service.status_history as sh left join user_service.sms_users as su on sh.users_id = su.sms_user_id left join user_service.status as s on sh.status_id = s.status_id where status_start between '06/25/2019' and '07/02/2019'
-
-select * from user_service.sms_users left join user_service.status_history on users_id = sms_user_id where status_start between '06/25/2019' and '07/02/2019'
-																																
-select * from user_service.sms_users left join user_service.status_history on users_id = sms_user_id where datediff(day, status_start, now()) = 7
-
-select count(*) as total from (select * from user_service.sms_users left join user_service.status_history on users_id = sms_user_id where status_start between now() - INTERVAL '168 HOURS' and now())as total
-
-select * from user_service.sms_users left join user_service.status_history on users_id = sms_user_id where status_start between now() - INTERVAL '168 HOURS' and now()
