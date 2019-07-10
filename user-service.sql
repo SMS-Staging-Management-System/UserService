@@ -111,14 +111,40 @@ INSERT INTO sms_users (first_name, last_name, email, phone_number, training_addr
 		   ('Dom', 'Felix', 'dfeli014@fiu.edu', '9093804081', (SELECT address_id FROM addresses WHERE alias = 'USF'), 10),
 		   ('Mohamed', 'Omar', 'mohamedwomar21@gmail.com', '9093804081', (SELECT address_id FROM addresses WHERE alias = 'USF'),7),
 		   ('John', 'Goncalves', 'goncalvesjohnp@gmail.com', '9093804081', (SELECT address_id FROM addresses WHERE alias = 'USF'), 8),
+		   ('Aaron', 'Gravelle', 'agrav12825@gmail.com', '1234567890', (SELECT address_id FROM addresses WHERE alias = 'USF'), 8),
+  ('Aaron', 'Gravelle', 'agrav12825@gmail.com', '1234567890', (SELECT address_id FROM addresses WHERE alias = 'USF'), 8),
 		   ('Aaron', 'Gravelle', 'agrav12825@gmail.com', '1234567890', (SELECT address_id FROM addresses WHERE alias = 'USF'), 8);
+		   ('Hermes', 'Lisoma', 'hermes.lisoma@example.com', '9035551234', (SELECT address_id FROM addresses WHERE alias = 'Reston'), 1),
+		   ('David', 'Ubah', 'david.ubah@example.com', '9035554321', (SELECT address_id FROM addresses WHERE alias = 'Reston'), 1),
+		   ('Robert', 'Simmons', 'robert.simmons@example.com', '9035556789', (SELECT address_id FROM addresses WHERE alias = 'Reston'), 1),
+		   ('Elias', 'Friedman', 'elias.friedman@example.com', '9035559876', (SELECT address_id FROM addresses WHERE alias = 'Reston'), 1),
+		   ('Michele', 'Dexter', 'michele.dexter@example.com', '9035551357', (SELECT address_id FROM addresses WHERE alias = 'Reston'), 1),
+		   ('Tianzeng(Tony)', 'Liu', 'tianzeng.liu@example.com', '9035557531', (SELECT address_id FROM addresses WHERE alias = 'Reston'), 1),
+		   ('Eva', 'Fann', 'eva.fann@example.com', '9035552468', (SELECT address_id FROM addresses WHERE alias = 'Reston'), 1),
+		   ('James', 'C', 'james.c@example.com', '9035558642', (SELECT address_id FROM addresses WHERE alias = 'Reston'), 1),
+		   ('Ernesto', 'Ballon', 'ernesto.ballon@example.com', '9035551010', (SELECT address_id FROM addresses WHERE alias = 'Reston'), 1),
+		   ('Ryan', 'Walker', 'ryan.walker@example.com', '9035550101', (SELECT address_id FROM addresses WHERE alias = 'Reston'), 1),
+		   ('Ralph', 'Metellus', 'ralph.metellus@example.com', '9035550110', (SELECT address_id FROM addresses WHERE alias = 'Reston'), 1),
+		   ('Gerald', 'Horton', 'gerald.horton@example.com', '9095551234', (SELECT address_id FROM addresses WHERE alias = 'USF'), 1),
+		   ('Penelope', 'Winters', 'penelope.winters@example.com', '9095554321', (SELECT address_id FROM addresses WHERE alias = 'USF'), 1),
+		   ('Boris', 'Carlson', 'boris.carlson@example.com', '9095556789', (SELECT address_id FROM addresses WHERE alias = 'USF'), 1),
+		   ('Quyen', 'Lung', 'quyen.lung@example.com', '9095559876', (SELECT address_id FROM addresses WHERE alias = 'USF'), 1),
+		   ('Victor', 'Santos', 'victor.santos@example.com', '9095551357', (SELECT address_id FROM addresses WHERE alias = 'USF'), 1),
+		   ('Rajesh', 'Patel', 'rajesh.patel@example.com', '9095557531', (SELECT address_id FROM addresses WHERE alias = 'USF'), 1),
+		   ('Caleb', 'Widogast', 'caleb.widogast@example.com', '9095552468', (SELECT address_id FROM addresses WHERE alias = 'USF'), 1),
+		   ('Percival', 'Merriwether', 'percival.merriwether@example.com', '9095558642', (SELECT address_id FROM addresses WHERE alias = 'USF'), 1),
+		   ('Constance', 'Markham', 'constance.markham@example.com', '9095551010', (SELECT address_id FROM addresses WHERE alias = 'USF'), 1),
+		   ('Donald', 'Anders', 'donald.anders@example.com', '9095550101', (SELECT address_id FROM addresses WHERE alias = 'USF'), 1),
+		   ('Valorie', 'Wilson', 'valorie.wilson@example.com', '9095550110', (SELECT address_id FROM addresses WHERE alias = 'USF'), 1);
 
 
 INSERT INTO cohorts
 ( cohort_name, cohort_description, cohort_token, trainer_id, start_date, end_date, address)
 VALUES( 'Jaaamers', 'For jam enthusiasts', '20e48c2d-e9e6-4250-82bf-431927682324', 1, '2019-01-10 00:00:00.000', '2019-03-21 00:00:00.000', 2),
 	  ( 'SurveyCrew', 'For people who love rocks', '20e48c2d-e9e6-4250-82bf-4333333333333', 1, '2019-01-10 00:00:00.000', '2019-03-21 00:00:00.000', 2),
-	  ( 'Interviewers', 'For people who like to make others sweat', '20e48c2d-e9e6-4250-82bf-4555555555555', 1, '2019-01-10 00:00:00.000', '2019-03-21 00:00:00.000', 2);
+	  ( 'Interviewers', 'For people who like to make others sweat', '20e48c2d-e9e6-4250-82bf-4555555555555', 1, '2019-01-10 00:00:00.000', '2019-03-21 00:00:00.000', 2),
+	  ( 'Penguineers', 'For people who are in 1905JavaReact', '20e48c2d-e9e6-4250-82bf-43e07d3a70b1a', 2, '2019-05-06 00:00:00.000', '2019-07-12 00:00:00.000', 1),
+	  ( 'Crocodocs', 'For people who are in a USF cohort', '20e48c2d-e9e6-4250-82bf-438580ab91dd0', 1, '2019-05-06 00:00:00.000', '2019-07-12 00:00:00.000', 2);
 
 
 insert into users_cohorts
@@ -127,7 +153,31 @@ values (2,1),
 	   (4,3),
 	   (5,3),
 	   (6,1),
-	   (7,2);
+	   (7,2),
+	   (6,1),
+	   (7,2),
+	   (9,4),
+	   (10,4),
+	   (11,4),
+	   (12,4),
+	   (13,4),
+	   (14,4),
+	   (15,4),
+	   (16,4),
+	   (17,4),
+	   (18,4),
+	   (19,4),
+	   (20,5),
+	   (21,5),
+	   (22,5),
+	   (23,5),
+	   (24,5),
+	   (25,5),
+	   (26,5),
+	   (27,5),
+	   (28,5),
+	   (29,5),
+	   (30,5);
 	 
 	 
 insert into status_history(users_id, status_id, address_id)
