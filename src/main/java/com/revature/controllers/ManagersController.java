@@ -42,8 +42,8 @@ public class ManagersController {
 	}
 	
 	@PostMapping("update")
-	public void updateManager(@RequestBody Managers woop) {
-		managersService.updateManager(woop);
+	public void updateManager(@RequestBody Managers manager) {
+		managersService.updateManager(manager);
 	}
 	
 	@DeleteMapping("")

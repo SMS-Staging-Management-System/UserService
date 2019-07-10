@@ -17,7 +17,7 @@ public interface ManagerService {
 	
 	public Managers newManager(String email, int address_id);
 	
-	public Managers updateManager(Managers woop);
+	public Managers updateManager(Managers manager);
 	
 	public void deleteManager(int id);
 }
