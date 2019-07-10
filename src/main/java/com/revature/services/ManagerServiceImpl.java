@@ -65,9 +65,9 @@ public class ManagerServiceImpl implements ManagerService {
 
 
 	@Override
-	public Managers updateManager(Managers woop) {
-		managerRepo.save(woop);
-		return woop;
+	public Managers updateManager(Managers manager) {
+		managerRepo.save(manager);
+		return manager;
 	}
 	
 	

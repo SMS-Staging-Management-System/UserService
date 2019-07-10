@@ -63,7 +63,12 @@ public class Managers {
 	public void setTrainingAddress(Address trainingAddress) {
 		this.trainingAddress = trainingAddress;
 	}
-	
+
+	@Override
+	public String toString() {
+		return "Managers [id=" + id + ", email=" + email + ", trainingAddress=" + trainingAddress + "]";
+	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -72,13 +77,6 @@ public class Managers {
 		result = prime * result + id;
 		result = prime * result + ((trainingAddress == null) ? 0 : trainingAddress.hashCode());
 		return result;
-	}
-
-	
-
-	@Override
-	public String toString() {
-		return "Managers [id=" + id + ", email=" + email + ", trainingAddress=" + trainingAddress + "]";
 	}
 
 	@Override
@@ -104,4 +102,5 @@ public class Managers {
 			return false;
 		return true;
 	}
+	
 }
