@@ -13,4 +13,5 @@ public interface StatusHistoryService {
 	
 	StatusHistory saveStatusHistory(StatusHistory statusHistory);
 
+	List<StatusHistory> findByEmail(String email);
 }

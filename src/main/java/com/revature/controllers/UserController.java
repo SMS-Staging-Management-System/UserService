@@ -1,3 +1,4 @@
+
 package com.revature.controllers;
 
 import java.io.UnsupportedEncodingException;
@@ -17,6 +18,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.revature.cognito.annotations.CognitoAuth;
@@ -51,9 +53,8 @@ public class UserController {
 	public User findById(@PathVariable int id) {
 		return userService.findOneById(id);
 	}
-
 	
-	@CognitoAuth(roles = { "staging-manager" })
+	//@CognitoAuth(roles = { "staging-manager" })
 	@GetMapping(path = "email/{email:.+}")
 	public ResponseEntity<User> findByEmail(@PathVariable String email) {
 		HttpHeaders headers = new HttpHeaders();
@@ -73,6 +74,13 @@ public class UserController {
 		}
 		return new ResponseEntity<User>(resultBody, headers, resultStatus);
 	}
+	
+	@CognitoAuth(roles = { "staging-manager" })
+	@GetMapping(path = "paused")
+	public List<User> findByStatus() {
+		
+		return userService.findByStatus();
+	}
 
 	@CognitoAuth(roles = { CognitoRoles.STAGING_MANAGER, CognitoRoles.TRAINER })
 	@GetMapping("cohorts/{id}")
@@ -80,10 +88,30 @@ public class UserController {
 		return userService.findAllByCohortId(id);
 	}
 	
+	
+	
+	//End point to get all the dropped associate in the last week
+		@CognitoAuth(roles = { "staging-manager" })
+		@GetMapping("dropped")
+		public List<User> findAllDroppedAssociate(){
+			return userService.findAllDroppedAssociate();
+		}
+		
+		@GetMapping("dropped/page")
+		public Page<User> findAllDroppedAssociatePage(
+			@RequestParam(name="pageNumber", defaultValue="0") Integer pageNumber,
+	        @RequestParam(name="pageSize", defaultValue="5") Integer pageSize) {
+			// Example url call: ~:8091/reports/InterviewsPerAssociate/page?pageNumber=0&pageSize=3
+			// The above url will return the 0th page of size 3.
+		    Pageable pageParameters = PageRequest.of(pageNumber, pageSize);
+	        return userService.findAllDroppedAssociate(pageParameters);
+	    }
+	
+	
 	//the following end point handles search by email request from
 	//User Interface by employing findUserByPsrtialEmail() method
 	//from UserService interface. It also take cares of pagination (ss)
-	@CognitoAuth(roles = { "staging-manager" })
+	//@CognitoAuth(roles = { "staging-manager" })
 	@PostMapping(path = "email/partial")
 	public ResponseEntity<Page<User>> findUserByEmail(@RequestBody EmailSearch searchParams) {
 		HttpHeaders headers = new HttpHeaders();
@@ -141,5 +169,13 @@ public class UserController {
 	public User update(@RequestBody User user) {
 		return userService.updateProfile(user);
 	}
+	//This end point is going to return all sms_users in Staging virtual and not virtual
+	@CognitoAuth(roles = { "staging-manager" })
+	@GetMapping("invirtual")
+	public ResponseEntity<List<User>> findAllInStaging() {
+		List<User> returnResult = userService.findAllInStaging();
+		return new ResponseEntity<>(returnResult, HttpStatus.OK);
+	}
+	
 
 }
