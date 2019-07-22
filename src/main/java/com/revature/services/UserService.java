@@ -22,6 +22,8 @@ public interface UserService {
 	 public User updateProfile(User u);
 	//
 	 public User findOneByEmail(String email);
+	 
+	 public User findByEmail(String email);
 	//
 	 //This method is added for use in findUserByEmail() method
 	 //In UserController class that handles path = "email/partial" (ss)
@@ -32,7 +34,17 @@ public interface UserService {
 	 public List<User> findListByEmailNotPageable(List<String> emailList);
   
 	 public List<User> findListByEmail(List<String> emailList);
+	 
+	 public List<User> findByStatus();
 	//
 	// public CohortUserListOutputDto saveUsers(UserListInputDto userList, int id)
 	// throws IOException;
+
+	 
+	public List<User> findAllInStaging();
+	
+	//method to get all the dropped users from last week
+	public List<User> findAllDroppedAssociate();
+	
+	public Page<User> findAllDroppedAssociate(Pageable pageable);
 }

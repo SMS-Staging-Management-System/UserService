@@ -1,0 +1,15 @@
+origins:
+  - http://localhost:3000
+  - https://7i6rudc3m2.execute-api.us-east-1.amazonaws.com/uat
+  - https://7i6rudc3m2.execute-api.us-east-1.amazonaws.com/prod
+headers:
+  - content-type
+  - authorization
+methods:
+  - GET
+  - OPTIONS
+  - POST
+  - PUT
+  - PATCH
+  - DELETE
+ 

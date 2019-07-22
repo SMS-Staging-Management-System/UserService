@@ -48,7 +48,7 @@ public class LoggingAspect {
 		}
 		logger.info(logInfo);
 		return value;
-	}
+	} 
 	
 	@Around("execution(* com.revature.controllers.*.*(..))")
 	public Object Logging2(ProceedingJoinPoint pjp) throws Throwable {
