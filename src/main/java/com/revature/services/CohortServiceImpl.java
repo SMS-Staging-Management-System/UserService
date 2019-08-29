@@ -55,6 +55,11 @@ public class CohortServiceImpl implements CohortService {
 	public Page<Cohort> findAllByPage(Pageable pageable) {
 		return cohortRepo.findAll(pageable);
 	}
+	
+	@Override 
+	public Cohort findCohortByToken(String token) {
+		return cohortRepo.findByCohortToken(token);
+	}
 
   	@Override
 	@Transactional
