@@ -45,7 +45,7 @@ public class CohortController {
     @CognitoAuth(roles = {CognitoRoles.ADMIN, CognitoRoles.STAGING_MANAGER})
 	public List<Cohort> findAll() {
 		return cohortService.findAll();
-	}
+	} 
 	
 	@GetMapping("page/{page}")
     @CognitoAuth(roles = {CognitoRoles.ADMIN, CognitoRoles.STAGING_MANAGER})
