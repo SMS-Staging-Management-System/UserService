@@ -106,7 +106,6 @@ public class CohortController {
 			}
 	}
 	
-	
 	@ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
 	@ExceptionHandler(TransactionSystemException.class)
 	public ResponseEntity<String> handleError() {
