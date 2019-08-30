@@ -40,6 +40,11 @@ public class CohortController {
 	public List<Cohort> findByTrainer(@PathVariable int trainerId) {
 		return cohortService.findByTrainer(trainerId);
 	}
+
+	@GetMapping("address/{addressId}")
+    public List<Cohort> findByAddress(@PathVariable int addressId) {
+        return cohortService.findByAdress(addressId);
+    }
 	
 	@GetMapping
     @CognitoAuth(roles = {CognitoRoles.ADMIN, CognitoRoles.STAGING_MANAGER})

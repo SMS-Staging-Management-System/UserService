@@ -10,6 +10,8 @@ import com.revature.models.Cohort;
 public interface CohortRepo extends JpaRepository<Cohort, Integer> {
 	List<Cohort> findByTrainerUserId(int trainerId);
 	
+	List<Cohort> findByAddressAddressId(int addressId);
+
 	Cohort findByCohortToken(String cohortToken);
 	List<Cohort> findByEndDateBetween(LocalDate begin, LocalDate end);
 }

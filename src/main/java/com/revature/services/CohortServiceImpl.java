@@ -39,6 +39,11 @@ public class CohortServiceImpl implements CohortService {
 	}
 
 	@Override
+    public List<Cohort> findByAdress(int addressId) {
+        return cohortRepo.findByAddressAddressId(addressId);
+    }
+
+	@Override
 	public Cohort save(Cohort cohort) {
 		cohort.setCohortToken(UUID.randomUUID().toString());
 		cohort.setCohortId(0);

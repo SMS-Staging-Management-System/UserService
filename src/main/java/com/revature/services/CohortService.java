@@ -18,6 +18,8 @@ public interface CohortService {
 	
 	List<Cohort> findByTrainer(int trainerId);
 
+	List<Cohort> findByAdress(int addressId);
+
 	Cohort save(Cohort cohort);
 	
 	List<Cohort> findAll();
