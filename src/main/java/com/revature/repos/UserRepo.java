@@ -40,10 +40,10 @@ public interface UserRepo extends JpaRepository<User, Integer> {
 	public List<User> findByStatus();
 	
 	//Query to get all dropped associates in the last week
-	@Query(value="select * from user_service.sms_users left join user_service.status_history on users_id = sms_user_id where status_start between now() - INTERVAL '168 HOURS' and now()", nativeQuery=true)
+	@Query(value="select * from sms.sms_users left join sms.status_history on users_id = sms_user_id where status_start between now() - INTERVAL '168 HOURS' and now()", nativeQuery=true)
 	public List<User> findAllDroppedAssociate();
 
-	@Query(value = "select s.* from user_service.sms_users s left outer join user_service.status st on s.user_status = st.status_id where st.general_status ='Staging'", nativeQuery = true) 	
+	@Query(value = "select s.* from sms.sms_users s left outer join sms.status st on s.user_status = st.status_id where st.general_status ='Staging'", nativeQuery = true) 	
 	public List<User> findAllInStaging();
 
 }

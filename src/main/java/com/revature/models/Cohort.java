@@ -206,7 +206,7 @@ public class Cohort {
 	@Override
 	public String toString() {
 		return "Cohort [cohortId=" + cohortId + ", cohortName=" + cohortName + ", cohortDescription="
-				+ cohortDescription + ", users= "+users+", cohortToken=" + cohortToken + ", address=" 
+				+ cohortDescription + ", cohortToken=" + cohortToken + ", address=" 
 				+ address + ", startDate="+ startDate + ", endDate=" + endDate + "]";
 	}
 

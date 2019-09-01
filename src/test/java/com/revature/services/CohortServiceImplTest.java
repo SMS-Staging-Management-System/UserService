@@ -23,7 +23,6 @@ public class CohortServiceImplTest {
 	@InjectMocks
 	private CohortServiceImpl cohortServiceTest;
 	
-	
 	@Mock
 	CohortRepo cohortRepo;
 	

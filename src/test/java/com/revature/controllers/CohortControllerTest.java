@@ -1,30 +1,148 @@
 package com.revature.controllers;
 
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.Assert.assertThat;
+import static org.mockito.Mockito.when;
+
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+
+import org.junit.Assert;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.Mockito;
+import org.mockito.MockitoAnnotations;
+import org.mockito.junit.MockitoJUnitRunner;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+
+import com.revature.models.Address;
+import com.revature.models.Cohort;
+import com.revature.models.User;
+import com.revature.repos.CohortRepo;
+import com.revature.repos.UserRepo;
+import com.revature.services.CohortService;
+
+@RunWith(MockitoJUnitRunner.class)
 public class CohortControllerTest {
 
-//	@Test
-//	public void testFindByTrainer() {
-//		fail("Not yet implemented");
-//	}
+	@InjectMocks
+	CohortController cohortControllerTester;
+	
+	@Mock
+	CohortService cohortService;
+	
+	@Mock
+	CohortRepo cohortRepo;
+	
+	@Mock
+	UserRepo userRepo;
+	
+	@Mock
+	Page<Cohort> cohortsPage;
+	
+	@Test
+	public void testFindByTrainer() {
+//		Create a cohort stub
+		Cohort cohort = new Cohort();
+//		Create a list with that cohort on it
+		List<Cohort> cohorts = new ArrayList<>();
+		cohorts.add(cohort);
+//		Create fake id
+		int fakeTrainerId = (int) (Math.random() * 100);
+//		Define what the service method should return when passing the trainer id
+		when(cohortService.findByTrainer(fakeTrainerId)).thenReturn(cohorts);
+//		Create assertion
+		assertThat(cohortControllerTester.findByTrainer(fakeTrainerId)).isEqualTo(cohorts);
+	}
+
+	@Test
+	public void testFindAllByPage() {
+//		Create stub for a list of cohorts
+		List<Cohort> cohortsList = new ArrayList<>();
+//		Create a stub for the pageable parameter on the cohortsService.findAllByPage() method
+		Pageable pageable = PageRequest.of(1, 7, Sort.by("cohortId"));
+//		Define what each method should return
+		when(cohortsPage.getContent()).thenReturn(cohortsList);
+		when(cohortService.findAllByPage(pageable)).thenReturn(cohortsPage);
+//		Call the findAll method from the cohortController mock
+		Page<Cohort> result = cohortControllerTester.findAll(1);
+		List<Cohort> resultCohort = result.getContent();
+//		Write assertion
+		assertThat(cohortsList).isEqualTo(resultCohort);
+	}
+
+	@Test
+	public void testFindCohortUsers() {
+//		Create a cohort stub
+		Cohort fakeCohort = new Cohort();
+//		Create a fake id for the cohort
+		fakeCohort.setCohortId((int) (Math.random() * 100)); 
+//		Create a fake list of users that are supposed to be part of the cohort
+		Set<User> fakeUsersInCohort = new HashSet<>();
+//		Define that the cohort has this users
+		fakeCohort.setUsers(fakeUsersInCohort);
+//		Write assertion
+		assertThat(cohortControllerTester.findCohortUsers(fakeCohort.getCohortId()))
+			.isEqualTo(fakeUsersInCohort);
+	}
+
+	@Test
+	public void testFindCohortByToken() {
+//		Create cohort stub
+		Cohort fakeCohort = new Cohort();
+//		Create fake cohort token
+		String fakeCohortToken = "" + (Math.random() * 100);
+//		Assign id and token to fake cohort
+		fakeCohort.setCohortId((int) Math.random()*100);
+		fakeCohort.setCohortToken(fakeCohortToken);
+//		Define what the cohortService should return
+		when(cohortService.findCohortByToken(fakeCohortToken)).thenReturn(fakeCohort);
+//		Write assertion
+		assertThat(cohortControllerTester.findCohortByToken(fakeCohortToken))
+			.isEqualTo(fakeCohort);
+	}
+	
+	@Test
+	public void testJoinCohort() {
+//		Create fake user to join the fake cohort
+		User fakeUser = new User();
+		fakeUser.setEmail("fake@mail.com");
+//		Create fake cohort that the user is supposed to join
+		Cohort fakeCohortToJoin = new Cohort();
+//		Create fake cohortToken for the token the user is going to join
+		fakeCohortToJoin.setCohortToken("" + (Math.random() * 100));
+//		Assign address
+		Address fakeCohortAddress = new Address(1, "Over here", null, null, 
+												null, null, null, true);	
+		fakeCohortToJoin.setAddress(fakeCohortAddress);
+//		Define what should be returned from cohortService.joinCohort()
+		when(cohortService.joinCohort(fakeUser, fakeCohortToJoin.getCohortToken()))
+			.thenReturn("OK");
+//		Write assertion
+		assertThat(cohortControllerTester.joinCohort(fakeUser, fakeCohortToJoin.getCohortToken()))
+			.isEqualTo(new ResponseEntity<String>(HttpStatus.OK));
+	}
 //
-//	@Test
-//	public void testFindAll() {
-//		fail("Not yet implemented");
-//	}
-//
-//	@Test
-//	public void testSave() {
-//		fail("Not yet implemented");
-//	}
-//
-//	@Test
-//	public void testJoinCohort() {
-//		fail("Not yet implemented");
-//	}
-//
-//	@Test
-//	public void testHandleError() {
-//		fail("Not yet implemented");
-//	}
+	@Test
+	public void testSaveCohort() {
+//		Create fake cohort
+		Cohort fakeCohort = new Cohort();
+//		Write what the save method should return
+		when(cohortService.save(fakeCohort)).thenReturn(fakeCohort);
+//		Assert save cohort method
+		assertThat(cohortControllerTester.save(fakeCohort)).isEqualTo(fakeCohort);
+	}
+	
+	
 
 }
