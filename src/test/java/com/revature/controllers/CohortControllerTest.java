@@ -94,8 +94,14 @@ public class CohortControllerTest {
 		fakeCohort.setCohortId((int) (Math.random() * 100)); 
 //		Create a fake list of users that are supposed to be part of the cohort
 		Set<User> fakeUsersInCohort = new HashSet<>();
+//		Add a new fake user and add it to the Set
+		User fakeUser = new User(1, "Test", "User", "some_mail@gmail.com", null,
+								 null, null, null, null);
+		fakeUsersInCohort.add(fakeUser);
 //		Define that the cohort has this users
 		fakeCohort.setUsers(fakeUsersInCohort);
+//		Define what the service method should return
+		when(cohortService.findCohortUsers(fakeCohort.getCohortId())).thenReturn(fakeUsersInCohort);
 //		Write assertion
 		assertThat(cohortControllerTester.findCohortUsers(fakeCohort.getCohortId()))
 			.isEqualTo(fakeUsersInCohort);

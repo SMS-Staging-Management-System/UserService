@@ -31,6 +31,9 @@ spring:
     properties:
       hibernate:
         default_schema: ${DB_SCHEMA}
+        jdbc:
+          lob:
+            non_contextual_creation: true
     show-sql: false
     
 user-service:
