@@ -83,11 +83,7 @@ public class CohortController {
 	@GetMapping("token/{cohortToken}")
 	public Cohort findCohortByToken(@PathVariable String cohortToken) {
 		Cohort foundCohort = cohortService.findCohortByToken(cohortToken);
-		if (foundCohort != null) {
-			return foundCohort;
-		} else {
-			return null;
-		}
+		return foundCohort;
 	}
 	
 	@PostMapping("token/{cohortToken}")

@@ -4,10 +4,15 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.Assert.assertThat;
 import static org.mockito.Mockito.when;
 
+import java.time.Instant;
+import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+
+import javax.annotation.Resource;
 
 import org.junit.Assert;
 import org.junit.Before;
@@ -122,7 +127,7 @@ public class CohortControllerTest {
 //		Create fake cohortToken for the token the user is going to join
 		fakeCohortToJoin.setCohortToken("" + (Math.random() * 100));
 //		Assign address
-		Address fakeCohortAddress = new Address(1, "Over here", null, null, 
+		Address fakeCohortAddress = new Address(1, "Alias", null, null, 
 												null, null, null, true);	
 		fakeCohortToJoin.setAddress(fakeCohortAddress);
 //		Define what should be returned from cohortService.joinCohort()
@@ -132,7 +137,7 @@ public class CohortControllerTest {
 		assertThat(cohortControllerTester.joinCohort(fakeUser, fakeCohortToJoin.getCohortToken()))
 			.isEqualTo(new ResponseEntity<String>(HttpStatus.OK));
 	}
-//
+
 	@Test
 	public void testSaveCohort() {
 //		Create fake cohort
@@ -143,6 +148,23 @@ public class CohortControllerTest {
 		assertThat(cohortControllerTester.save(fakeCohort)).isEqualTo(fakeCohort);
 	}
 	
+	@Test
+	public void testFindPreStagingCohorts() {
+//		Create fake epochDate
+		long epochDate = 123347L;
+//		Create fake start and ending dates
+		LocalDate date = Instant.ofEpochMilli(epochDate).atZone(ZoneId.systemDefault()).toLocalDate();
+		LocalDate begin = date;
+		LocalDate end = date.plusDays(14);
+//		Create fake cohorts list
+		List<Cohort> fakeCohorts = new ArrayList<>();
+		Cohort fakeCohort = new Cohort(1, "Test Cohort", null, null, null,
+									   begin, end, null, null);
+		fakeCohorts.add(fakeCohort);
+//		Define what the findEndingCohorts() method should return
+		when(cohortService.findEndingCohorts(date)).thenReturn(fakeCohorts);
+//   	Write assertion
+  		assertThat(cohortControllerTester.findPreStagingCohorts(epochDate)).isEqualTo(fakeCohorts);
+	}
 	
-
 }

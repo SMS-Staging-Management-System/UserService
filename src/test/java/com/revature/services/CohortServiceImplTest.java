@@ -42,6 +42,7 @@ public class CohortServiceImplTest {
 		cohortStub.setCohortId(1);
 //		Token stub
 		String tokenStub = "" + Math.random() * 100;
+		cohortStub.setCohortToken(tokenStub);
 //		Then mock the required cohortRepo methods that are supposed to be called in the
 //		service class
 		Mockito.when(cohortRepo.findByCohortToken(tokenStub)).thenReturn(cohortStub);

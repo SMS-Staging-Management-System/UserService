@@ -56,7 +56,6 @@ public class Cohort {
 
 	public Cohort() {
 		super();
-		// TODO Auto-generated constructor stub
 	}
 
 	public Cohort(int cohortId, @NotNull String cohortName, @NotNull String cohortDescription, String cohortToken,

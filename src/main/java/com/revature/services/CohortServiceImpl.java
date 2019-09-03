@@ -60,12 +60,17 @@ public class CohortServiceImpl implements CohortService {
 	public Cohort findCohortByToken(String token) {
 //		First, get the cohort from the repo
 		Cohort foundCohort = cohortRepo.findByCohortToken(token);
-//		According to the cohort id, find the members of it
-		int cohortId = foundCohort.getCohortId();
-//		Assign the users to the found cohort
-		Set<User> users = findCohortUsers(cohortId);
-		foundCohort.setUsers(users);
-		return foundCohort;
+//		Avoid NullPointerException
+		if (foundCohort != null) {
+//			According to the cohort id, find the members of it
+			int cohortId = foundCohort.getCohortId();
+//			Assign the users to the found cohort
+			Set<User> users = findCohortUsers(cohortId);
+			foundCohort.setUsers(users);
+			return foundCohort;			
+		} else {
+			return null;
+		}
 	}
 
   	@Override
