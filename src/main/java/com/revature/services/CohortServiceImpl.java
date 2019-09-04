@@ -25,8 +25,6 @@ public class CohortServiceImpl implements CohortService {
 	@Autowired
 	private UserRepo userRepo;
 
-
-
 	@Override
 	public Set<User> findCohortUsers(int id){
 		Cohort cohort = cohortRepo.getOne(id);
@@ -54,6 +52,25 @@ public class CohortServiceImpl implements CohortService {
 	@Override
 	public Page<Cohort> findAllByPage(Pageable pageable) {
 		return cohortRepo.findAll(pageable);
+	}
+	
+	@Override 
+//	Added get users in cohort in order to attatch the list of users and avoid users
+//	to re-join to the cohort.
+	public Cohort findCohortByToken(String token) {
+//		First, get the cohort from the repo
+		Cohort foundCohort = cohortRepo.findByCohortToken(token);
+//		Avoid NullPointerException
+		if (foundCohort != null) {
+//			According to the cohort id, find the members of it
+			int cohortId = foundCohort.getCohortId();
+//			Assign the users to the found cohort
+			Set<User> users = findCohortUsers(cohortId);
+			foundCohort.setUsers(users);
+			return foundCohort;			
+		} else {
+			return null;
+		}
 	}
 
   	@Override

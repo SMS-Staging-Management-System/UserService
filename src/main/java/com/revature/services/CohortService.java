@@ -27,4 +27,6 @@ public interface CohortService {
 	String joinCohort(User user, String cohortToken) ;
   
 	List<Cohort> findEndingCohorts(LocalDate date);
+
+	Cohort findCohortByToken(String token);
 }

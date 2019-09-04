@@ -45,7 +45,7 @@ public class Cohort {
 	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
 	private LocalDate endDate;
 
-	@JsonIgnore
+//	@JsonIgnore
 	@ManyToMany(fetch = FetchType.LAZY, cascade = { CascadeType.MERGE }, mappedBy = "cohorts")
 	private Set<User> users = new HashSet<>();
 
@@ -56,7 +56,6 @@ public class Cohort {
 
 	public Cohort() {
 		super();
-		// TODO Auto-generated constructor stub
 	}
 
 	public Cohort(int cohortId, @NotNull String cohortName, @NotNull String cohortDescription, String cohortToken,
@@ -206,8 +205,8 @@ public class Cohort {
 	@Override
 	public String toString() {
 		return "Cohort [cohortId=" + cohortId + ", cohortName=" + cohortName + ", cohortDescription="
-				+ cohortDescription + ", cohortToken=" + cohortToken + ", address=" + address + ", startDate="
-				+ startDate + ", endDate=" + endDate + "]";
+				+ cohortDescription + ", cohortToken=" + cohortToken + ", address=" 
+				+ address + ", startDate="+ startDate + ", endDate=" + endDate + "]";
 	}
 
 }
