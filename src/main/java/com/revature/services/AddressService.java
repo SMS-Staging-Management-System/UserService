@@ -6,4 +6,6 @@ import com.revature.models.Address;
 
 public interface AddressService {
 	List<Address> findByIsTrainingLocation(boolean isTrainingLocation);
+
+	List<Address> findAll();
 }

@@ -1,5 +1,7 @@
 package com.revature.repos;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -9,9 +11,12 @@ import com.revature.models.Cohort;
 
 public interface CohortRepo extends JpaRepository<Cohort, Integer> {
 	List<Cohort> findByTrainerUserId(int trainerId);
-	
-	List<Cohort> findByAddressAddressId(int addressId);
 
 	Cohort findByCohortToken(String cohortToken);
 	List<Cohort> findByEndDateBetween(LocalDate begin, LocalDate end);
+
+	Page<Cohort> findAllByAddressAddressId(int addressId, Pageable page);
+
+	Page<Cohort> findAllByTrainerUserId(int userId, Pageable page);
+
 }
