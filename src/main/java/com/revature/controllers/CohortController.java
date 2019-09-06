@@ -54,6 +54,12 @@ public class CohortController {
 		return cohortService.findAllByTrainerUserId(userId, page);
 	}
 
+	@GetMapping("/trainer/email/{email:.+}")
+	@CognitoAuth(roles = {CognitoRoles.ADMIN, CognitoRoles.STAGING_MANAGER})
+	public Page<Cohort> findAllByTrainerEmail(@PathVariable String email, @RequestParam int page) {
+		return cohortService.findAllByTrainerEmail(email, page);
+	}
+
 	@GetMapping
 	@CognitoAuth(roles = {CognitoRoles.ADMIN, CognitoRoles.STAGING_MANAGER})
 	public Page<Cohort> findAll(@RequestParam int page) {

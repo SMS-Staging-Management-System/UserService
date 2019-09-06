@@ -64,6 +64,12 @@ public class CohortServiceImpl implements CohortService {
 	}
 
 	@Override
+	public Page<Cohort> findAllByTrainerEmail(String email, int pageNumber) {
+		Pageable page = PageRequest.of(pageNumber, 2);
+		return cohortRepo.findAllByTrainerEmail(email, page );
+	}
+
+	@Override
 	@Transactional
 	public String joinCohort(User user, String cohortToken) {
 		Cohort cohort = cohortRepo.findByCohortToken(cohortToken);

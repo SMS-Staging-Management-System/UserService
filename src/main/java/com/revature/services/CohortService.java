@@ -25,6 +25,8 @@ public interface CohortService {
 	Page<Cohort> findAllByAddressAddressId(int addressId, int pageNumber);
 
 	Page<Cohort> findAllByTrainerUserId(int userId, int pageNumber);
+
+	Page<Cohort> findAllByTrainerEmail(String email, int pageNumber);
 	
 	String joinCohort(User user, String cohortToken) ;
   

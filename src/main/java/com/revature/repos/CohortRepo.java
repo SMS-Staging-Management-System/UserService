@@ -19,4 +19,6 @@ public interface CohortRepo extends JpaRepository<Cohort, Integer> {
 
 	Page<Cohort> findAllByTrainerUserId(int userId, Pageable page);
 
+	Page<Cohort> findAllByTrainerEmail(String email, Pageable page);
+
 }
