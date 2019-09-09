@@ -15,6 +15,7 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.MockitoJUnitRunner;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -53,11 +54,8 @@ public class UserControllerTest {
 		for (User user : idUserMap) {
 			user.setUserId(i++);
 		}
-		Page<User> whenResultPage = Mockito.mock(Page.class);
-		when(whenResultPage.getContent()).thenReturn(idUserMap);
-		Pageable pageable = PageRequest.of(0, 7, Sort.by("userId"));
-		
-		when(userService.findAll(pageable)).thenReturn(whenResultPage);
+		Pageable pageable = PageRequest.of(1, 7, Sort.by("userId"));
+		when(userService.findAll(pageable)).thenReturn(new PageImpl<>(idUserMap));
 
 		ResponseEntity<Page<User>> result = tester.findAll(1);
 		List<User> resultUser = result.getBody().getContent();

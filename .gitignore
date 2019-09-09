@@ -119,3 +119,9 @@ buildNumber.properties
 
 # Filesystem
 .DS_Store
+
+
+### MVN
+
+.mvnw
+.mvnw.cmd
