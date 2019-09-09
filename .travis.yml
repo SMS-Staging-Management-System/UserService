@@ -20,7 +20,7 @@ jobs:
   - stage: quality
     script:
     - git fetch --all
-    - mvn clean org.jacoco:jacoco-maven-plugin:prepare-agent install sonar:sonar -Dsonar.projectKey=SMS-SurveyService-Key
+    - mvn clean org.jacoco:jacoco-maven-plugin:prepare-agent install sonar:sonar -Dsonar.projectKey=user_service_super_secret_key
       --quiet
 env:
   global:
