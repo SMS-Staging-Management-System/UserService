@@ -47,25 +47,25 @@ public class CohortServiceImpl implements CohortService {
 
 	@Override
 	public Page<Cohort> findAll(int pageNumber) {
-		Pageable page = PageRequest.of(pageNumber, 2);
+		Pageable page = PageRequest.of(pageNumber, 10);
 		return cohortRepo.findAll(page);
 	}
 
 	@Override
 	public Page<Cohort> findAllByAddressAddressId(int addressId, int pageNumber) {
-		Pageable page = PageRequest.of(pageNumber, 2);
+		Pageable page = PageRequest.of(pageNumber, 10);
 		return cohortRepo.findAllByAddressAddressId(addressId, page );
 	}
 
 	@Override
 	public Page<Cohort> findAllByTrainerUserId(int userId, int pageNumber) {
-		Pageable page = PageRequest.of(pageNumber, 2);
+		Pageable page = PageRequest.of(pageNumber, 10);
 		return cohortRepo.findAllByTrainerUserId(userId, page );
 	}
 
 	@Override
 	public Page<Cohort> findAllByTrainerEmail(String email, int pageNumber) {
-		Pageable page = PageRequest.of(pageNumber, 2);
+		Pageable page = PageRequest.of(pageNumber, 10);
 		return cohortRepo.findAllByTrainerEmail(email, page );
 	}
 
