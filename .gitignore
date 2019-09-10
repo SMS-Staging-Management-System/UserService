@@ -1,5 +1,6 @@
 /target/
 !.mvn/wrapper/maven-wrapper.jar
+target/
 
 ### STS ###
 .apt_generated
@@ -78,6 +79,7 @@ local.properties
 # STS (Spring Tool Suite)
 .springBeans
 
+
 # Code Recommenders
 .recommenders/
 
@@ -117,3 +119,9 @@ buildNumber.properties
 
 # Filesystem
 .DS_Store
+
+
+### MVN
+
+.mvnw
+.mvnw.cmd
