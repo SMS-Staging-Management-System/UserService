@@ -84,6 +84,13 @@ public class CohortController {
 		return cohortService.findEndingCohorts(date);
 	}
 	
+//	Get cohort by token
+	@GetMapping("token/{cohortToken}")
+	public Cohort findCohortByToken(@PathVariable String cohortToken) {
+		Cohort foundCohort = cohortService.findCohortByToken(cohortToken);
+		return foundCohort;
+	}
+	
 	@PostMapping("token/{cohortToken}")
 	public ResponseEntity<String> joinCohort(@RequestBody User user, @PathVariable String cohortToken) {
 			String status = cohortService.joinCohort(user, cohortToken);
@@ -98,8 +105,6 @@ public class CohortController {
 			default:
 				return new ResponseEntity<String>(HttpStatus.INTERNAL_SERVER_ERROR);
 			}
-		
-			
 	}
 	
 	@ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
