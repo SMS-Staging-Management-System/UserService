@@ -64,6 +64,7 @@ public class CohortController {
 	@CognitoAuth(roles = {CognitoRoles.ADMIN, CognitoRoles.STAGING_MANAGER})
 	public Page<Cohort> findAll(@RequestParam int page) {
 		System.out.println(page);
+		System.out.println("findall");
 		return cohortService.findAll(page);
 	}
 

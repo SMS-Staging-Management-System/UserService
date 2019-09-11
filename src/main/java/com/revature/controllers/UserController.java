@@ -41,7 +41,13 @@ public class UserController {
 	String test() {
 		return "works";
 	}
-
+	@CognitoAuth(roles = { "staging-manager" })
+	@GetMapping("allUsers/page/{pageId}")
+	public ResponseEntity<Page<User>> findAllPage(@PathVariable int pageId) {
+		Pageable pageable = PageRequest.of(pageId, 7, Sort.by("userId"));
+		return new ResponseEntity<>(userService.findAll(pageable), HttpStatus.OK);
+	}
+	
 	@CognitoAuth(roles = { "staging-manager" })
 	@GetMapping("allUsers")
 	public ResponseEntity<Page<User>> findAll(@RequestParam int page) {

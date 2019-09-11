@@ -78,7 +78,7 @@ public class CohortControllerTest {
 		Pageable pageable = PageRequest.of(1, 7, Sort.by("cohortId"));
 //		Define what each method should return
 		when(cohortsPage.getContent()).thenReturn(cohortsList);
-		when(cohortService.findAllByPage(pageable)).thenReturn(cohortsPage);
+		//when(cohortService.findAllByPage(pageable)).thenReturn(cohortsPage);
 //		Call the findAll method from the cohortController mock
 		Page<Cohort> result = cohortControllerTester.findAll(1);
 		List<Cohort> resultCohort = result.getContent();
