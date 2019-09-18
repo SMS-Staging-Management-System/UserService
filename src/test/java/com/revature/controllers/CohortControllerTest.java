@@ -51,9 +51,7 @@ public class CohortControllerTest {
 	
 	@Mock
 	UserRepo userRepo;
-	
-	@Mock
-	Page<Cohort> cohortsPage;
+
 	
 	@Test
 	public void testFindByTrainer() {
@@ -74,11 +72,13 @@ public class CohortControllerTest {
 	public void testFindAllByPage() {
 //		Create stub for a list of cohorts
 		List<Cohort> cohortsList = new ArrayList<>();
+		cohortsList.add(new Cohort(1, "TEST", "TEST cohort", "lsdkfjsdlkfjsd", null, null, null, null, null));
 //		Create a stub for the pageable parameter on the cohortsService.findAllByPage() method
 		Pageable pageable = PageRequest.of(1, 7, Sort.by("cohortId"));
 //		Define what each method should return
+		Page<Cohort> cohortsPage = Mockito.mock(Page.class);
 		when(cohortsPage.getContent()).thenReturn(cohortsList);
-		//when(cohortService.findAllByPage(pageable)).thenReturn(cohortsPage);
+		when(cohortService.findAll(1)).thenReturn(cohortsPage);
 //		Call the findAll method from the cohortController mock
 		Page<Cohort> result = cohortControllerTester.findAll(1);
 		List<Cohort> resultCohort = result.getContent();
