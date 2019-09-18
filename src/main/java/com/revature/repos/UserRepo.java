@@ -13,7 +13,7 @@ import com.revature.models.User;
 @Repository
 public interface UserRepo extends JpaRepository<User, Integer> {
 
-	Page<User> findAll(Pageable pageable);
+	public Page<User> findAll(Pageable pageable);
 
 	public List<User> findAllByCohortsCohortId(int id);
 

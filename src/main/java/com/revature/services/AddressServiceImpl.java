@@ -19,4 +19,9 @@ public class AddressServiceImpl implements AddressService {
 		return addressRepo.findByIsTrainingLocation(isTrainingLocation);
 	}
 
+	@Override
+	public List<Address> findAll() {
+		return addressRepo.findAll();
+	}
+
 }

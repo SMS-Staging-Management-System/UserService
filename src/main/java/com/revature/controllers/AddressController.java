@@ -23,4 +23,10 @@ public class AddressController {
 		return addressService.findByIsTrainingLocation(isTrainingLocation);
 	}
 
+
+	@GetMapping
+	public List<Address> findAll(){
+		return addressService.findAll();
+	}
+
 }
