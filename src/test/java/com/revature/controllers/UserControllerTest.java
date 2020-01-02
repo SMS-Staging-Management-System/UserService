@@ -54,7 +54,7 @@ public class UserControllerTest {
 		for (User user : idUserMap) {
 			user.setUserId(i++);
 		}
-		Pageable pageable = PageRequest.of(1, 7, Sort.by("userId"));
+		Pageable pageable = PageRequest.of(1, 10, Sort.by("userId"));
 		when(userService.findAll(pageable)).thenReturn(new PageImpl<>(idUserMap));
 
 		ResponseEntity<Page<User>> result = tester.findAll(1);
@@ -165,7 +165,7 @@ public class UserControllerTest {
 		whenResultList.add(test);
 		Page<User> whenResultPage = Mockito.mock(Page.class);
 		when(whenResultPage.getContent()).thenReturn(whenResultList);
-		Pageable pageable = PageRequest.of(0, 7, Sort.by("userId"));
+		Pageable pageable = PageRequest.of(0, 10, Sort.by("userId"));
 		
 		
 		when(userService.findUserByPartialEmail("revature", pageable)).thenReturn(whenResultPage);
@@ -195,7 +195,7 @@ public class UserControllerTest {
 		whenResultList.add(test);
 		Page<User> whenResultPage = Mockito.mock(Page.class);
 		when(whenResultPage.getContent()).thenReturn(whenResultList);
-		Pageable pageable = PageRequest.of(0, 7, Sort.by("userId"));
+		Pageable pageable = PageRequest.of(0, 10, Sort.by("userId"));
 		when(userService.findListByEmail(emails, pageable)).thenReturn(whenResultPage);
 
 		List<User> result = tester.findAllByEmails(theEmails).getBody().getContent();

@@ -41,11 +41,17 @@ public class UserController {
 	String test() {
 		return "works";
 	}
-
 	@CognitoAuth(roles = { "staging-manager" })
 	@GetMapping("allUsers/page/{pageId}")
-	public ResponseEntity<Page<User>> findAll(@PathVariable int pageId) {
+	public ResponseEntity<Page<User>> findAllPage(@PathVariable int pageId) {
 		Pageable pageable = PageRequest.of(pageId, 7, Sort.by("userId"));
+		return new ResponseEntity<>(userService.findAll(pageable), HttpStatus.OK);
+	}
+	
+	@CognitoAuth(roles = { "staging-manager" })
+	@GetMapping("allUsers")
+	public ResponseEntity<Page<User>> findAll(@RequestParam int page) {
+		Pageable pageable = PageRequest.of(page, 10, Sort.by("userId"));
 		return new ResponseEntity<>(userService.findAll(pageable), HttpStatus.OK);
 	}
 
@@ -116,7 +122,7 @@ public class UserController {
 	public ResponseEntity<Page<User>> findUserByEmail(@RequestBody EmailSearch searchParams) {
 		HttpHeaders headers = new HttpHeaders();
 		headers.add("Content-Type", "application/json");
-		Pageable pageable = PageRequest.of(searchParams.getPage(), 7, Sort.by("userId"));
+		Pageable pageable = PageRequest.of(searchParams.getPage(), 10, Sort.by("userId"));
 
 		Page<User> resultBody = null;
 		HttpStatus resultStatus = HttpStatus.OK;
@@ -139,8 +145,8 @@ public class UserController {
 	@CognitoAuth(roles = { "staging-manager" })
 	@PostMapping("emails")
 	public ResponseEntity<Page<User>> findAllByEmails(@RequestBody EmailList searchParams) {
-		Pageable pageable = PageRequest.of(searchParams.getPage(), 7, Sort.by("userId"));
-		Page<User> returnResult = userService.findListByEmail(searchParams.getEmailList(), pageable);
+        Pageable pageable = PageRequest.of(searchParams.getPage(), 10, Sort.by("userId"));
+        Page<User> returnResult = userService.findListByEmail(searchParams.getEmailList(), pageable);
 		return new ResponseEntity<>(returnResult, HttpStatus.OK);
 	}
 	

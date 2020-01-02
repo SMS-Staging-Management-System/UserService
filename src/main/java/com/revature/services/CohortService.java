@@ -19,10 +19,14 @@ public interface CohortService {
 	List<Cohort> findByTrainer(int trainerId);
 
 	Cohort save(Cohort cohort);
-	
-	List<Cohort> findAll();
 
-	Page<Cohort> findAllByPage(Pageable pageable);
+	Page<Cohort> findAll(int pageNumber);
+
+	Page<Cohort> findAllByAddressAddressId(int addressId, int pageNumber);
+
+	Page<Cohort> findAllByTrainerUserId(int userId, int pageNumber);
+
+	Page<Cohort> findAllByTrainerEmail(String email, int pageNumber);
 	
 	String joinCohort(User user, String cohortToken) ;
   

@@ -9,6 +9,7 @@ import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
@@ -21,16 +22,16 @@ import com.revature.repos.UserRepo;
 public class CohortServiceImpl implements CohortService {
 	@Autowired
 	private CohortRepo cohortRepo;
-	
+
 	@Autowired
 	private UserRepo userRepo;
 
 	@Override
-	public Set<User> findCohortUsers(int id){
+	public Set<User> findCohortUsers(int id) {
 		Cohort cohort = cohortRepo.getOne(id);
 		return cohort.getUsers();
 	}
-	
+
 	@Override
 	public List<Cohort> findByTrainer(int trainerId) {
 		return cohortRepo.findByTrainerUserId(trainerId);
@@ -45,13 +46,27 @@ public class CohortServiceImpl implements CohortService {
 	}
 
 	@Override
-	public List<Cohort> findAll() {
-		return cohortRepo.findAll();
+	public Page<Cohort> findAll(int pageNumber) {
+		Pageable page = PageRequest.of(pageNumber, 5);
+		return cohortRepo.findAll(page);
 	}
 
 	@Override
-	public Page<Cohort> findAllByPage(Pageable pageable) {
-		return cohortRepo.findAll(pageable);
+	public Page<Cohort> findAllByAddressAddressId(int addressId, int pageNumber) {
+		Pageable page = PageRequest.of(pageNumber, 5);
+		return cohortRepo.findAllByAddressAddressId(addressId, page );
+	}
+
+	@Override
+	public Page<Cohort> findAllByTrainerUserId(int userId, int pageNumber) {
+		Pageable page = PageRequest.of(pageNumber, 5);
+		return cohortRepo.findAllByTrainerUserId(userId, page );
+	}
+
+	@Override
+	public Page<Cohort> findAllByTrainerEmail(String email, int pageNumber) {
+		Pageable page = PageRequest.of(pageNumber, 5);
+		return cohortRepo.findAllByTrainerEmail(email, page );
 	}
 	
 	@Override 
@@ -73,40 +88,40 @@ public class CohortServiceImpl implements CohortService {
 		}
 	}
 
-  	@Override
+	@Override
 	@Transactional
 	public String joinCohort(User user, String cohortToken) {
 		Cohort cohort = cohortRepo.findByCohortToken(cohortToken);
 		User nUser = userRepo.findByEmailIgnoreCase(user.getEmail());
-		if(cohort == null) {
+		if (cohort == null) {
 			return "Not Found";
-		} else if(nUser == null){
+		} else if (nUser == null) {
 			return "Bad Request";
 		} else {
 			try {
-				//Set<User> nUsers = cohort.getUsers();
-				//nUsers.add(user);
-				//cohort.setUsers(nUsers);
+				// Set<User> nUsers = cohort.getUsers();
+				// nUsers.add(user);
+				// cohort.setUsers(nUsers);
 				Set<Cohort> nCohorts = nUser.getCohorts();
 				nCohorts.add(cohort);
 				nUser.setCohorts(nCohorts);
 				nUser.setTrainingAddress(cohort.getAddress());
 				userRepo.save(nUser);
-				//cohortRepo.save(cohort);
+				// cohortRepo.save(cohort);
 				return "OK";
 			} catch (Exception e) {
 				return "Internal Server Error";
 			}
 		}
 	}
-  	
-  	@Override
-  	public List<Cohort> findEndingCohorts(LocalDate date) {
-		
+
+	@Override
+	public List<Cohort> findEndingCohorts(LocalDate date) {
+
 		LocalDate begin = date;
 		LocalDate end = date.plusDays(14);
-		
-  		return cohortRepo.findByEndDateBetween(begin, end);
-  	}
+
+		return cohortRepo.findByEndDateBetween(begin, end);
+	}
 
 }

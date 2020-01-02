@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -41,17 +42,30 @@ public class CohortController {
 		return cohortService.findByTrainer(trainerId);
 	}
 	
-	@GetMapping
-    @CognitoAuth(roles = {CognitoRoles.ADMIN, CognitoRoles.STAGING_MANAGER})
-	public List<Cohort> findAll() {
-		return cohortService.findAll();
+	@GetMapping("/address/id/{addressId}")
+	@CognitoAuth(roles = {CognitoRoles.ADMIN, CognitoRoles.STAGING_MANAGER})
+	public Page<Cohort> findAllByAddressAddressId(@PathVariable int addressId, @RequestParam int page) {
+		return cohortService.findAllByAddressAddressId(addressId, page);
 	}
-	
-	@GetMapping("page/{page}")
-    @CognitoAuth(roles = {CognitoRoles.ADMIN, CognitoRoles.STAGING_MANAGER})
-	public Page<Cohort> findAll(@PathVariable int page) {
-		Pageable pageable = PageRequest.of(page, 7, Sort.by("cohortId"));
-		return cohortService.findAllByPage(pageable);
+
+	@GetMapping("/trainer/id/{userId}")
+	@CognitoAuth(roles = {CognitoRoles.ADMIN, CognitoRoles.STAGING_MANAGER})
+	public Page<Cohort> findAllByTrainerUserId(@PathVariable int userId, @RequestParam int page) {
+		return cohortService.findAllByTrainerUserId(userId, page);
+	}
+
+	@GetMapping("/trainer/{email:.+}/email")
+	@CognitoAuth(roles = {CognitoRoles.ADMIN, CognitoRoles.STAGING_MANAGER})
+	public Page<Cohort> findAllByTrainerEmail(@PathVariable String email, @RequestParam int page) {
+		return cohortService.findAllByTrainerEmail(email, page);
+	}
+
+	@GetMapping
+	@CognitoAuth(roles = {CognitoRoles.ADMIN, CognitoRoles.STAGING_MANAGER})
+	public Page<Cohort> findAll(@RequestParam int page) {
+		System.out.println(page);
+		System.out.println("findall");
+		return cohortService.findAll(page);
 	}
 
 	@GetMapping("users/id/{id}")
